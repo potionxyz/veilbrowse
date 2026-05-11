@@ -2088,8 +2088,9 @@
       </div>
       <div class="waitlist-box">
         <input type="email" class="waitlist-input" placeholder="your@email.com" id="waitlistEmail">
-        <button class="btn btn--primary" onclick="alert('Waitlist signup is not yet connected. Add your email handler here.');">Join Waitlist</button>
+        <button class="btn btn--primary" onclick="joinWaitlist()">Join Waitlist</button>
       </div>
+      <div id="waitlistMsg" style="text-align:center;margin-top:12px;font-size:13px;color:var(--success);font-weight:500;display:none;">You're on the list. We'll email you when Windows & macOS are ready.</div>
     </div>
   </section>
 
@@ -2116,25 +2117,26 @@
         <div class="footer__col-title">Resources</div>
         <ul class="footer__links">
           <li><a href="#faq">FAQ</a></li>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">Support</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse#readme">Documentation</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse">GitHub</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/issues">Support</a></li>
         </ul>
       </div>
       <div>
         <div class="footer__col-title">Legal</div>
         <ul class="footer__links">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">MIT License</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse">Privacy Policy</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/LICENSE">Terms of Service</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/LICENSE">MIT License</a></li>
         </ul>
       </div>
     </div>
     <div class="footer__bottom">
-      <div class="footer__copy">&copy; 2025 VeilBrowse. Open source under MIT License.</div>
+      <div class="footer__copy">&copy; 2026 VeilBrowse. Open source under MIT License.</div>
       <ul class="footer__legal">
-        <li><a href="#">Privacy</a></li>
-        <li><a href="#">Terms</a></li>
+        <li><a href="https://github.com/potionxyz/veilbrowse">Privacy</a></li>
+        <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/LICENSE">Terms</a></li>
+        <li><a href="https://x.com/potionxyz" target="_blank" rel="noopener">X / Twitter</a></li>
       </ul>
     </div>
   </footer>
@@ -2183,6 +2185,24 @@
       const wasExpanded = item.classList.contains('expanded');
       document.querySelectorAll('.faq-item.expanded').forEach(i => i.classList.remove('expanded'));
       if (!wasExpanded) item.classList.add('expanded');
+    }
+
+    // ── Waitlist ──
+    function joinWaitlist() {
+      const input = document.getElementById('waitlistEmail');
+      const msg = document.getElementById('waitlistMsg');
+      const email = input.value.trim();
+      if (!email || !email.includes('@')) {
+        input.style.borderColor = 'var(--danger)';
+        setTimeout(() => input.style.borderColor = '', 1500);
+        return;
+      }
+      const list = JSON.parse(localStorage.getItem('veilbrowse-waitlist') || '[]');
+      if (!list.includes(email)) list.push(email);
+      localStorage.setItem('veilbrowse-waitlist', JSON.stringify(list));
+      input.value = '';
+      msg.style.display = 'block';
+      setTimeout(() => msg.style.display = 'none', 5000);
     }
 
     // ── Smooth Scroll ──
