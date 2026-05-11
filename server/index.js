@@ -47,7 +47,7 @@ app.get('/start/:id', (req, res) => {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2306b6d4'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='700' text-anchor='middle' fill='%23fff' font-family='system-ui'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="/logo.png">
   <style>
     :root {
       --bg-root: #0a0a0f;
@@ -140,19 +140,16 @@ app.get('/start/:id', (req, res) => {
       transition: border-color 0.3s ease;
     }
     .brand-icon {
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
+      width: 32px;
+      height: 32px;
+      border-radius: 0;
+      border: none;
+      object-fit: contain;
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
-      box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
+
     .brand-text {
       font-size: 13px;
       font-weight: 600;
@@ -266,7 +263,7 @@ app.get('/start/:id', (req, res) => {
 <body>
   <div class="card">
     <div class="brand">
-      <div class="brand-icon">V</div>
+      <img class="brand-icon" src="/logo.png" alt="VeilBrowse">
       <div class="brand-text">VEILBROWSE</div>
       <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
         <span id="themeIcon" class="moon-icon"></span>

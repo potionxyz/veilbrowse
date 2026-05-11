@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const child_process = require('child_process');
 
@@ -56,6 +56,8 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1400,
     height: 900,
+    minWidth: 1100,
+    minHeight: 600,
     title: 'VeilBrowse',
     webPreferences: {
       nodeIntegration: false,
@@ -64,6 +66,7 @@ function createWindow() {
   });
 
   mainWindow.loadURL('http://localhost:8888');
+  Menu.setApplicationMenu(null);
 
   mainWindow.on('closed', () => {
     mainWindow = null;

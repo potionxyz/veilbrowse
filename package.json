@@ -1,6 +1,6 @@
 {
   "name": "veilbrowse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Open-source anti-detect browser manager for Linux. Isolated profiles, proxy pools, fingerprint spoofing.",
   "main": "electron-main.js",
   "author": "potionxyz",

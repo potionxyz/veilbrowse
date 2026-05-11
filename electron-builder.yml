@@ -1,6 +1,7 @@
 appId: dev.veilbrowse.desktop
 copyright: Copyright © 2026
 productName: VeilBrowse
+icon: build/icon.png
 
 # Only build Linux target
 directories:

@@ -43,7 +43,7 @@ function runMigrations() {
     db.all('SELECT filename FROM migrations', [], (err, rows) => {
       if (err) {
         console.error('Failed to read migrations table:', err.message);
-        return;
+        // Proceed with empty applied set so migrations can attempt to create the schema
       }
       const applied = new Set((rows || []).map(r => r.filename));
 

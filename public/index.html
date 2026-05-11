@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2306b6d4'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='700' text-anchor='middle' fill='%23fff' font-family='system-ui'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="/logo.png">
   <style>
     /* ── Theme Variables ── */
     :root {
@@ -117,29 +117,27 @@
     .sidebar-brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 0 20px 24px;
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
+      gap: 14px;
+      padding: 12px 20px 24px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
       color: var(--text-primary);
       border-bottom: 1px solid var(--border);
       margin-bottom: 12px;
     }
 
     .sidebar-brand .brand-mark {
-      width: 28px; height: 28px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
+      width: 44px; height: 44px;
+      border-radius: 0;
+      border: none;
+      object-fit: contain;
       font-family: 'JetBrains Mono', monospace;
       flex-shrink: 0;
-      box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+    .sidebar-brand span {
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 
     .sidebar-nav { display: flex; flex-direction: column; padding: 0 12px; gap: 2px; }
@@ -171,55 +169,66 @@
     }
     .sidebar-link .sidebar-icon { font-size: 16px; width: 20px; text-align: center; display: inline-flex; align-items: center; justify-content: center; }
 
-    /* CSS-only sidebar icons */
+    /* CSS-only sidebar icons — solid, bold */
     .icon-profiles {
-      width: 14px; height: 16px;
-      border: 2px solid currentColor;
-      border-radius: 2px;
+      width: 16px; height: 18px;
+      background: currentColor;
+      border-radius: 3px;
       position: relative;
       display: inline-block;
+      opacity: 0.9;
     }
     .icon-profiles::before {
       content: '';
       position: absolute;
-      top: 4px; left: 2px; right: 2px;
-      height: 2px;
-      background: currentColor;
-      box-shadow: 0 4px 0 0 currentColor;
+      top: 5px; left: 3px; right: 3px;
+      height: 3px;
+      border-radius: 1px;
+      background: var(--bg-surface);
+      box-shadow: 0 5px 0 0 var(--bg-surface);
     }
     .icon-proxies {
-      width: 16px; height: 10px;
-      border: 2px solid currentColor;
-      border-radius: 2px;
+      width: 18px; height: 12px;
+      background: currentColor;
+      border-radius: 3px;
       position: relative;
       display: inline-block;
+      opacity: 0.9;
     }
     .icon-proxies::before,
     .icon-proxies::after {
       content: '';
       position: absolute;
-      width: 2px; height: 4px;
-      background: var(--bg-root);
-      top: -3px;
+      width: 4px; height: 6px;
+      background: currentColor;
+      border-radius: 2px 2px 0 0;
+      top: -4px;
     }
     .icon-proxies::before { left: 3px; }
     .icon-proxies::after { right: 3px; }
+    .icon-proxies .socket-hole {
+      position: absolute;
+      top: 3px; left: 4px; right: 4px;
+      height: 4px;
+      background: var(--bg-surface);
+      border-radius: 1px;
+    }
 
     .icon-groups {
-      width: 16px; height: 14px;
-      border: 2px solid currentColor;
-      border-radius: 2px;
+      width: 18px; height: 14px;
+      background: currentColor;
+      border-radius: 0 3px 3px 3px;
       position: relative;
       display: inline-block;
+      opacity: 0.9;
     }
     .icon-groups::before {
       content: '';
       position: absolute;
-      top: -6px; left: 3px;
-      width: 6px; height: 4px;
-      border: 2px solid currentColor;
-      border-bottom: none;
-      border-radius: 2px 2px 0 0;
+      top: -5px; left: 0;
+      width: 8px; height: 5px;
+      background: currentColor;
+      border-radius: 3px 3px 0 0;
     }
 
     .os-badge {
@@ -228,15 +237,14 @@
       justify-content: center;
       width: 22px; height: 22px;
       border-radius: var(--radius-sm);
-      font-size: 11px;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
       color: #fff;
       line-height: 1;
+      flex-shrink: 0;
     }
-    .os-windows { background: #0078d4; }
+    .os-badge svg { width: 14px; height: 14px; fill: currentColor; }
+    .os-windows { background: #005a9e; }
     .os-macos { background: #555; }
-    .os-ios { background: #007aff; }
+    .os-ios { background: #af52de; }
     .os-android { background: #3ddc84; color: #000; }
     .os-linux { background: #f5c211; color: #000; }
     .os-unknown { background: var(--text-muted); }
@@ -337,7 +345,15 @@
 
     .top-bar-center {
       flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: none;
+    }
+    .top-bar-search-wrap {
+      flex: 1;
       max-width: 420px;
+      min-width: 180px;
     }
 
     .top-bar-right {
@@ -414,41 +430,6 @@
       box-shadow: 3.5px 0 0 -2px currentColor, -3.5px 0 0 -2px currentColor, 0 3.5px 0 -2px currentColor, 0 -3.5px 0 -2px currentColor, 2.5px 2.5px 0 -2px currentColor, -2.5px -2.5px 0 -2px currentColor, 2.5px -2.5px 0 -2px currentColor, -2.5px 2.5px 0 -2px currentColor;
     }
 
-    .telemetry-toggle {
-      width: 32px; height: 32px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-      background: var(--bg-surface);
-      color: var(--text-muted);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-      flex-shrink: 0;
-      position: relative;
-    }
-    .telemetry-toggle:hover {
-      background: var(--bg-elevated);
-      border-color: var(--border-hover);
-    }
-    .telemetry-toggle.active {
-      color: var(--accent);
-      border-color: var(--accent);
-      background: var(--accent-dim);
-    }
-    .telemetry-toggle .pulse-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: currentColor;
-    }
-    .telemetry-toggle.active .pulse-dot {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
-    }
 
     .view-toggle {
       display: flex;
@@ -1136,6 +1117,240 @@
 
     .proxy-actions { display: flex; gap: 6px; }
 
+    /* ── Group Cards ── */
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+
+    .group-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .group-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--group-accent, var(--accent));
+      opacity: 0.8;
+      transition: var(--transition);
+    }
+
+    .group-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .group-card:hover::before {
+      opacity: 1;
+      height: 4px;
+    }
+
+    .group-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .group-color-swatch {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--group-accent, var(--accent));
+      border: 2px solid var(--bg-elevated);
+      box-shadow: 0 0 0 1px var(--border);
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+
+    .group-card:hover .group-color-swatch {
+      transform: scale(1.08);
+      box-shadow: 0 0 0 1px var(--border), 0 0 12px var(--group-accent-glow, rgba(6,182,212,0.2));
+    }
+
+    .group-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .group-name {
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.1px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .group-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .group-profile-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .group-profile-pill {
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      font-weight: 500;
+    }
+
+    .group-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .group-actions-left {
+      display: flex;
+      gap: 6px;
+    }
+
+    .group-create-inline {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .group-create-inline .form-group {
+      margin-bottom: 0;
+    }
+
+    .group-create-inline .form-group:first-child {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .group-create-inline .form-group:nth-child(2) {
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .group-create-inline .form-group:nth-child(2) input {
+      padding: 4px;
+      height: 38px;
+      cursor: pointer;
+    }
+
+    .group-create-inline .btn {
+      height: 38px;
+      padding: 0 18px;
+      white-space: nowrap;
+    }
+
+    /* ── Context Menu ── */
+    .context-menu {
+      position: fixed;
+      z-index: 10000;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl), 0 0 0 1px var(--border);
+      min-width: 180px;
+      padding: 6px 0;
+      font-size: 13px;
+      display: none;
+      overflow: hidden;
+    }
+
+    .context-menu.open { display: block; }
+
+    .context-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      color: var(--text-primary);
+      transition: background 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      font-size: 13px;
+    }
+
+    .context-menu-item:hover {
+      background: var(--bg-elevated);
+    }
+
+    .context-menu-item .shortcut {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .context-menu-separator {
+      height: 1px;
+      background: var(--border);
+      margin: 5px 10px;
+    }
+
+    .context-menu-group-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .context-menu-group-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 28px;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: background 0.15s;
+    }
+
+    .context-menu-group-item:hover {
+      background: var(--bg-elevated);
+    }
+
+    .context-menu-group-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .context-menu-header {
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+    }
+
     /* ── Empty State ── */
     .empty-state {
       display: flex;
@@ -1398,13 +1613,12 @@
         padding: 16px 0;
       }
       .sidebar-brand {
-        padding: 0 16px 20px;
-        font-size: 15px;
+        padding: 8px 16px 20px;
+        font-size: 18px;
       }
       .sidebar-brand .brand-mark {
-        width: 24px;
-        height: 24px;
-        font-size: 11px;
+        width: 38px;
+        height: 38px;
       }
       .sidebar-nav {
         padding: 0 10px;
@@ -1435,8 +1649,8 @@
       .proxies-grid {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       }
-      .modal-panel {
-        width: 440px;
+      .groups-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       }
     }
 
@@ -1455,9 +1669,8 @@
         display: none;
       }
       .sidebar-brand .brand-mark {
-        width: 32px;
-        height: 32px;
-        font-size: 13px;
+        width: 40px;
+        height: 40px;
       }
       .sidebar-nav {
         padding: 0 10px;
@@ -1465,8 +1678,10 @@
         align-items: center;
       }
       .sidebar-link {
-        padding: 10px;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        padding: 10px;
         width: 44px;
         height: 44px;
         border-radius: var(--radius-md);
@@ -1477,6 +1692,11 @@
       .sidebar-icon {
         margin: 0;
         font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
       }
       .sidebar-trust {
         display: none;
@@ -1495,6 +1715,12 @@
       }
       .proxies-grid {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+      .groups-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      }
+      #groupFilter {
+        width: 130px;
       }
       .data-table {
         font-size: 12px;
@@ -1531,6 +1757,9 @@
       .proxies-grid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       }
+      .groups-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
       .modal-panel {
         width: 560px;
       }
@@ -1557,6 +1786,9 @@
       .proxies-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       }
+      .groups-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      }
       .modal-panel {
         width: 680px;
       }
@@ -1579,13 +1811,63 @@
     }
 
     @media (max-width: 768px) {
-      .sidebar { display: none; }
+      .sidebar {
+        width: 64px;
+        padding: 16px 0;
+        align-items: center;
+      }
+      .sidebar-brand {
+        padding: 0 0 16px;
+        justify-content: center;
+        width: 100%;
+      }
+      .sidebar-brand span {
+        display: none;
+      }
+      .sidebar-brand .brand-mark {
+        width: 40px;
+        height: 40px;
+      }
+      .sidebar-nav {
+        padding: 0 10px;
+        width: 100%;
+        align-items: center;
+      }
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-md);
+      }
+      .sidebar-link span:last-child {
+        display: none;
+      }
+      .sidebar-icon {
+        margin: 0;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+      }
+      .sidebar-trust {
+        display: none;
+      }
+      .sidebar-footer {
+        display: none;
+      }
       .top-bar { padding: 0 16px; }
       .search-box { display: none; }
+      #groupFilter { display: none; }
       .content-area { padding: 16px; }
       .profiles-grid { grid-template-columns: 1fr; }
       .sessions-grid { grid-template-columns: 1fr; }
       .proxies-grid { grid-template-columns: 1fr; }
+      .groups-grid { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
       .modal-panel { width: 100%; }
       .data-table thead { display: none; }
@@ -1599,7 +1881,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="sidebar-brand">
-        <div class="brand-mark">V</div>
+        <img class="brand-mark" src="/logo.png" alt="VeilBrowse">
         <span>VeilBrowse</span>
       </div>
       <nav class="sidebar-nav">
@@ -1608,7 +1890,7 @@
           <span>Profiles</span>
         </a>
         <a class="sidebar-link" id="navProxies" onclick="showPage('proxies')">
-          <span class="sidebar-icon"><span class="icon-proxies"></span></span>
+          <span class="sidebar-icon"><span class="icon-proxies"><span class="socket-hole"></span></span></span>
           <span>Proxies</span>
         </a>
         <a class="sidebar-link" id="navGroups" onclick="showPage('groups')">
@@ -1637,17 +1919,16 @@
           <span class="page-count" id="pageCount">0</span>
         </div>
         <div class="top-bar-center">
-          <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Search profiles..." oninput="filterProfiles()">
+          <div class="top-bar-search-wrap">
+            <div class="search-box">
+              <input type="text" id="searchInput" placeholder="Search profiles..." oninput="filterProfiles()">
+            </div>
           </div>
-          <select id="groupFilter" class="form-select" style="max-width:160px; font-size:13px; padding:7px 10px;" onchange="filterProfiles()">
+          <select id="groupFilter" class="form-select" style="width:150px; flex-shrink:0; font-size:13px; padding:7px 10px;" onchange="filterProfiles()">
             <option value="">All Groups</option>
           </select>
         </div>
         <div class="top-bar-right">
-          <button class="telemetry-toggle" id="telemetryToggle" onclick="toggleTelemetry()" title="Anonymous usage stats (off by default)">
-            <div class="pulse-dot"></div>
-          </button>
           <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
             <span id="themeIcon" class="moon-icon"></span>
           </button>
@@ -1766,21 +2047,20 @@
               <span>Groups</span>
               <span class="count" id="groupCount">0</span>
             </h2>
+            <p style="font-size:12px;color:var(--text-muted);margin-top:4px;">Organize profiles by project, client, or platform. Assign a color to each group for easy visual identification.</p>
           </div>
 
-          <div class="card" style="margin-bottom:18px;">
-            <div class="form-grid" id="createGroupForm" style="align-items:end;">
-              <div class="form-group" style="margin-bottom:0;">
+          <div class="card" style="margin-bottom:22px;">
+            <div class="group-create-inline" id="createGroupForm">
+              <div class="form-group">
                 <label class="form-label">Group Name</label>
-                <input id="gName" class="form-input" placeholder="e.g. Amazon Sellers">
+                <input id="gName" class="form-input" placeholder="e.g. Amazon Sellers" onkeydown="if(event.key==='Enter'){event.preventDefault();createGroup();}">
               </div>
-              <div class="form-group" style="margin-bottom:0;">
+              <div class="form-group">
                 <label class="form-label">Color</label>
-                <input id="gColor" class="form-input" type="color" value="#06b6d4" style="padding:4px; height:36px; cursor:pointer;">
+                <input id="gColor" class="form-input" type="color" value="#06b6d4">
               </div>
-              <div class="form-group" style="margin-bottom:0; display:flex; align-items:flex-end;">
-                <button class="btn btn-primary" style="width:100%;" onclick="createGroup()">Add Group</button>
-              </div>
+              <button class="btn btn-primary" onclick="createGroup()">Add Group</button>
             </div>
           </div>
 
@@ -1790,7 +2070,7 @@
               <span class="count" id="savedGroupCount">0</span>
             </h2>
           </div>
-          <div id="groupsGrid" class="proxies-grid"></div>
+          <div id="groupsGrid" class="groups-grid"></div>
         </div>
       </div>
     </div>
@@ -1984,6 +2264,39 @@
     </div>
   </div>
 
+  <!-- Context Menu -->
+  <div class="context-menu" id="contextMenu" onmouseleave="hideContextMenu()">
+    <div class="context-menu-header" id="ctxProfileName">Profile</div>
+    <button class="context-menu-item" id="ctxLaunch" onclick="ctxLaunch()">
+      <span>Launch</span>
+      <span class="shortcut">L</span>
+    </button>
+    <button class="context-menu-item" id="ctxStop" onclick="ctxStop()">
+      <span>Stop</span>
+      <span class="shortcut">S</span>
+    </button>
+    <div class="context-menu-separator"></div>
+    <button class="context-menu-item" onclick="ctxEdit()">
+      <span>Edit</span>
+      <span class="shortcut">E</span>
+    </button>
+    <button class="context-menu-item" onclick="ctxDuplicate()">
+      <span>Duplicate</span>
+      <span class="shortcut">D</span>
+    </button>
+    <div class="context-menu-separator"></div>
+    <button class="context-menu-item" onclick="toggleCtxGroupSubmenu()">
+      <span>Assign Group</span>
+      <span class="shortcut">G</span>
+    </button>
+    <div class="context-menu-group-list" id="ctxGroupSubmenu" style="display:none;"></div>
+    <div class="context-menu-separator"></div>
+    <button class="context-menu-item" onclick="ctxDelete()" style="color:var(--danger);">
+      <span>Delete</span>
+      <span class="shortcut">Del</span>
+    </button>
+  </div>
+
   <script>
     // ── Theme ──
     (function initTheme() {
@@ -2011,7 +2324,8 @@
 
     // ── Section Collapse ──
     (function initSectionCollapse() {
-      const collapsed = localStorage.getItem('veilbrowse-sessions-collapsed') === 'true';
+      const val = localStorage.getItem('veilbrowse-sessions-collapsed');
+      const collapsed = val === null ? true : val === 'true';
       if (collapsed) {
         const body = document.getElementById('sessionsBody');
         const btn = document.getElementById('sessionsToggle');
@@ -2031,38 +2345,6 @@
       btn.classList.toggle('collapsed', isCollapsed);
       if (text) text.textContent = isCollapsed ? 'Show' : 'Hide';
       localStorage.setItem('veilbrowse-' + section + '-collapsed', isCollapsed ? 'true' : 'false');
-    }
-
-    // ── Telemetry (off by default) ──
-    (function initTelemetry() {
-      const enabled = localStorage.getItem('veilbrowse-telemetry') === 'true';
-      updateTelemetryIcon(enabled);
-      if (enabled) sendPing();
-    })();
-
-    function toggleTelemetry() {
-      const enabled = localStorage.getItem('veilbrowse-telemetry') === 'true';
-      const next = !enabled;
-      localStorage.setItem('veilbrowse-telemetry', next ? 'true' : 'false');
-      updateTelemetryIcon(next);
-      if (next) sendPing();
-    }
-
-    function updateTelemetryIcon(enabled) {
-      const btn = document.getElementById('telemetryToggle');
-      if (!btn) return;
-      btn.classList.toggle('active', enabled);
-      btn.title = enabled ? 'Anonymous usage stats: ON' : 'Anonymous usage stats: OFF (click to enable)';
-    }
-
-    function sendPing() {
-      const sessionId = localStorage.getItem('veilbrowse-session') || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
-      localStorage.setItem('veilbrowse-session', sessionId);
-      fetch('https://veilbrowse.dev/api/ping', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ v: '1.0.0', p: navigator.platform, s: sessionId })
-      }).catch(() => {});
     }
 
     // ── State ──
@@ -2120,13 +2402,20 @@
     function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
     function getOSInfo(ua) {
+      const icons = {
+        ios: '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.03 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
+        android: '<svg viewBox="0 0 24 24"><path d="M17.523 15.341c-.551 0-.999-.447-.999-.998 0-.552.448-1 .999-1 .551 0 .999.448.999 1 0 .551-.448.998-.999.998zm-11.046 0c-.551 0-.999-.447-.999-.998 0-.552.448-1 .999-1 .551 0 .999.448.999 1 0 .551-.448.998-.999.998zm11.404-5.77l1.93-3.338a.417.417 0 00-.152-.57.416.416 0 00-.569.152l-1.955 3.384C15.97 8.405 14.045 7.65 12 7.65c-2.046 0-3.97.755-5.535 2.099L4.51 6.365a.416.416 0 00-.569-.152.417.417 0 00-.152.57l1.93 3.338C2.696 11.947 1 15.312 1 19h22c0-3.688-1.696-7.053-4.119-9.429z"/></svg>',
+        macos: '<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.03 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
+        windows: '<svg viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32v6.48L3 12zm17-9v8.75l-10 .58V5.21L20 3zM3 13l6-.09v6.46l-6-1.15V13zm17 .25V22l-10-1.91V13.1l10 .15z"/></svg>',
+        linux: '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>',
+      };
       if (!ua) return { icon: '<span class="os-badge os-unknown">?</span>', name: 'Unknown', short: 'Unknown' };
-      if (ua.includes('iPhone')) return { icon: '<span class="os-badge os-ios">i</span>', name: 'iPhone', short: 'iOS' };
-      if (ua.includes('iPad')) return { icon: '<span class="os-badge os-ios">i</span>', name: 'iPad', short: 'iOS' };
-      if (ua.includes('Android')) return { icon: '<span class="os-badge os-android">A</span>', name: 'Android', short: 'Android' };
-      if (ua.includes('Mac OS') || ua.includes('Macintosh')) return { icon: '<span class="os-badge os-macos">M</span>', name: 'macOS', short: 'macOS' };
-      if (ua.includes('Windows')) return { icon: '<span class="os-badge os-windows">W</span>', name: 'Windows', short: 'Windows' };
-      if (ua.includes('Linux')) return { icon: '<span class="os-badge os-linux">L</span>', name: 'Linux', short: 'Linux' };
+      if (ua.includes('iPhone')) return { icon: '<span class="os-badge os-ios">' + icons.ios + '</span>', name: 'iPhone', short: 'iOS' };
+      if (ua.includes('iPad')) return { icon: '<span class="os-badge os-ios">' + icons.ios + '</span>', name: 'iPad', short: 'iOS' };
+      if (ua.includes('Android')) return { icon: '<span class="os-badge os-android">' + icons.android + '</span>', name: 'Android', short: 'Android' };
+      if (ua.includes('Mac OS') || ua.includes('Macintosh')) return { icon: '<span class="os-badge os-macos">' + icons.macos + '</span>', name: 'macOS', short: 'macOS' };
+      if (ua.includes('Windows')) return { icon: '<span class="os-badge os-windows">' + icons.windows + '</span>', name: 'Windows', short: 'Windows' };
+      if (ua.includes('Linux')) return { icon: '<span class="os-badge os-linux">' + icons.linux + '</span>', name: 'Linux', short: 'Linux' };
       return { icon: '<span class="os-badge os-unknown">?</span>', name: 'Unknown', short: 'Unknown' };
     }
 
@@ -2161,6 +2450,126 @@
       if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
       return data;
     }
+
+    // ── Context Menu ──
+    let ctxProfileId = null;
+    let ctxIsRunning = false;
+
+    function showContextMenu(e, profileId, isRunning) {
+      e.preventDefault();
+      e.stopPropagation();
+      ctxProfileId = profileId;
+      ctxIsRunning = isRunning;
+      const menu = document.getElementById('contextMenu');
+      const p = allProfiles.find(x => x.id === profileId);
+      document.getElementById('ctxProfileName').textContent = p ? p.name : 'Profile';
+
+      const launchBtn = document.getElementById('ctxLaunch');
+      const stopBtn = document.getElementById('ctxStop');
+      if (isRunning) {
+        launchBtn.style.display = 'none';
+        stopBtn.style.display = 'flex';
+      } else {
+        launchBtn.style.display = 'flex';
+        stopBtn.style.display = 'none';
+      }
+
+      // Build group submenu
+      const submenu = document.getElementById('ctxGroupSubmenu');
+      submenu.style.display = 'none';
+      submenu.innerHTML = '';
+      if (allGroups.length === 0) {
+        submenu.innerHTML = '<div class="context-menu-group-item" style="color:var(--text-muted);">No groups created</div>';
+      } else {
+        const noneItem = document.createElement('div');
+        noneItem.className = 'context-menu-group-item';
+        noneItem.innerHTML = '<span class="context-menu-group-swatch" style="background:transparent;border:1px dashed var(--text-muted);"></span> <span style="font-style:italic;">No Group</span>';
+        noneItem.onclick = () => { assignCtxProfileToGroup(null); hideContextMenu(); };
+        submenu.appendChild(noneItem);
+        allGroups.forEach(g => {
+          const item = document.createElement('div');
+          item.className = 'context-menu-group-item';
+          item.innerHTML = `<span class="context-menu-group-swatch" style="background:${g.color};"></span> <span>${g.name}</span>`;
+          item.onclick = () => { assignCtxProfileToGroup(g.id); hideContextMenu(); };
+          submenu.appendChild(item);
+        });
+      }
+
+      menu.classList.add('open');
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const mw = menu.offsetWidth || 200;
+      const mh = menu.offsetHeight || 200;
+      let x = e.clientX;
+      let y = e.clientY;
+      if (x + mw > vw) x = vw - mw - 8;
+      if (y + mh > vh) y = vh - mh - 8;
+      menu.style.left = x + 'px';
+      menu.style.top = y + 'px';
+    }
+
+    function hideContextMenu() {
+      document.getElementById('contextMenu').classList.remove('open');
+      ctxProfileId = null;
+    }
+
+    function toggleCtxGroupSubmenu() {
+      const sm = document.getElementById('ctxGroupSubmenu');
+      sm.style.display = sm.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function assignCtxProfileToGroup(groupId) {
+      if (!ctxProfileId) return;
+      try {
+        const p = allProfiles.find(x => x.id === ctxProfileId);
+        if (!p) return;
+        const body = {
+          name: p.name,
+          user_agent: p.user_agent || null,
+          viewport_width: p.viewport_width || 1920,
+          viewport_height: p.viewport_height || 1080,
+          timezone: p.timezone || 'America/New_York',
+          geolocation_lat: p.geolocation_lat !== undefined ? p.geolocation_lat : null,
+          geolocation_lng: p.geolocation_lng !== undefined ? p.geolocation_lng : null,
+          language: p.language || 'en-US',
+          proxy_id: p.proxy_id || null,
+          proxy_host: p.proxy_host || null,
+          proxy_port: p.proxy_port || null,
+          proxy_username: p.proxy_username || null,
+          proxy_password: p.proxy_password || null,
+          canvas_seed: p.canvas_seed !== undefined ? p.canvas_seed : null,
+          webrtc_policy: p.webrtc_policy || 'block_local_ips',
+          startup_url: p.startup_url || 'https://www.google.com',
+          hardware_concurrency: p.hardware_concurrency || null,
+          device_memory: p.device_memory || null,
+          webgl_vendor: p.webgl_vendor || null,
+          webgl_renderer: p.webgl_renderer || null,
+          audio_seed: p.audio_seed !== undefined ? p.audio_seed : null,
+          client_rects_noise: p.client_rects_noise !== undefined ? p.client_rects_noise : null,
+          notes: p.notes || null,
+          group_id: groupId,
+        };
+        await api('PUT', `/api/profiles/${ctxProfileId}`, body);
+        notify(groupId ? 'Group assigned' : 'Group removed', 'success');
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    function ctxLaunch() { const id = ctxProfileId; if (id) { hideContextMenu(); launch(id); } }
+    function ctxStop() { const id = ctxProfileId; if (id) { hideContextMenu(); stop(id); } }
+    function ctxEdit() { const id = ctxProfileId; if (id) { hideContextMenu(); editProfile(id); } }
+    function ctxDuplicate() { const id = ctxProfileId; if (id) { hideContextMenu(); duplicateProfile(id); } }
+    function ctxDelete() { const id = ctxProfileId; if (id) { hideContextMenu(); remove(id); } }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('contextMenu');
+      if (!menu.contains(e.target)) hideContextMenu();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') hideContextMenu();
+    });
 
     // ── Modal & Tabs ──
     async function openModal() {
@@ -2410,12 +2819,16 @@
       if (page === 'profiles') {
         titleEl.textContent = 'Profiles';
         countEl.textContent = allProfiles.length;
-      } else {
+      } else if (page === 'proxies') {
         titleEl.textContent = 'Proxies';
         countEl.textContent = allProxies.length;
+      } else if (page === 'groups') {
+        titleEl.textContent = 'Groups';
+        countEl.textContent = allGroups.length;
       }
 
       if (page === 'proxies') loadProxies();
+      if (page === 'groups') loadGroups();
     }
 
     // ── Search / Filter ──
@@ -2547,7 +2960,13 @@
         populateGroupDropdowns();
         renderGroups();
       } catch (e) {
-        notify(e.message, 'error');
+        if (e.message === 'Not found' || e.message.includes('404')) {
+          allGroups = [];
+          populateGroupDropdowns();
+          renderGroups();
+        } else {
+          notify(e.message, 'error');
+        }
       }
     }
 
@@ -2596,13 +3015,22 @@
 
       allGroups.forEach(g => {
         const card = document.createElement('div');
-        card.className = 'proxy-card';
+        card.className = 'group-card';
+        card.style.setProperty('--group-accent', g.color);
+        card.style.setProperty('--group-accent-glow', g.color + '33');
+        const pc = g.profile_count || 0;
         card.innerHTML = `
-          <div class="proxy-card-header" style="align-items:center;gap:10px;">
-            <span class="tag" style="background:${g.color}15;color:${g.color};border:1px solid ${g.color}30;font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;">${g.name}</span>
-            <span class="proxy-stat-value" style="margin-left:auto;font-size:12px;color:var(--text-muted);">${g.profile_count || 0} profiles</span>
+          <div class="group-card-header">
+            <div class="group-color-swatch" style="background:${g.color};"></div>
+            <div class="group-info">
+              <div class="group-name" id="group-name-${g.id}" onclick="startEditGroupName(${g.id})">${g.name}</div>
+              <div class="group-meta">${pc} profile${pc === 1 ? '' : 's'} &middot; Created ${new Date(g.created_at).toLocaleDateString()}</div>
+            </div>
           </div>
-          <div class="proxy-actions" style="margin-top:10px;">
+          <div class="group-actions">
+            <div class="group-actions-left">
+              <button class="btn btn-sm btn-secondary" onclick="startEditGroupName(${g.id})">Rename</button>
+            </div>
             <button class="btn btn-sm btn-danger" onclick="deleteGroup(${g.id})">Delete</button>
           </div>
         `;
@@ -2610,18 +3038,65 @@
       });
     }
 
+    let editingGroupId = null;
+
+    function startEditGroupName(id) {
+      if (editingGroupId === id) return;
+      editingGroupId = id;
+      const g = allGroups.find(x => x.id === id);
+      if (!g) return;
+      const el = document.getElementById(`group-name-${id}`);
+      if (!el) return;
+      el.outerHTML = `<input type="text" id="group-name-input-${id}" class="form-input" value="${g.name}" style="font-weight:600;font-size:15px;padding:4px 8px;" onkeydown="if(event.key==='Enter'){saveGroupName(${id});}else if(event.key==='Escape'){cancelEditGroupName(${id});}" onblur="saveGroupName(${id})">`;
+      const input = document.getElementById(`group-name-input-${id}`);
+      if (input) { input.focus(); input.select(); }
+    }
+
+    function cancelEditGroupName(id) {
+      editingGroupId = null;
+      loadGroups();
+    }
+
+    async function saveGroupName(id) {
+      const input = document.getElementById(`group-name-input-${id}`);
+      if (!input) return;
+      const newName = input.value.trim();
+      if (!newName) {
+        cancelEditGroupName(id);
+        return;
+      }
+      const g = allGroups.find(x => x.id === id);
+      if (g && newName === g.name) {
+        cancelEditGroupName(id);
+        return;
+      }
+      try {
+        await api('PUT', `/api/groups/${id}`, { name: newName, color: g ? g.color : '#06b6d4' });
+        notify('Group renamed', 'success');
+        editingGroupId = null;
+        loadGroups();
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+        cancelEditGroupName(id);
+      }
+    }
+
     async function createGroup() {
-      const name = document.getElementById('gName').value.trim();
-      const color = document.getElementById('gColor').value;
+      const nameEl = document.getElementById('gName');
+      const colorEl = document.getElementById('gColor');
+      const name = nameEl.value.trim();
+      const color = colorEl.value;
       if (!name) {
         notify('Group name is required');
+        nameEl.focus();
         return;
       }
       try {
         await api('POST', '/api/groups', { name, color });
         notify('Group created', 'success');
-        document.getElementById('gName').value = '';
-        document.getElementById('gColor').value = '#06b6d4';
+        nameEl.value = '';
+        colorEl.value = '#06b6d4';
         loadGroups();
       } catch (e) {
         notify(e.message, 'error');
@@ -2629,7 +3104,11 @@
     }
 
     async function deleteGroup(id) {
-      if (!confirm('Delete this group? Profiles in this group will be unassigned.')) return;
+      const g = allGroups.find(x => x.id === id);
+      const msg = g
+        ? `Delete "${g.name}"? ${g.profile_count || 0} profile${(g.profile_count || 0) === 1 ? '' : 's'} will be unassigned.`
+        : 'Delete this group? Profiles in this group will be unassigned.';
+      if (!confirm(msg)) return;
       try {
         await api('DELETE', `/api/groups/${id}`);
         notify('Group deleted', 'success');
@@ -2717,11 +3196,12 @@
         if (p.webrtc_policy && p.webrtc_policy !== 'allow') adTags.push('<span class="tag tag-cyan">WebRTC</span>');
         if (p.canvas_seed !== null && p.canvas_seed !== undefined) adTags.push('<span class="tag tag-green">Canvas</span>');
         if (p.hardware_concurrency || p.device_memory || p.webgl_vendor || p.audio_seed || p.client_rects_noise) {
-          adTags.push('<span class="tag tag-purple">FP</span>');
+          adTags.push('<span class="tag tag-purple">Randomized</span>');
         }
 
         const tr = document.createElement('tr');
         tr.className = isRunning ? 'running' : '';
+        tr.oncontextmenu = (e) => showContextMenu(e, p.id, isRunning);
         const notesHtml = p.notes ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;" title="${p.notes.replace(/"/g, '&quot;')}">${p.notes}</div>` : '';
         tr.innerHTML = `
           <td data-label="Profile">
@@ -2794,12 +3274,13 @@
         if (p.webrtc_policy && p.webrtc_policy !== 'allow') adTags.push('<span class="tag tag-cyan">WebRTC</span>');
         if (p.canvas_seed !== null && p.canvas_seed !== undefined) adTags.push('<span class="tag tag-green">Canvas</span>');
         if (p.hardware_concurrency || p.device_memory || p.webgl_vendor || p.audio_seed || p.client_rects_noise) {
-          adTags.push('<span class="tag tag-purple">FP</span>');
+          adTags.push('<span class="tag tag-purple">Randomized</span>');
         }
 
         const card = document.createElement('div');
         card.className = `profile-card ${isRunning ? 'running' : ''}`;
         card.id = `profile-card-${p.id}`;
+        card.oncontextmenu = (e) => showContextMenu(e, p.id, isRunning);
         card.innerHTML = `
           <div class="profile-card-header" onclick="toggleProfileDetails(${p.id})">
             <div class="profile-avatar">${os.icon}</div>

@@ -7,6 +7,21 @@ const fs = require('fs');
 
 const profilesDir = path.join(db.dataDir, 'profiles');
 
+function withDb(handler) {
+  return (req, res, next) => {
+    db.onReady(() => {
+      try {
+        const result = handler(req, res, next);
+        if (result && typeof result.catch === 'function') {
+          result.catch(next);
+        }
+      } catch (err) {
+        next(err);
+      }
+    });
+  };
+}
+
 function resolveProfileProxy(row) {
   const p = { ...row };
   if (p.proxy_id && p.proxy_resolved_host) {
@@ -96,7 +111,7 @@ function validateProfile(body) {
   return errors;
 }
 
-router.get('/', (req, res) => {
+router.get('/', withDb((req, res) => {
   db.all(
     `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms, g.name as group_name, g.color as group_color
      FROM profiles p
@@ -109,9 +124,9 @@ router.get('/', (req, res) => {
       res.json(rows.map(resolveProfileProxy));
     }
   );
-});
+}));
 
-router.post('/', (req, res) => {
+router.post('/', withDb((req, res) => {
   const validation = validateProfile(req.body);
   if (validation.length > 0) {
     return res.status(400).json({ error: validation.join('; ') });
@@ -152,9 +167,9 @@ router.post('/', (req, res) => {
       });
     }
   );
-});
+}));
 
-router.get('/:id', (req, res) => {
+router.get('/:id', withDb((req, res) => {
   db.get(
     `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms, g.name as group_name, g.color as group_color
      FROM profiles p
@@ -168,9 +183,9 @@ router.get('/:id', (req, res) => {
       res.json(resolveProfileProxy(row));
     }
   );
-});
+}));
 
-router.put('/:id', (req, res) => {
+router.put('/:id', withDb((req, res) => {
   const validation = validateProfile(req.body);
   if (validation.length > 0) {
     return res.status(400).json({ error: validation.join('; ') });
@@ -182,7 +197,7 @@ router.put('/:id', (req, res) => {
       proxy_host, proxy_port, proxy_username, proxy_password,
       canvas_seed, webrtc_policy, proxy_id, startup_url,
       hardware_concurrency, device_memory, webgl_vendor, webgl_renderer,
-      audio_seed, client_rects_noise, notes,
+      audio_seed, client_rects_noise, notes, group_id,
     } = req.body;
 
     // Preserve existing proxy_id and group_id if not explicitly provided in the request body
@@ -224,9 +239,9 @@ router.put('/:id', (req, res) => {
       }
     );
   });
-});
+}));
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withDb(async (req, res) => {
   const id = req.params.id;
   await launcher.stopProfile(id);
   db.get('SELECT user_data_dir FROM profiles WHERE id = ?', [id], (err, row) => {
@@ -240,9 +255,9 @@ router.delete('/:id', async (req, res) => {
       res.json({ deleted: this.changes });
     });
   });
-});
+}));
 
-router.post('/:id/launch', (req, res) => {
+router.post('/:id/launch', withDb((req, res) => {
   const id = parseInt(req.params.id);
   // Backend API owns the error message for duplicate launches.
   const sessions = launcher.listSessions();
@@ -274,14 +289,14 @@ router.post('/:id/launch', (req, res) => {
       }
     }
   );
-});
+}));
 
-router.post('/:id/stop', async (req, res) => {
+router.post('/:id/stop', withDb(async (req, res) => {
   const result = await launcher.stopProfile(req.params.id);
   res.json(result);
-});
+}));
 
-router.get('/:id/screenshot', async (req, res) => {
+router.get('/:id/screenshot', withDb(async (req, res) => {
   try {
     const screenshot = await launcher.getScreenshot(req.params.id);
     if (!screenshot) return res.status(404).json({ error: 'No active session' });
@@ -291,6 +306,6 @@ router.get('/:id/screenshot', async (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-});
+}));
 
 module.exports = router;

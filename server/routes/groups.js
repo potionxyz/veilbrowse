@@ -2,7 +2,19 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', (req, res) => {
+function withDb(handler) {
+  return (req, res, next) => {
+    db.onReady(() => {
+      try {
+        handler(req, res, next);
+      } catch (err) {
+        next(err);
+      }
+    });
+  };
+}
+
+router.get('/', withDb((req, res) => {
   db.all(
     `SELECT g.*, COUNT(p.id) as profile_count
      FROM groups g
@@ -15,9 +27,9 @@ router.get('/', (req, res) => {
       res.json(rows);
     }
   );
-});
+}));
 
-router.post('/', (req, res) => {
+router.post('/', withDb((req, res) => {
   const { name, color } = req.body;
   if (!name || typeof name !== 'string' || name.trim().length === 0) {
     return res.status(400).json({ error: 'Group name is required' });
@@ -44,9 +56,9 @@ router.post('/', (req, res) => {
       });
     }
   );
-});
+}));
 
-router.put('/:id', (req, res) => {
+router.put('/:id', withDb((req, res) => {
   const { name, color } = req.body;
   if (!name || typeof name !== 'string' || name.trim().length === 0) {
     return res.status(400).json({ error: 'Group name is required' });
@@ -74,9 +86,9 @@ router.put('/:id', (req, res) => {
       });
     }
   );
-});
+}));
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', withDb((req, res) => {
   const id = req.params.id;
   // Unassign profiles from this group first
   db.run('UPDATE profiles SET group_id = NULL WHERE group_id = ?', [id], (err) => {
@@ -86,6 +98,6 @@ router.delete('/:id', (req, res) => {
       res.json({ deleted: this.changes });
     });
   });
-});
+}));
 
 module.exports = router;
