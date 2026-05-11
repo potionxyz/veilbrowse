@@ -583,6 +583,50 @@
 
     .section-actions { display: flex; gap: 8px; }
 
+    /* ── Collapsible Section Toggle ── */
+    .section-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+    .section-toggle:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+    }
+    .section-toggle .chevron {
+      width: 0; height: 0;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-top: 4px solid currentColor;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .section-toggle.collapsed .chevron { transform: rotate(-90deg); }
+
+    .collapsible-body {
+      max-height: 2000px;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, margin 0.3s ease;
+      opacity: 1;
+    }
+    .collapsible-body.collapsed {
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
     /* ── Cards ── */
     .card {
       background: var(--bg-surface);
@@ -1412,12 +1456,18 @@
                 <span>Active Sessions</span>
                 <span class="count" id="sessionCount">0</span>
               </h2>
+              <button class="section-toggle" id="sessionsToggle" onclick="toggleSection('sessions')" title="Toggle session visibility">
+                <span class="chevron" id="sessionsChevron"></span>
+                <span id="sessionsToggleText">Hide</span>
+              </button>
             </div>
-            <div id="sessions" class="sessions-grid">
-              <div class="empty-state">
-                <div class="empty-state-illustration"></div>
-                <div class="empty-state-title">No active sessions</div>
-                <div class="empty-state-desc">Launch a profile to start browsing with anti-detect protection.</div>
+            <div class="collapsible-body" id="sessionsBody">
+              <div id="sessions" class="sessions-grid">
+                <div class="empty-state">
+                  <div class="empty-state-illustration"></div>
+                  <div class="empty-state-title">No active sessions</div>
+                  <div class="empty-state-desc">Launch a profile to start browsing with anti-detect protection.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1705,6 +1755,30 @@
       const icon = document.getElementById('themeIcon');
       if (!icon) return;
       icon.className = theme === 'dark' ? 'moon-icon' : 'sun-icon';
+    }
+
+    // ── Section Collapse ──
+    (function initSectionCollapse() {
+      const collapsed = localStorage.getItem('veilbrowse-sessions-collapsed') === 'true';
+      if (collapsed) {
+        const body = document.getElementById('sessionsBody');
+        const btn = document.getElementById('sessionsToggle');
+        const text = document.getElementById('sessionsToggleText');
+        if (body) body.classList.add('collapsed');
+        if (btn) btn.classList.add('collapsed');
+        if (text) text.textContent = 'Show';
+      }
+    })();
+
+    function toggleSection(section) {
+      const body = document.getElementById(section + 'Body');
+      const btn = document.getElementById(section + 'Toggle');
+      const text = document.getElementById(section + 'ToggleText');
+      if (!body || !btn) return;
+      const isCollapsed = body.classList.toggle('collapsed');
+      btn.classList.toggle('collapsed', isCollapsed);
+      if (text) text.textContent = isCollapsed ? 'Show' : 'Hide';
+      localStorage.setItem('veilbrowse-' + section + '-collapsed', isCollapsed ? 'true' : 'false');
     }
 
     // ── Telemetry (off by default) ──
