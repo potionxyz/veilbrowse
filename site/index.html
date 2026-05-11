@@ -1393,9 +1393,18 @@
     .compare-table .highlight-col::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--accent-dim);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .table-wrapper .compare-table {
+      min-width: 520px;
     }
 
     /* ── CTA ── */
@@ -1628,6 +1637,7 @@
       .mock-cards-grid { grid-template-columns: 1fr; }
       .mock-card-details { display: none; }
       .mock-filters { display: none; }
+      .github-graph { display: none; }
     }
 
     @media (max-width: 768px) {
@@ -1828,6 +1838,8 @@
       .mock-sidebar { display: none; }
       .mock-main { padding: 12px; }
       .mock-cards-grid { gap: 8px; }
+      .browser-address { max-width: 140px; font-size: 9px; }
+      .mockup-container::before { inset: -8px; }
     }
 
     @media (max-width: 360px) {
@@ -1837,6 +1849,8 @@
       .section { padding: 48px 12px; }
       .stats-strip { padding: 0 12px 40px; }
       .btn--primary.btn--large { padding: 10px 18px; font-size: 13px; }
+      .browser-address { max-width: 120px; font-size: 9px; padding: 4px 8px; }
+      .mockup-container::before { inset: -4px; }
     }
   </style>
 </head>
@@ -2472,7 +2486,7 @@
       <h2 class="section__title">Why operators are switching</h2>
       <p class="section__subtitle">Same core functionality. Different business model. Different trust model.</p>
     </div>
-    <div class="reveal">
+    <div class="reveal table-wrapper">
       <table class="compare-table">
         <thead>
           <tr>
