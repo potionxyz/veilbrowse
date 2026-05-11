@@ -205,6 +205,23 @@
     .icon-proxies::before { left: 3px; }
     .icon-proxies::after { right: 3px; }
 
+    .icon-groups {
+      width: 16px; height: 14px;
+      border: 2px solid currentColor;
+      border-radius: 2px;
+      position: relative;
+      display: inline-block;
+    }
+    .icon-groups::before {
+      content: '';
+      position: absolute;
+      top: -6px; left: 3px;
+      width: 6px; height: 4px;
+      border: 2px solid currentColor;
+      border-bottom: none;
+      border-radius: 2px 2px 0 0;
+    }
+
     .os-badge {
       display: inline-flex;
       align-items: center;
@@ -1533,6 +1550,10 @@
           <span class="sidebar-icon"><span class="icon-proxies"></span></span>
           <span>Proxies</span>
         </a>
+        <a class="sidebar-link" id="navGroups" onclick="showPage('groups')">
+          <span class="sidebar-icon"><span class="icon-groups"></span></span>
+          <span>Groups</span>
+        </a>
       </nav>
       <div class="sidebar-trust">
         <div class="sidebar-trust-title">
@@ -1558,6 +1579,9 @@
           <div class="search-box">
             <input type="text" id="searchInput" placeholder="Search profiles..." oninput="filterProfiles()">
           </div>
+          <select id="groupFilter" class="form-select" style="max-width:160px; font-size:13px; padding:7px 10px;" onchange="filterProfiles()">
+            <option value="">All Groups</option>
+          </select>
         </div>
         <div class="top-bar-right">
           <button class="telemetry-toggle" id="telemetryToggle" onclick="toggleTelemetry()" title="Anonymous usage stats (off by default)">
@@ -1615,7 +1639,8 @@
             <table class="data-table">
               <thead>
                 <tr>
-                      <th>Profile</th>
+                  <th>Profile</th>
+                  <th style="width:120px;">Group</th>
                   <th style="width:180px;">Proxy</th>
                   <th style="width:100px;">Status</th>
                   <th style="width:140px;">Actions</th>
@@ -1672,6 +1697,40 @@
           </div>
           <div id="proxiesGrid" class="proxies-grid"></div>
         </div>
+
+        <!-- Groups Page -->
+        <div id="page-groups" class="page-section hidden">
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>Groups</span>
+              <span class="count" id="groupCount">0</span>
+            </h2>
+          </div>
+
+          <div class="card" style="margin-bottom:18px;">
+            <div class="form-grid" id="createGroupForm" style="align-items:end;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Group Name</label>
+                <input id="gName" class="form-input" placeholder="e.g. Amazon Sellers">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Color</label>
+                <input id="gColor" class="form-input" type="color" value="#06b6d4" style="padding:4px; height:36px; cursor:pointer;">
+              </div>
+              <div class="form-group" style="margin-bottom:0; display:flex; align-items:flex-end;">
+                <button class="btn btn-primary" style="width:100%;" onclick="createGroup()">Add Group</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>Saved Groups</span>
+              <span class="count" id="savedGroupCount">0</span>
+            </h2>
+          </div>
+          <div id="groupsGrid" class="proxies-grid"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1708,6 +1767,13 @@
             <option value="mac_safari">Mac Safari</option>
             <option value="iphone_safari">iPhone Safari</option>
             <option value="android_chrome">Android Chrome</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Group</label>
+          <select id="fGroupId" class="form-select">
+            <option value="">No Group</option>
           </select>
         </div>
 
@@ -2036,8 +2102,9 @@
     }
 
     // ── Modal & Tabs ──
-    function openModal() {
+    async function openModal() {
       cancelForm();
+      await loadGroups();
       document.getElementById('modalOverlay').classList.add('open');
       document.getElementById('modalPanel').classList.add('open');
     }
@@ -2272,8 +2339,10 @@
     function showPage(page) {
       document.getElementById('page-profiles').classList.toggle('hidden', page !== 'profiles');
       document.getElementById('page-proxies').classList.toggle('hidden', page !== 'proxies');
+      document.getElementById('page-groups').classList.toggle('hidden', page !== 'groups');
       document.getElementById('navProfiles').classList.toggle('active', page === 'profiles');
       document.getElementById('navProxies').classList.toggle('active', page === 'proxies');
+      document.getElementById('navGroups').classList.toggle('active', page === 'groups');
 
       const titleEl = document.getElementById('pageTitle');
       const countEl = document.getElementById('pageCount');
@@ -2408,6 +2477,108 @@
       }
     }
 
+    // ── Groups ──
+    let allGroups = [];
+
+    async function loadGroups() {
+      try {
+        allGroups = await api('GET', '/api/groups');
+        populateGroupDropdowns();
+        renderGroups();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    function populateGroupDropdowns() {
+      const modalSelect = document.getElementById('fGroupId');
+      const filterSelect = document.getElementById('groupFilter');
+      if (modalSelect) {
+        const current = modalSelect.value;
+        modalSelect.innerHTML = '<option value="">No Group</option>';
+        allGroups.forEach(g => {
+          modalSelect.innerHTML += `<option value="${g.id}">${g.name}</option>`;
+        });
+        modalSelect.value = current;
+      }
+      if (filterSelect) {
+        const current = filterSelect.value;
+        filterSelect.innerHTML = '<option value="">All Groups</option>';
+        allGroups.forEach(g => {
+          filterSelect.innerHTML += `<option value="${g.id}">${g.name}</option>`;
+        });
+        filterSelect.value = current;
+      }
+    }
+
+    function getGroupBadgeHtml(groupId, groupName, groupColor) {
+      if (!groupId || !groupName) return '';
+      const color = groupColor || '#06b6d4';
+      return `<span class="tag" style="background:${color}15;color:${color};border:1px solid ${color}30;">${groupName}</span>`;
+    }
+
+    function renderGroups() {
+      document.getElementById('groupCount').textContent = allGroups.length;
+      document.getElementById('savedGroupCount').textContent = allGroups.length;
+      const grid = document.getElementById('groupsGrid');
+      grid.innerHTML = '';
+
+      if (!allGroups.length) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-illustration"></div>
+            <div class="empty-state-title">No groups created</div>
+            <div class="empty-state-desc">Create groups to organize your profiles by project, client, or platform.</div>
+          </div>`;
+        return;
+      }
+
+      allGroups.forEach(g => {
+        const card = document.createElement('div');
+        card.className = 'proxy-card';
+        card.innerHTML = `
+          <div class="proxy-card-header" style="align-items:center;gap:10px;">
+            <span class="tag" style="background:${g.color}15;color:${g.color};border:1px solid ${g.color}30;font-size:12px;padding:3px 10px;border-radius:20px;font-weight:600;">${g.name}</span>
+            <span class="proxy-stat-value" style="margin-left:auto;font-size:12px;color:var(--text-muted);">${g.profile_count || 0} profiles</span>
+          </div>
+          <div class="proxy-actions" style="margin-top:10px;">
+            <button class="btn btn-sm btn-danger" onclick="deleteGroup(${g.id})">Delete</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    async function createGroup() {
+      const name = document.getElementById('gName').value.trim();
+      const color = document.getElementById('gColor').value;
+      if (!name) {
+        notify('Group name is required');
+        return;
+      }
+      try {
+        await api('POST', '/api/groups', { name, color });
+        notify('Group created', 'success');
+        document.getElementById('gName').value = '';
+        document.getElementById('gColor').value = '#06b6d4';
+        loadGroups();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    async function deleteGroup(id) {
+      if (!confirm('Delete this group? Profiles in this group will be unassigned.')) return;
+      try {
+        await api('DELETE', `/api/groups/${id}`);
+        notify('Group deleted', 'success');
+        loadGroups();
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
     // ── Profiles ──
     function toggleProfileDetails(id) {
       const targetCard = document.getElementById(`profile-card-${id}`);
@@ -2433,15 +2604,21 @@
     }
 
     function getFilteredProfiles(profiles, runningIds, filterTerm) {
-      if (!filterTerm) return profiles;
+      const groupFilter = document.getElementById('groupFilter');
+      const selectedGroup = groupFilter ? groupFilter.value : '';
+
       return profiles.filter(p => {
         const os = getOSInfo(p.user_agent);
         const term = filterTerm.toLowerCase();
-        return p.name.toLowerCase().includes(term)
+        const matchesTerm = !filterTerm
+          || p.name.toLowerCase().includes(term)
           || os.name.toLowerCase().includes(term)
           || os.short.toLowerCase().includes(term)
           || (p.user_agent || '').toLowerCase().includes(term)
-          || (runningIds.has(p.id) ? 'running' : 'idle').includes(term);
+          || (runningIds.has(p.id) ? 'running' : 'idle').includes(term)
+          || (p.group_name || '').toLowerCase().includes(term);
+        const matchesGroup = !selectedGroup || String(p.group_id) === selectedGroup;
+        return matchesTerm && matchesGroup;
       });
     }
 
@@ -2460,7 +2637,7 @@
 
       if (!profiles.length) {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="5"><div class="empty-state" style="padding:40px 24px;"><div class="empty-state-title">No profiles</div></div></td>`;
+        tr.innerHTML = `<td colspan="6"><div class="empty-state" style="padding:40px 24px;"><div class="empty-state-title">No profiles</div></div></td>`;
         tbody.appendChild(tr);
         return;
       }
@@ -2496,6 +2673,9 @@
                 <div class="table-tags" style="margin-top:4px;">${adTags.join(' ')}</div>
               </div>
             </div>
+          </td>
+          <td data-label="Group">
+            <div class="table-tags">${getGroupBadgeHtml(p.group_id, p.group_name, p.group_color)}</div>
           </td>
           <td data-label="Proxy">
             <div class="table-proxy">${proxyText}</div>
@@ -2571,6 +2751,7 @@
                 </span>
               </div>
               <div class="profile-os">${os.name} &middot; ${browser} &middot; ${p.viewport_width || 1920}x${p.viewport_height || 1080}</div>
+              <div style="margin-top:4px;">${getGroupBadgeHtml(p.group_id, p.group_name, p.group_color)}</div>
             </div>
             <span class="profile-expand-icon"></span>
           </div>
@@ -2666,6 +2847,7 @@
         audio_seed: document.getElementById('fAudioSeed').value ? parseInt(document.getElementById('fAudioSeed').value) : null,
         client_rects_noise: document.getElementById('fClientRects').value ? parseFloat(document.getElementById('fClientRects').value) : null,
         notes: document.getElementById('fNotes').value || null,
+        group_id: document.getElementById('fGroupId').value ? parseInt(document.getElementById('fGroupId').value) : null,
       };
 
       try {
@@ -2687,7 +2869,7 @@
     async function editProfile(id) {
       try {
         const p = await api('GET', `/api/profiles/${id}`);
-        await loadProxies();
+        await Promise.all([loadProxies(), loadGroups()]);
 
         document.getElementById('fEditId').value = p.id;
         document.getElementById('formTitle').textContent = 'Edit Profile';
@@ -2716,6 +2898,7 @@
         document.getElementById('fAudioSeed').value = p.audio_seed || '';
         document.getElementById('fClientRects').value = p.client_rects_noise || '';
         document.getElementById('fNotes').value = p.notes || '';
+        document.getElementById('fGroupId').value = p.group_id || '';
         toggleProxyFields();
 
         switchTab('basic');
@@ -2791,6 +2974,7 @@
 
     // ── Init ──
     loadProfiles();
+    loadGroups();
     loadSessions();
     connectSSE();
   </script>

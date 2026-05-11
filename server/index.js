@@ -13,6 +13,7 @@ app.get('/landing', (req, res) => {
 
 app.use('/api/profiles', require('./routes/profiles'));
 app.use('/api/proxies', require('./routes/proxies'));
+app.use('/api/groups', require('./routes/groups'));
 
 app.get('/api/sessions', (req, res) => {
   const launcher = require('./launcher');

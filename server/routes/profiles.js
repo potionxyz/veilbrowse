@@ -83,8 +83,14 @@ function validateProfile(body) {
   if (body.client_rects_noise !== undefined && body.client_rects_noise !== null && (Number.isNaN(rectNoise) || rectNoise < 0 || rectNoise > 10)) {
     errors.push('Client rects noise must be between 0 and 10');
   }
-  if (body.notes !== undefined && body.notes !== null && typeof body.notes === 'string' && body.notes.length > 2000) {
+    if (body.notes !== undefined && body.notes !== null && typeof body.notes === 'string' && body.notes.length > 2000) {
     errors.push('Notes must be 2000 characters or fewer');
+  }
+  if (body.group_id !== undefined && body.group_id !== null) {
+    const gid = parseInt(body.group_id);
+    if (Number.isNaN(gid) || gid < 1) {
+      errors.push('Group ID must be a positive integer');
+    }
   }
 
   return errors;
@@ -92,9 +98,10 @@ function validateProfile(body) {
 
 router.get('/', (req, res) => {
   db.all(
-    `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms
+    `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms, g.name as group_name, g.color as group_color
      FROM profiles p
      LEFT JOIN proxies px ON p.proxy_id = px.id
+     LEFT JOIN groups g ON p.group_id = g.id
      ORDER BY p.created_at DESC`,
     [],
     (err, rows) => {
@@ -116,19 +123,20 @@ router.post('/', (req, res) => {
     proxy_host, proxy_port, proxy_username, proxy_password,
     canvas_seed, webrtc_policy, proxy_id, startup_url,
     hardware_concurrency, device_memory, webgl_vendor, webgl_renderer,
-    audio_seed, client_rects_noise, notes,
+    audio_seed, client_rects_noise, notes, group_id,
   } = req.body;
 
   db.run(
-    `INSERT INTO profiles (name, user_agent, viewport_width, viewport_height, timezone, geolocation_lat, geolocation_lng, language, proxy_host, proxy_port, proxy_username, proxy_password, canvas_seed, webrtc_policy, proxy_id, startup_url, user_data_dir, hardware_concurrency, device_memory, webgl_vendor, webgl_renderer, audio_seed, client_rects_noise, notes)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO profiles (name, user_agent, viewport_width, viewport_height, timezone, geolocation_lat, geolocation_lng, language, proxy_host, proxy_port, proxy_username, proxy_password, canvas_seed, webrtc_policy, proxy_id, startup_url, user_data_dir, hardware_concurrency, device_memory, webgl_vendor, webgl_renderer, audio_seed, client_rects_noise, notes, group_id)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [name, user_agent, viewport_width, viewport_height, timezone, geolocation_lat, geolocation_lng, language, proxy_host, proxy_port, proxy_username, proxy_password, (canvas_seed !== null && canvas_seed !== undefined) ? canvas_seed : null, webrtc_policy || 'block_local_ips', (proxy_id !== null && proxy_id !== undefined) ? proxy_id : null, startup_url || 'https://www.google.com', '',
      (hardware_concurrency !== null && hardware_concurrency !== undefined) ? hardware_concurrency : null,
      (device_memory !== null && device_memory !== undefined) ? device_memory : null,
      webgl_vendor || null, webgl_renderer || null,
      (audio_seed !== null && audio_seed !== undefined) ? audio_seed : null,
      (client_rects_noise !== null && client_rects_noise !== undefined) ? client_rects_noise : null,
-     (notes !== null && notes !== undefined) ? notes : null],
+     (notes !== null && notes !== undefined) ? notes : null,
+     (group_id !== null && group_id !== undefined) ? group_id : null],
     function (err) {
       if (err) return res.status(500).json({ error: err.message });
       const id = this.lastID;
@@ -148,9 +156,10 @@ router.post('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
   db.get(
-    `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms
+    `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms, g.name as group_name, g.color as group_color
      FROM profiles p
      LEFT JOIN proxies px ON p.proxy_id = px.id
+     LEFT JOIN groups g ON p.group_id = g.id
      WHERE p.id = ?`,
     [req.params.id],
     (err, row) => {
@@ -176,17 +185,18 @@ router.put('/:id', (req, res) => {
       audio_seed, client_rects_noise, notes,
     } = req.body;
 
-    // Preserve existing proxy_id if not explicitly provided in the request body
-    db.get('SELECT proxy_id, notes FROM profiles WHERE id = ?', [req.params.id], (err, existing) => {
+    // Preserve existing proxy_id and group_id if not explicitly provided in the request body
+    db.get('SELECT proxy_id, notes, group_id FROM profiles WHERE id = ?', [req.params.id], (err, existing) => {
       if (err) return res.status(500).json({ error: err.message });
       if (!existing) return res.status(404).json({ error: 'Not found' });
 
       // If proxy_id key is present in the body (even as null), use it; otherwise preserve existing.
       const finalProxyId = Object.prototype.hasOwnProperty.call(req.body, 'proxy_id') ? proxy_id : existing.proxy_id;
       const finalNotes = Object.prototype.hasOwnProperty.call(req.body, 'notes') ? notes : existing.notes;
+      const finalGroupId = Object.prototype.hasOwnProperty.call(req.body, 'group_id') ? group_id : existing.group_id;
 
       db.run(
-        `UPDATE profiles SET name=?, user_agent=?, viewport_width=?, viewport_height=?, timezone=?, geolocation_lat=?, geolocation_lng=?, language=?, proxy_host=?, proxy_port=?, proxy_username=?, proxy_password=?, canvas_seed=?, webrtc_policy=?, proxy_id=?, startup_url=?, hardware_concurrency=?, device_memory=?, webgl_vendor=?, webgl_renderer=?, audio_seed=?, client_rects_noise=?, notes=? WHERE id=?`,
+        `UPDATE profiles SET name=?, user_agent=?, viewport_width=?, viewport_height=?, timezone=?, geolocation_lat=?, geolocation_lng=?, language=?, proxy_host=?, proxy_port=?, proxy_username=?, proxy_password=?, canvas_seed=?, webrtc_policy=?, proxy_id=?, startup_url=?, hardware_concurrency=?, device_memory=?, webgl_vendor=?, webgl_renderer=?, audio_seed=?, client_rects_noise=?, notes=?, group_id=? WHERE id=?`,
         [name, user_agent, viewport_width, viewport_height, timezone, geolocation_lat, geolocation_lng, language, proxy_host, proxy_port, proxy_username, proxy_password, (canvas_seed !== null && canvas_seed !== undefined) ? canvas_seed : null, webrtc_policy || 'block_local_ips', finalProxyId, startup_url || 'https://www.google.com',
          (hardware_concurrency !== null && hardware_concurrency !== undefined) ? hardware_concurrency : null,
          (device_memory !== null && device_memory !== undefined) ? device_memory : null,
@@ -194,14 +204,16 @@ router.put('/:id', (req, res) => {
          (audio_seed !== null && audio_seed !== undefined) ? audio_seed : null,
          (client_rects_noise !== null && client_rects_noise !== undefined) ? client_rects_noise : null,
          (finalNotes !== null && finalNotes !== undefined) ? finalNotes : null,
+         (finalGroupId !== null && finalGroupId !== undefined) ? finalGroupId : null,
          req.params.id],
       function (err2) {
         if (err2) return res.status(500).json({ error: err2.message });
         if (this.changes === 0) return res.status(404).json({ error: 'Not found' });
         db.get(
-          `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms
+          `SELECT p.*, px.name as proxy_name, px.host as proxy_resolved_host, px.port as proxy_resolved_port, px.username as proxy_resolved_username, px.password as proxy_resolved_password, px.status as proxy_status, px.latency_ms as proxy_latency_ms, g.name as group_name, g.color as group_color
            FROM profiles p
            LEFT JOIN proxies px ON p.proxy_id = px.id
+           LEFT JOIN groups g ON p.group_id = g.id
            WHERE p.id = ?`,
           [req.params.id],
           (err3, row) => {
