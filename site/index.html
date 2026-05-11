@@ -1040,7 +1040,8 @@
     .problem-card__body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: max-height;
       border-top: 1px solid transparent;
     }
     .problem-card.expanded .problem-card__body {
@@ -1529,7 +1530,8 @@
     .faq-item__answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: max-height;
     }
     .faq-item.expanded .faq-item__answer {
       max-height: 400px;
@@ -1756,6 +1758,7 @@
       .problem-card__icon-wrap { width: 38px; height: 38px; }
       .problem-card__title { font-size: 15px; }
       .problem-card__desc { font-size: 13px; }
+      .problem-card__body { transition: none; }
       .problem-card.expanded .problem-card__body {
         max-height: 700px;
         padding: 0 18px 18px;
@@ -1792,6 +1795,7 @@
 
       .faq-list { margin-top: 32px; gap: 8px; }
       .faq-item__question { padding: 14px 16px; font-size: 14px; }
+      .faq-item__answer { transition: none; }
       .faq-item.expanded .faq-item__answer {
         max-height: 500px;
         padding: 0 16px 14px;
