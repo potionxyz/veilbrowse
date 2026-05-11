@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Data directories
+data/
+profiles/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Electron builds
+dist/
+build/
+*.AppImage
+*.deb
+*.rpm
+*.snap
+
+# Environment
+.env
+.env.local
+
+# Vercel
+.vercel/

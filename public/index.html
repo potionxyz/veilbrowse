@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeilBrowse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2306b6d4'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='700' text-anchor='middle' fill='%23fff' font-family='system-ui'%3EV%3C/text%3E%3C/svg%3E">
+  <style>
+    /* ── Theme Variables ── */
+    :root {
+      --bg-root: #18191c;
+      --bg-surface: #232428;
+      --bg-elevated: #2b2d31;
+      --bg-input: #1e1f22;
+      --border: #2f3035;
+      --border-hover: #3a3c42;
+      --border-active: #4a4d55;
+      --text-primary: #dbdee1;
+      --text-secondary: #949ba4;
+      --text-muted: #6d6f78;
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --accent-glow: rgba(6, 182, 212, 0.12);
+      --accent-dim: rgba(6, 182, 212, 0.06);
+      --sidebar-bg: #1e1f22;
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.08);
+      --warning: #f59e0b;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.08);
+      --info: #60a5fa;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+      --transition: all 0.15s ease;
+      --dot-color: rgba(255,255,255,0.03);
+      --header-bg: rgba(24,25,28,0.92);
+      --overlay-bg: rgba(0,0,0,0.5);
+    }
+
+    [data-theme="light"] {
+      --bg-root: #f2f3f5;
+      --bg-surface: #ffffff;
+      --bg-elevated: #ebedef;
+      --bg-input: #ffffff;
+      --border: #e3e5e8;
+      --border-hover: #d5d8dc;
+      --border-active: #c8ccd0;
+      --text-primary: #313338;
+      --text-secondary: #4f5660;
+      --text-muted: #959ba3;
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --accent-glow: rgba(6, 182, 212, 0.10);
+      --accent-dim: rgba(6, 182, 212, 0.04);
+      --sidebar-bg: #ebedef;
+      --danger: #dc2626;
+      --danger-bg: rgba(220, 38, 38, 0.06);
+      --warning: #d97706;
+      --success: #059669;
+      --success-bg: rgba(5, 150, 105, 0.06);
+      --info: #2563eb;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --dot-color: rgba(0,0,0,0.035);
+      --header-bg: rgba(242,243,245,0.92);
+      --overlay-bg: rgba(0,0,0,0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-root);
+      color: var(--text-primary);
+      line-height: 1.5;
+      font-size: 15px;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .app { display: flex; min-height: 100vh; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 220px;
+      flex-shrink: 0;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      z-index: 100;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 20px 24px;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+
+    .sidebar-brand .brand-mark {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav { display: flex; flex-direction: column; padding: 0 12px; gap: 2px; }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      width: 100%;
+    }
+    .sidebar-link:hover { background: var(--bg-elevated); color: var(--text-primary); }
+    .sidebar-link.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .sidebar-link .sidebar-icon { font-size: 16px; width: 20px; text-align: center; }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 12px 20px 0;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .sidebar-trust {
+      margin: 12px 16px 0;
+      padding: 10px 12px;
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+    .sidebar-trust-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sidebar-trust-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .sidebar-trust-desc {
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .sidebar-trust-desc abbr {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      cursor: help;
+      border: none;
+    }
+
+    /* ── Main Content ── */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow-x: auto;
+    }
+
+    /* ── Top Bar ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .page-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--text-primary);
+    }
+
+    .page-count {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      padding: 1px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .top-bar-center {
+      flex: 1;
+      max-width: 420px;
+    }
+
+    .top-bar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 7px 12px 7px 34px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--border-active);
+      background: var(--bg-elevated);
+    }
+
+    .search-box input::placeholder { color: var(--text-muted); }
+
+    .search-box::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px; height: 14px;
+      background: var(--text-muted);
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+
+    .theme-toggle {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border-color: var(--border-hover);
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 2px;
+      background: var(--bg-input);
+      padding: 2px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+    .view-toggle-btn {
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+      line-height: 1;
+    }
+    .view-toggle-btn:hover { color: var(--text-secondary); }
+    .view-toggle-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn-primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+
+    .btn-secondary {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { background: var(--bg-elevated); border-color: var(--border-hover); }
+
+    .btn-danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    [data-theme="light"] .btn-danger { border-color: rgba(220, 38, 38, 0.2); }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.15); }
+    [data-theme="light"] .btn-danger:hover { background: rgba(220, 38, 38, 0.12); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 6px 8px;
+      gap: 4px;
+    }
+    .btn-ghost:hover { color: var(--text-primary); background: var(--bg-elevated); }
+
+    .btn-icon {
+      width: 28px; height: 28px;
+      padding: 0;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .btn-icon:hover { background: var(--bg-elevated); color: var(--text-primary); }
+    .btn-icon.danger:hover { background: var(--danger-bg); color: var(--danger); }
+
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
+
+    /* ── Layout ── */
+    .content-area { padding: 24px 28px; max-width: 1400px; width: 100%; flex: 1; }
+
+    .page-section { animation: fadeIn 0.25s ease; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      gap: 12px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .section-title .count {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      padding: 1px 8px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .section-actions { display: flex; gap: 8px; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      transition: var(--transition);
+    }
+    .card:hover { border-color: var(--border-hover); }
+
+    /* ── Profile Cards ── */
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+    }
+
+    .profile-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .profile-card:hover { border-color: var(--border-hover); }
+
+    .profile-card.running {
+      border-color: rgba(16, 185, 129, 0.35);
+      background: rgba(16, 185, 129, 0.02);
+    }
+    [data-theme="light"] .profile-card.running {
+      border-color: rgba(5, 150, 105, 0.3);
+      background: rgba(5, 150, 105, 0.015);
+    }
+
+    .profile-card-header {
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .profile-avatar {
+      width: 40px; height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+    }
+
+    .profile-card.running .profile-avatar {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+    [data-theme="light"] .profile-card.running .profile-avatar {
+      background: rgba(5, 150, 105, 0.06);
+      border-color: rgba(5, 150, 105, 0.2);
+    }
+
+    .profile-info { flex: 1; min-width: 0; }
+
+    .profile-name {
+      font-weight: 600;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.15px;
+    }
+
+    .profile-os {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .profile-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      flex-shrink: 0;
+    }
+
+    .status-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .status-dot.running { background: var(--success); }
+    .status-dot.idle { background: var(--text-muted); }
+
+    .profile-expand-icon {
+      color: var(--text-muted);
+      font-size: 11px;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .profile-card.expanded .profile-expand-icon { transform: rotate(180deg); }
+
+    .profile-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease, padding 0.2s ease;
+      border-top: 1px solid var(--border);
+    }
+
+    .profile-card.expanded .profile-details {
+      max-height: 400px;
+      padding: 10px 14px;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .detail-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .detail-value {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .profile-tags {
+      padding: 0 14px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .tag-green { background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.15); }
+    [data-theme="light"] .tag-green { border-color: rgba(5,150,105,0.15); }
+    .tag-cyan { background: rgba(96,165,250,0.08); color: var(--info); border: 1px solid rgba(96,165,250,0.15); }
+    [data-theme="light"] .tag-cyan { background: rgba(37,99,235,0.06); border-color: rgba(37,99,235,0.12); }
+    .tag-gray { background: var(--bg-elevated); color: var(--text-muted); border: 1px solid var(--border); }
+    .tag-red { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(239,68,68,0.15); }
+    [data-theme="light"] .tag-red { border-color: rgba(220,38,38,0.12); }
+    .tag-proxy { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(94,106,210,0.15); }
+    .tag-purple { background: rgba(139,92,246,0.08); color: #a78bfa; border: 1px solid rgba(139,92,246,0.15); }
+    [data-theme="light"] .tag-purple { background: rgba(124,58,237,0.06); border-color: rgba(124,58,237,0.12); color: #7c3aed; }
+
+    .profile-actions {
+      padding: 8px 14px 12px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    /* ── Table View ── */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 13px;
+    }
+
+    .data-table thead th {
+      text-align: left;
+      padding: 8px 12px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table tbody tr {
+      transition: background 0.12s ease;
+    }
+    .data-table tbody tr:hover { background: var(--bg-elevated); }
+    .data-table tbody tr.running { background: var(--success-bg); }
+    .data-table tbody tr.running:hover { background: rgba(16,185,129,0.06); }
+    [data-theme="light"] .data-table tbody tr.running { background: rgba(5,150,105,0.02); }
+    [data-theme="light"] .data-table tbody tr.running:hover { background: rgba(5,150,105,0.04); }
+
+    .data-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .table-profile-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .table-avatar {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+    }
+
+    .table-profile-info { min-width: 0; }
+    .table-profile-name {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .table-profile-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .table-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+
+    .table-proxy {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+
+    .table-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 2px;
+      opacity: 0.7;
+      transition: opacity 0.12s;
+    }
+    .data-table tbody tr:hover .table-actions { opacity: 1; }
+
+    .table-expand-row td {
+      padding: 0;
+      border-bottom: none;
+    }
+    .table-expand-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.2s ease, padding 0.2s ease;
+      padding: 0 12px;
+    }
+    .table-expand-row.expanded .table-expand-content {
+      max-height: 200px;
+      padding: 8px 12px 12px;
+    }
+
+    /* ── Session Cards ── */
+    .sessions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .session-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .session-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-md); }
+
+    .session-header {
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .session-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .session-header-left .profile-avatar { width: 26px; height: 26px; font-size: 13px; }
+
+    .session-live-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--success);
+    }
+
+    .session-screenshot {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: var(--bg-root);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .session-screenshot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .session-screenshot-empty {
+      width: 100%; height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .session-screenshot-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 10px 12px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    [data-theme="light"] .session-screenshot-overlay {
+      background: linear-gradient(to top, rgba(0,0,0,0.65), transparent);
+    }
+
+    /* ── Proxy Cards ── */
+    .proxies-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .proxy-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .proxy-card:hover { border-color: var(--border-hover); }
+    .proxy-card.online { border-color: rgba(16, 185, 129, 0.3); }
+    [data-theme="light"] .proxy-card.online { border-color: rgba(5, 150, 105, 0.25); }
+    .proxy-card.failed { border-color: rgba(239, 68, 68, 0.3); }
+    [data-theme="light"] .proxy-card.failed { border-color: rgba(220, 38, 38, 0.25); }
+
+    .proxy-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .proxy-name { font-weight: 600; font-size: 14px; letter-spacing: -0.1px; }
+
+    .proxy-host {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 10px;
+    }
+
+    .proxy-stats {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .proxy-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .proxy-stat-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .proxy-stat-value {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .proxy-actions { display: flex; gap: 6px; }
+
+    /* ── Empty State ── */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 24px;
+      color: var(--text-muted);
+      gap: 14px;
+      text-align: center;
+      width: 100%;
+      grid-column: 1 / -1;
+    }
+
+    .empty-state-illustration {
+      width: 64px; height: 64px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      opacity: 0.4;
+    }
+
+    .empty-state-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .empty-state-desc {
+      font-size: 13px;
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--overlay-bg);
+      backdrop-filter: blur(3px);
+      z-index: 200;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+
+    .modal-panel {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 480px;
+      max-width: 100vw;
+      background: var(--bg-root);
+      border-left: 1px solid var(--border);
+      z-index: 201;
+      transform: translateX(100%);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .modal-overlay.open + .modal-panel,
+    .modal-panel.open { transform: translateX(0); }
+
+    .modal-header {
+      padding: 22px 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; }
+
+    .modal-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 16px 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-tab {
+      padding: 7px 14px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .modal-tab:hover { color: var(--text-secondary); }
+    .modal-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .modal-tab-content {
+      display: none;
+      animation: fadeIn 0.15s ease;
+    }
+
+    .modal-tab-content.active { display: block; }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 24px;
+    }
+
+    .modal-footer {
+      padding: 14px 24px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 16px; }
+
+    .form-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 72px;
+      line-height: 1.5;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-section-divider {
+      margin: 18px 0;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .form-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── Toast ── */
+    .toast-container {
+      position: fixed;
+      top: 68px;
+      right: 24px;
+      z-index: 300;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      padding: 11px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.25s ease;
+      max-width: 360px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid;
+      box-shadow: var(--shadow-md);
+    }
+
+    .toast-success { background: var(--success-bg); color: var(--success); border-color: rgba(16,185,129,0.15); }
+    [data-theme="light"] .toast-success { border-color: rgba(5,150,105,0.12); }
+    .toast-error { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.15); }
+    [data-theme="light"] .toast-error { border-color: rgba(220,38,38,0.12); }
+    .toast-info { background: var(--accent-dim); color: var(--accent); border-color: rgba(94,106,210,0.15); }
+
+    /* ── Misc ── */
+    .hidden { display: none !important; }
+    .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .top-bar { padding: 0 16px; }
+      .search-box { display: none; }
+      .content-area { padding: 16px; }
+      .profiles-grid { grid-template-columns: 1fr; }
+      .sessions-grid { grid-template-columns: 1fr; }
+      .proxies-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .modal-panel { width: 100%; }
+      .data-table thead { display: none; }
+      .data-table tbody tr { display: block; margin-bottom: 8px; border: 1px solid var(--border); border-radius: var(--radius-md); }
+      .data-table td { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: none; }
+      .data-table td::before { content: attr(data-label); font-weight: 600; color: var(--text-muted); font-size: 11px; text-transform: uppercase; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark">V</div>
+        <span>VeilBrowse</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="sidebar-link active" id="navProfiles" onclick="showPage('profiles')">
+          <span class="sidebar-icon">&#128203;</span>
+          <span>Profiles</span>
+        </a>
+        <a class="sidebar-link" id="navProxies" onclick="showPage('proxies')">
+          <span class="sidebar-icon">&#128268;</span>
+          <span>Proxies</span>
+        </a>
+      </nav>
+      <div class="sidebar-trust">
+        <div class="sidebar-trust-title">
+          <span class="sidebar-trust-dot"></span>
+          23 / 27 vectors masked
+        </div>
+        <div class="sidebar-trust-desc">
+          Canvas, WebGL, WebRTC, audio, fonts, hardware. <abbr title="TCP/IP TTL, TLS JA3, font glyph shapes, and emoji rendering require kernel-level or proxy fixes.">4 gaps remain</abbr>.
+        </div>
+      </div>
+      <div class="sidebar-footer">v1.0</div>
+    </aside>
+
+    <div class="main-content">
+      <div class="toast-container" id="toastContainer"></div>
+
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <h1 class="page-title" id="pageTitle">Profiles</h1>
+          <span class="page-count" id="pageCount">0</span>
+        </div>
+        <div class="top-bar-center">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search profiles..." oninput="filterProfiles()">
+          </div>
+        </div>
+        <div class="top-bar-right">
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+            <span id="themeIcon">&#127769;</span>
+          </button>
+          <button class="btn btn-primary" onclick="openModal()">
+            <span>+</span> New Profile
+          </button>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <!-- Profiles Page -->
+        <div id="page-profiles" class="page-section">
+          <div class="sessions-section" id="sessionsSection">
+            <div class="section-header">
+              <h2 class="section-title">
+                <span>Active Sessions</span>
+                <span class="count" id="sessionCount">0</span>
+              </h2>
+            </div>
+            <div id="sessions" class="sessions-grid">
+              <div class="empty-state">
+                <div class="empty-state-illustration">&#128244;</div>
+                <div class="empty-state-title">No active sessions</div>
+                <div class="empty-state-desc">Launch a profile to start browsing with anti-detect protection.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>All Profiles</span>
+              <span class="count" id="profileCount">0</span>
+            </h2>
+            <div class="section-actions">
+              <div class="view-toggle">
+                <button class="view-toggle-btn active" id="viewTable" onclick="setView('table')" title="Table view">&#9776;</button>
+                <button class="view-toggle-btn" id="viewGrid" onclick="setView('grid')" title="Grid view">&#9638;</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table View -->
+          <div id="profileTableView" class="table-view">
+            <table class="data-table">
+              <thead>
+                <tr>
+                      <th>Profile</th>
+                  <th style="width:180px;">Proxy</th>
+                  <th style="width:100px;">Status</th>
+                  <th style="width:140px;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="profileTableBody"></tbody>
+            </table>
+          </div>
+
+          <!-- Grid View -->
+          <div id="profileGridView" class="profiles-grid hidden"></div>
+        </div>
+
+        <!-- Proxies Page -->
+        <div id="page-proxies" class="page-section hidden">
+          <div class="section-header">
+            <h2 class="section-title">Proxy Pool</h2>
+          </div>
+
+          <div class="card" style="margin-bottom:18px;">
+            <div class="form-section-title">Add New Proxy</div>
+            <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Name</label>
+                <input id="pxName" class="form-input" placeholder="US Residential 01">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Host</label>
+                <input id="pxHost" class="form-input" placeholder="127.0.0.1">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Port</label>
+                <input id="pxPort" class="form-input" type="number" placeholder="8080">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Username</label>
+                <input id="pxUser" class="form-input" placeholder="optional">
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label">Password</label>
+                <input id="pxPass" class="form-input" type="password" placeholder="optional">
+              </div>
+              <div class="form-group" style="margin-bottom:0; display:flex; align-items:flex-end;">
+                <button class="btn btn-primary" style="width:100%;" onclick="createProxy()">Add Proxy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">
+            <h2 class="section-title">
+              <span>Saved Proxies</span>
+              <span class="count" id="proxyCount">0</span>
+            </h2>
+          </div>
+          <div id="proxiesGrid" class="proxies-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+  <div class="modal-panel" id="modalPanel">
+    <div class="modal-header">
+      <h2 class="modal-title" id="formTitle">Create Profile</h2>
+      <button class="btn btn-ghost" onclick="closeModal()">&#10005;</button>
+    </div>
+
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchTab('basic')" id="tab-basic">Basic</button>
+      <button class="modal-tab" onclick="switchTab('network')" id="tab-network">Network</button>
+      <button class="modal-tab" onclick="switchTab('antidetect')" id="tab-antidetect">Anti-Detect</button>
+    </div>
+
+    <div class="modal-body">
+      <input type="hidden" id="fEditId" value="">
+
+      <!-- Tab: Basic -->
+      <div class="modal-tab-content active" id="content-basic">
+        <div class="form-group">
+          <label class="form-label">Profile Name *</label>
+          <input id="fName" class="form-input" placeholder="e.g. US-East-01">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Fingerprint Preset</label>
+          <select id="fPreset" class="form-select" onchange="applyPreset()">
+            <option value="">Custom</option>
+            <option value="win_chrome">Windows Chrome</option>
+            <option value="mac_safari">Mac Safari</option>
+            <option value="iphone_safari">iPhone Safari</option>
+            <option value="android_chrome">Android Chrome</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">User Agent</label>
+          <input id="fUA" class="form-input" placeholder="Mozilla/5.0 ...">
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Viewport Width</label>
+            <input id="fWidth" class="form-input" type="number" value="1920">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Viewport Height</label>
+            <input id="fHeight" class="form-input" type="number" value="1080">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Timezone</label>
+            <input id="fTimezone" class="form-input" value="America/New_York">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Language</label>
+            <input id="fLang" class="form-input" value="en-US">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Latitude</label>
+            <input id="fLat" class="form-input" type="number" step="any" placeholder="40.7128">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Longitude</label>
+            <input id="fLng" class="form-input" type="number" step="any" placeholder="-74.0060">
+          </div>
+        </div>
+
+        <div class="form-section-divider"></div>
+
+        <div class="form-group">
+          <label class="form-label">Startup URL</label>
+          <input id="fStartupUrl" class="form-input" value="https://www.google.com" placeholder="https://www.google.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Notes</label>
+          <textarea id="fNotes" class="form-input form-textarea" rows="3" placeholder="Account status, spend, suspension dates..."></textarea>
+        </div>
+      </div>
+
+      <!-- Tab: Network -->
+      <div class="modal-tab-content" id="content-network">
+        <div class="form-group">
+          <label class="form-label">Proxy Pool</label>
+          <select id="fProxyId" class="form-select">
+            <option value="">None / Custom</option>
+          </select>
+        </div>
+
+        <div class="form-section-divider"></div>
+
+        <div class="form-section-title">Custom Proxy</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Host</label>
+            <input id="fProxyHost" class="form-input" placeholder="127.0.0.1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Port</label>
+            <input id="fProxyPort" class="form-input" type="number" placeholder="8080">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input id="fProxyUser" class="form-input" placeholder="optional">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input id="fProxyPass" class="form-input" type="password" placeholder="optional">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Anti-Detect -->
+      <div class="modal-tab-content" id="content-antidetect">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">WebRTC Policy</label>
+            <select id="fWebRTC" class="form-select">
+              <option value="block_local_ips">Block Local IPs</option>
+              <option value="allow">Allow (no blocking)</option>
+              <option value="strict_block">Strict Block (drop all ICE)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Canvas Seed</label>
+            <input id="fCanvasSeed" class="form-input" type="number" placeholder="Auto (profile ID)">
+          </div>
+        </div>
+
+        <div class="form-section-divider"></div>
+
+        <div class="form-section-title">
+          <span>Fingerprint Randomization</span>
+          <button type="button" class="btn btn-sm btn-secondary" onclick="randomizeFingerprint()">&#127922; Randomize</button>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">CPU Cores</label>
+            <input id="fHwConcurrency" class="form-input" type="number" placeholder="e.g. 8">
+          </div>
+          <div class="form-group">
+            <label class="form-label">RAM (GB)</label>
+            <input id="fDeviceMemory" class="form-input" type="number" placeholder="e.g. 8">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">WebGL Vendor</label>
+            <input id="fWebglVendor" class="form-input" placeholder="e.g. Google Inc. (NVIDIA)">
+          </div>
+          <div class="form-group">
+            <label class="form-label">WebGL Renderer</label>
+            <input id="fWebglRenderer" class="form-input" placeholder="e.g. ANGLE (NVIDIA, ...)">
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Audio Seed</label>
+            <input id="fAudioSeed" class="form-input" type="number" placeholder="Auto">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Client Rects Noise</label>
+            <input id="fClientRects" class="form-input" type="number" step="0.1" placeholder="0 = off">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="createProfile()" id="btnSaveProfile">Save Profile</button>
+    </div>
+  </div>
+
+  <script>
+    // ── Theme ──
+    (function initTheme() {
+      const saved = localStorage.getItem('veilbrowse-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      updateThemeIcon(theme);
+    })();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('veilbrowse-theme', next);
+      updateThemeIcon(next);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.innerHTML = theme === 'dark' ? '&#127769;' : '&#9728;&#65039;';
+    }
+
+    // ── State ──
+    const activeTimers = {};
+    const loadingIds = new Set();
+    let previousSessionIds = new Set();
+    let allProfiles = [];
+    let allProxies = [];
+    let runningProfileIds = new Set();
+    let currentView = localStorage.getItem('veilbrowse-view') || 'table';
+
+    // ── Constants ──
+    const PRESETS = {
+      win_chrome: {
+        ua: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        w: 1920, h: 1080, tz: 'America/New_York', lang: 'en-US', lat: 40.7128, lng: -74.0060
+      },
+      mac_safari: {
+        ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15',
+        w: 1440, h: 900, tz: 'America/Los_Angeles', lang: 'en-US', lat: 37.7749, lng: -122.4194
+      },
+      iphone_safari: {
+        ua: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1',
+        w: 390, h: 844, tz: 'America/New_York', lang: 'en-US', lat: 40.7128, lng: -74.0060
+      },
+      android_chrome: {
+        ua: 'Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
+        w: 412, h: 915, tz: 'Europe/London', lang: 'en-GB', lat: 51.5074, lng: -0.1278
+      }
+    };
+
+    const FP_POOLS = {
+      hwConcurrency: [2, 4, 6, 8, 12, 16],
+      deviceMemory: [2, 4, 8, 16],
+      webgl: [
+        { vendor: 'Google Inc. (NVIDIA)', renderer: 'ANGLE (NVIDIA, NVIDIA GeForce GTX 1050 Ti Direct3D11 vs_5_0 ps_5_0, D3D11)' },
+        { vendor: 'Google Inc. (NVIDIA)', renderer: 'ANGLE (NVIDIA, NVIDIA GeForce RTX 3060 Direct3D11 vs_5_0 ps_5_0, D3D11)' },
+        { vendor: 'Google Inc. (NVIDIA)', renderer: 'ANGLE (NVIDIA, NVIDIA GeForce RTX 4090 Direct3D11 vs_5_0 ps_5_0, D3D11)' },
+        { vendor: 'Google Inc. (Intel)', renderer: 'ANGLE (Intel, Intel(R) UHD Graphics 620 Direct3D11 vs_5_0 ps_5_0, D3D11)' },
+        { vendor: 'Google Inc. (Intel)', renderer: 'ANGLE (Intel, Intel(R) Iris(TM) Plus Graphics Direct3D11 vs_5_0 ps_5_0, D3D11)' },
+        { vendor: 'Google Inc. (AMD)', renderer: 'ANGLE (AMD, AMD Radeon RX 580 Direct3D11 vs_5_0 ps_5_0, D3D11)' },
+        { vendor: 'Apple Inc.', renderer: 'Apple GPU' },
+        { vendor: 'ARM', renderer: 'Mali-G76' },
+      ],
+      userAgents: [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4.1 Safari/605.1.15',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+      ]
+    };
+
+    // ── Helpers ──
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function getOSInfo(ua) {
+      if (!ua) return { icon: '&#128187;', name: 'Unknown', short: 'Unknown' };
+      if (ua.includes('iPhone')) return { icon: '&#128241;', name: 'iPhone', short: 'iOS' };
+      if (ua.includes('iPad')) return { icon: '&#128241;', name: 'iPad', short: 'iOS' };
+      if (ua.includes('Android')) return { icon: '&#129302;', name: 'Android', short: 'Android' };
+      if (ua.includes('Mac OS') || ua.includes('Macintosh')) return { icon: '&#127823;', name: 'macOS', short: 'macOS' };
+      if (ua.includes('Windows')) return { icon: '&#128187;', name: 'Windows', short: 'Windows' };
+      if (ua.includes('Linux')) return { icon: '&#128421;', name: 'Linux', short: 'Linux' };
+      return { icon: '&#128187;', name: 'Unknown', short: 'Unknown' };
+    }
+
+    function getBrowserInfo(ua) {
+      if (!ua) return 'default';
+      if (ua.includes('Chrome') && !ua.includes('Edg') && !ua.includes('OPR')) return 'Chrome';
+      if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Safari';
+      if (ua.includes('Firefox')) return 'Firefox';
+      if (ua.includes('Edg')) return 'Edge';
+      return 'Browser';
+    }
+
+    function notify(msg, type = 'error') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      const icon = type === 'success' ? '&#10003;' : type === 'error' ? '&#10007;' : '&#9432;';
+      toast.innerHTML = `<span>${icon}</span> ${msg}`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, 4000);
+    }
+
+    async function api(method, url, body) {
+      const opts = { method, headers: {} };
+      if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+      const res = await fetch(url, opts);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      return data;
+    }
+
+    // ── Modal & Tabs ──
+    function openModal() {
+      cancelForm();
+      document.getElementById('modalOverlay').classList.add('open');
+      document.getElementById('modalPanel').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.getElementById('modalPanel').classList.remove('open');
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      document.getElementById(`content-${tab}`).classList.add('active');
+    }
+
+    function randomizeFingerprint() {
+      document.getElementById('fHwConcurrency').value = pick(FP_POOLS.hwConcurrency);
+      document.getElementById('fDeviceMemory').value = pick(FP_POOLS.deviceMemory);
+      const gpu = pick(FP_POOLS.webgl);
+      document.getElementById('fWebglVendor').value = gpu.vendor;
+      document.getElementById('fWebglRenderer').value = gpu.renderer;
+      document.getElementById('fAudioSeed').value = Math.floor(Math.random() * 999999) + 1;
+      document.getElementById('fClientRects').value = (Math.random() * 0.4 + 0.1).toFixed(1);
+      document.getElementById('fUA').value = pick(FP_POOLS.userAgents);
+      notify('Fingerprint randomized', 'success');
+    }
+
+    function applyPreset() {
+      const preset = PRESETS[document.getElementById('fPreset').value];
+      if (!preset) return;
+      document.getElementById('fUA').value = preset.ua;
+      document.getElementById('fWidth').value = preset.w;
+      document.getElementById('fHeight').value = preset.h;
+      document.getElementById('fTimezone').value = preset.tz;
+      document.getElementById('fLang').value = preset.lang;
+      document.getElementById('fLat').value = preset.lat;
+      document.getElementById('fLng').value = preset.lng;
+    }
+
+    function toggleProxyFields() {
+      const sel = document.getElementById('fProxyId');
+      const hasPool = !!sel.value;
+      ['fProxyHost','fProxyPort','fProxyUser','fProxyPass'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.disabled = hasPool;
+          el.parentElement.style.opacity = hasPool ? '0.5' : '1';
+        }
+      });
+    }
+    document.getElementById('fProxyId').addEventListener('change', toggleProxyFields);
+
+    // ── Sessions ──
+    async function loadSessions() {
+      try {
+        const sessions = await api('GET', '/api/sessions');
+        const container = document.getElementById('sessions');
+        const currentIds = new Set(sessions.map(s => s.profileId));
+
+        const sessionsChanged =
+          currentIds.size !== previousSessionIds.size ||
+          [...currentIds].some(id => !previousSessionIds.has(id)) ||
+          [...previousSessionIds].some(id => !currentIds.has(id));
+        previousSessionIds = currentIds;
+
+        document.getElementById('sessionCount').textContent = sessions.length;
+
+        Object.keys(activeTimers).forEach(pid => {
+          if (!currentIds.has(parseInt(pid))) {
+            clearInterval(activeTimers[pid]);
+            delete activeTimers[pid];
+            const card = document.getElementById(`session-${pid}`);
+            if (card) card.remove();
+          }
+        });
+
+        if (!sessions.length) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-illustration">&#128244;</div>
+              <div class="empty-state-title">No active sessions</div>
+              <div class="empty-state-desc">Launch a profile to start browsing with anti-detect protection.</div>
+            </div>`;
+          if (sessionsChanged) loadProfiles();
+          return;
+        }
+
+        if (container.querySelector('.empty-state')) container.innerHTML = '';
+
+        sessions.forEach(s => {
+          const os = getOSInfo(s.userAgent);
+          let card = document.getElementById(`session-${s.profileId}`);
+          if (!card) {
+            card = document.createElement('div');
+            card.className = 'session-card';
+            card.id = `session-${s.profileId}`;
+            card.innerHTML = `
+              <div class="session-header">
+                <div class="session-header-left">
+                  <div class="profile-avatar">${os.icon}</div>
+                  <span style="font-weight:600;font-size:14px;">${s.profileName}</span>
+                </div>
+                <div class="session-live-badge">
+                  <span class="status-dot running"></span> LIVE
+                </div>
+              </div>
+              <div class="session-screenshot">
+                <img id="ss-${s.profileId}" src="" alt="screenshot" style="display:none;">
+                <div id="ss-empty-${s.profileId}" class="session-screenshot-empty">Loading screenshot...</div>
+                <div class="session-screenshot-overlay">
+                  <span style="font-size:12px;color:#fff;font-weight:600;">${s.viewport_width || 1920}x${s.viewport_height || 1080}</span>
+                  <button class="btn btn-sm btn-danger" onclick="stop(${s.profileId})">Stop</button>
+                </div>
+              </div>
+            `;
+            container.appendChild(card);
+            if (!activeTimers[s.profileId]) {
+              activeTimers[s.profileId] = setInterval(() => refreshScreenshot(s.profileId), 2000);
+            }
+          }
+          refreshScreenshot(s.profileId);
+        });
+
+        if (sessionsChanged) loadProfiles();
+      } catch (e) {
+        console.error('loadSessions:', e.message);
+      }
+    }
+
+    function refreshScreenshot(profileId) {
+      const img = document.getElementById(`ss-${profileId}`);
+      const empty = document.getElementById(`ss-empty-${profileId}`);
+      if (!img) return;
+      const src = `/api/profiles/${profileId}/screenshot?t=${Date.now()}`;
+      img.onload = () => { img.style.display = 'block'; if (empty) empty.style.display = 'none'; };
+      img.onerror = () => { img.style.display = 'none'; if (empty) { empty.style.display = 'flex'; empty.textContent = 'Screenshot unavailable'; } };
+      img.src = src;
+    }
+
+    async function launch(id) {
+      if (loadingIds.has(id)) return;
+      loadingIds.add(id);
+      loadProfiles();
+      try {
+        await api('POST', `/api/profiles/${id}/launch`);
+        notify('Profile launched', 'success');
+        await loadSessions();
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+        loadProfiles();
+      } finally {
+        loadingIds.delete(id);
+      }
+    }
+
+    async function stop(id) {
+      if (loadingIds.has(id)) return;
+      loadingIds.add(id);
+      try {
+        await api('POST', `/api/profiles/${id}/stop`);
+        if (activeTimers[id]) { clearInterval(activeTimers[id]); delete activeTimers[id]; }
+        const card = document.getElementById(`session-${id}`);
+        if (card) card.remove();
+        notify('Session stopped', 'success');
+        await loadSessions();
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+        loadProfiles();
+      } finally {
+        loadingIds.delete(id);
+      }
+    }
+
+    async function remove(id) {
+      if (!confirm('Delete this profile? This cannot be undone.')) return;
+      if (loadingIds.has(id)) return;
+      loadingIds.add(id);
+      try {
+        await api('DELETE', `/api/profiles/${id}`);
+        if (activeTimers[id]) { clearInterval(activeTimers[id]); delete activeTimers[id]; }
+        const card = document.getElementById(`session-${id}`);
+        if (card) card.remove();
+        notify('Profile deleted', 'success');
+        await loadSessions();
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+      } finally {
+        loadingIds.delete(id);
+      }
+    }
+
+    async function duplicateProfile(id) {
+      try {
+        const p = await api('GET', `/api/profiles/${id}`);
+        const body = {
+          name: (p.name || 'Untitled') + ' (Copy)',
+          user_agent: p.user_agent || null,
+          viewport_width: p.viewport_width || 1920,
+          viewport_height: p.viewport_height || 1080,
+          timezone: p.timezone || 'America/New_York',
+          geolocation_lat: p.geolocation_lat || null,
+          geolocation_lng: p.geolocation_lng || null,
+          language: p.language || 'en-US',
+          proxy_id: p.proxy_id || null,
+          proxy_host: p.proxy_host || null,
+          proxy_port: p.proxy_port || null,
+          proxy_username: p.proxy_username || null,
+          proxy_password: p.proxy_password || null,
+          canvas_seed: p.canvas_seed !== undefined && p.canvas_seed !== null ? p.canvas_seed : null,
+          webrtc_policy: p.webrtc_policy || 'block_local_ips',
+          startup_url: p.startup_url || 'https://www.google.com',
+          hardware_concurrency: p.hardware_concurrency !== undefined && p.hardware_concurrency !== null ? p.hardware_concurrency : null,
+          device_memory: p.device_memory !== undefined && p.device_memory !== null ? p.device_memory : null,
+          webgl_vendor: p.webgl_vendor || null,
+          webgl_renderer: p.webgl_renderer || null,
+          audio_seed: p.audio_seed !== undefined && p.audio_seed !== null ? p.audio_seed : null,
+          client_rects_noise: p.client_rects_noise !== undefined && p.client_rects_noise !== null ? p.client_rects_noise : null,
+          notes: p.notes || null,
+        };
+        await api('POST', '/api/profiles', body);
+        notify('Profile duplicated', 'success');
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    function showPage(page) {
+      document.getElementById('page-profiles').classList.toggle('hidden', page !== 'profiles');
+      document.getElementById('page-proxies').classList.toggle('hidden', page !== 'proxies');
+      document.getElementById('navProfiles').classList.toggle('active', page === 'profiles');
+      document.getElementById('navProxies').classList.toggle('active', page === 'proxies');
+
+      const titleEl = document.getElementById('pageTitle');
+      const countEl = document.getElementById('pageCount');
+      if (page === 'profiles') {
+        titleEl.textContent = 'Profiles';
+        countEl.textContent = allProfiles.length;
+      } else {
+        titleEl.textContent = 'Proxies';
+        countEl.textContent = allProxies.length;
+      }
+
+      if (page === 'proxies') loadProxies();
+    }
+
+    // ── Search / Filter ──
+    function filterProfiles() {
+      const term = document.getElementById('searchInput').value.toLowerCase().trim();
+      renderProfiles(allProfiles, runningProfileIds, term);
+    }
+
+    // ── Proxies ──
+    async function loadProxies() {
+      try {
+        allProxies = await api('GET', '/api/proxies');
+        document.getElementById('proxyCount').textContent = allProxies.length;
+        const grid = document.getElementById('proxiesGrid');
+        grid.innerHTML = '';
+
+        if (!allProxies.length) {
+          grid.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-illustration">&#128268;</div>
+              <div class="empty-state-title">No proxies saved</div>
+              <div class="empty-state-desc">Add a proxy above to use it with your profiles.</div>
+            </div>`;
+        }
+
+        allProxies.forEach(px => {
+          const card = document.createElement('div');
+          card.className = `proxy-card ${px.status || ''}`;
+          const statusTag = px.status === 'online'
+            ? '<span class="tag tag-green">Online</span>'
+            : px.status === 'failed'
+              ? '<span class="tag tag-red">Failed</span>'
+              : '<span class="tag tag-gray">Untested</span>';
+          card.innerHTML = `
+            <div class="proxy-card-header">
+              <span class="proxy-name">${px.name}</span>
+              ${statusTag}
+            </div>
+            <div class="proxy-host">${px.host}:${px.port}</div>
+            <div class="proxy-stats">
+              <div class="proxy-stat">
+                <span class="proxy-stat-label">Latency</span>
+                <span class="proxy-stat-value">${px.latency_ms ? px.latency_ms + 'ms' : '—'}</span>
+              </div>
+              ${px.username ? `
+              <div class="proxy-stat">
+                <span class="proxy-stat-label">Auth</span>
+                <span class="proxy-stat-value">${px.username}</span>
+              </div>` : ''}
+            </div>
+            <div class="proxy-actions">
+              <button class="btn btn-sm btn-secondary" onclick="testProxy(${px.id})">Test</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteProxy(${px.id})">Delete</button>
+            </div>
+          `;
+          grid.appendChild(card);
+        });
+
+        const sel = document.getElementById('fProxyId');
+        const prev = sel.value;
+        sel.innerHTML = '<option value="">None / Custom</option>';
+        allProxies.forEach(px => {
+          const opt = document.createElement('option');
+          opt.value = px.id;
+          opt.textContent = `${px.name} (${px.host}:${px.port})`;
+          sel.appendChild(opt);
+        });
+        sel.value = prev;
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    async function createProxy() {
+      const body = {
+        name: document.getElementById('pxName').value.trim(),
+        host: document.getElementById('pxHost').value.trim(),
+        port: parseInt(document.getElementById('pxPort').value),
+        username: document.getElementById('pxUser').value || null,
+        password: document.getElementById('pxPass').value || null,
+      };
+      if (!body.name || !body.host || Number.isNaN(body.port)) {
+        notify('Name, host, and port are required');
+        return;
+      }
+      try {
+        await api('POST', '/api/proxies', body);
+        notify('Proxy added', 'success');
+        document.getElementById('pxName').value = '';
+        document.getElementById('pxHost').value = '';
+        document.getElementById('pxPort').value = '';
+        document.getElementById('pxUser').value = '';
+        document.getElementById('pxPass').value = '';
+        loadProxies();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    async function testProxy(id) {
+      try {
+        notify('Testing proxy...', 'info');
+        const result = await api('POST', `/api/proxies/${id}/test`);
+        notify(`Proxy ${result.status} (${result.latency_ms}ms)`, result.ok ? 'success' : 'error');
+        loadProxies();
+      } catch (e) {
+        notify(e.message, 'error');
+        loadProxies();
+      }
+    }
+
+    async function deleteProxy(id) {
+      if (!confirm('Delete this proxy?')) return;
+      try {
+        await api('DELETE', `/api/proxies/${id}`);
+        notify('Proxy deleted', 'success');
+        loadProxies();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    // ── Profiles ──
+    function toggleProfileDetails(id) {
+      const targetCard = document.getElementById(`profile-card-${id}`);
+      if (!targetCard) return;
+      const isExpanding = !targetCard.classList.contains('expanded');
+      document.querySelectorAll('.profile-card.expanded').forEach(card => {
+        card.classList.remove('expanded');
+      });
+      if (isExpanding) {
+        targetCard.classList.add('expanded');
+      }
+    }
+
+    function setView(view) {
+      currentView = view;
+      localStorage.setItem('veilbrowse-view', view);
+      document.getElementById('viewTable').classList.toggle('active', view === 'table');
+      document.getElementById('viewGrid').classList.toggle('active', view === 'grid');
+      document.getElementById('profileTableView').classList.toggle('hidden', view !== 'table');
+      document.getElementById('profileGridView').classList.toggle('hidden', view !== 'grid');
+      const filterTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+      renderProfiles(allProfiles, runningProfileIds, filterTerm);
+    }
+
+    function getFilteredProfiles(profiles, runningIds, filterTerm) {
+      if (!filterTerm) return profiles;
+      return profiles.filter(p => {
+        const os = getOSInfo(p.user_agent);
+        const term = filterTerm.toLowerCase();
+        return p.name.toLowerCase().includes(term)
+          || os.name.toLowerCase().includes(term)
+          || os.short.toLowerCase().includes(term)
+          || (p.user_agent || '').toLowerCase().includes(term)
+          || (runningIds.has(p.id) ? 'running' : 'idle').includes(term);
+      });
+    }
+
+    function renderProfiles(profiles, runningIds, filterTerm = '') {
+      const filtered = getFilteredProfiles(profiles, runningIds, filterTerm);
+      if (currentView === 'table') {
+        renderProfilesTable(filtered, runningIds);
+      } else {
+        renderProfilesGrid(filtered, runningIds);
+      }
+    }
+
+    function renderProfilesTable(profiles, runningIds) {
+      const tbody = document.getElementById('profileTableBody');
+      tbody.innerHTML = '';
+
+      if (!profiles.length) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="5"><div class="empty-state" style="padding:40px 24px;"><div class="empty-state-title">No profiles</div></div></td>`;
+        tbody.appendChild(tr);
+        return;
+      }
+
+      profiles.forEach(p => {
+        const isBusy = loadingIds.has(p.id);
+        const isRunning = runningIds.has(p.id);
+        const os = getOSInfo(p.user_agent);
+        const browser = getBrowserInfo(p.user_agent);
+
+        let proxyText = '—';
+        if (p.proxy_name) proxyText = p.proxy_name;
+        else if (p.proxy_host) proxyText = `${p.proxy_host}:${p.proxy_port || ''}`;
+
+        const adTags = [];
+        if (p.webrtc_policy && p.webrtc_policy !== 'allow') adTags.push('<span class="tag tag-cyan">WebRTC</span>');
+        if (p.canvas_seed !== null && p.canvas_seed !== undefined) adTags.push('<span class="tag tag-green">Canvas</span>');
+        if (p.hardware_concurrency || p.device_memory || p.webgl_vendor || p.audio_seed || p.client_rects_noise) {
+          adTags.push('<span class="tag tag-purple">FP</span>');
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = isRunning ? 'running' : '';
+        const notesHtml = p.notes ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;" title="${p.notes.replace(/"/g, '&quot;')}">${p.notes}</div>` : '';
+        tr.innerHTML = `
+          <td data-label="Profile">
+            <div class="table-profile-cell">
+              <div class="table-avatar">${os.icon}</div>
+              <div class="table-profile-info">
+                <div class="table-profile-name">${p.name}</div>
+                <div class="table-profile-meta">${os.name} &middot; ${browser} &middot; ${p.viewport_width || 1920}x${p.viewport_height || 1080}</div>
+                ${notesHtml}
+                <div class="table-tags" style="margin-top:4px;">${adTags.join(' ')}</div>
+              </div>
+            </div>
+          </td>
+          <td data-label="Proxy">
+            <div class="table-proxy">${proxyText}</div>
+          </td>
+          <td data-label="Status">
+            <span class="table-status">
+              <span class="status-dot ${isRunning ? 'running' : 'idle'}"></span>
+              ${isRunning ? 'Running' : 'Idle'}
+            </span>
+          </td>
+          <td data-label="Actions">
+            <div class="table-actions">
+              ${isRunning
+                ? `<button class="btn-icon danger" title="Stop" onclick="stop(${p.id})" ${isBusy?'disabled':''}>&#9632;</button>`
+                : `<button class="btn-icon" title="Launch" onclick="launch(${p.id})" ${isBusy?'disabled':''}>&#9654;</button>`
+              }
+              <button class="btn-icon" title="Duplicate" onclick="duplicateProfile(${p.id})">&#128260;</button>
+              <button class="btn-icon" title="Edit" onclick="editProfile(${p.id})">&#9998;</button>
+              <button class="btn-icon" title="Delete" onclick="remove(${p.id})">&#128465;</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderProfilesGrid(profiles, runningIds) {
+      const container = document.getElementById('profileGridView');
+      container.innerHTML = '';
+
+      if (!profiles.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-illustration">&#128203;</div>
+            <div class="empty-state-title">No profiles yet</div>
+            <div class="empty-state-desc">Click "New Profile" to create your first anti-detect browser profile.</div>
+          </div>`;
+        return;
+      }
+
+      profiles.forEach(p => {
+        const isBusy = loadingIds.has(p.id);
+        const isRunning = runningIds.has(p.id);
+        const os = getOSInfo(p.user_agent);
+        const browser = getBrowserInfo(p.user_agent);
+
+        let proxyLabel = '';
+        if (p.proxy_name) {
+          proxyLabel = `<span class="tag tag-proxy">${p.proxy_name}</span>`;
+        } else if (p.proxy_host) {
+          proxyLabel = `<span class="tag tag-gray">${p.proxy_host}</span>`;
+        }
+
+        const adTags = [];
+        if (p.webrtc_policy && p.webrtc_policy !== 'allow') adTags.push('<span class="tag tag-cyan">WebRTC</span>');
+        if (p.canvas_seed !== null && p.canvas_seed !== undefined) adTags.push('<span class="tag tag-green">Canvas</span>');
+        if (p.hardware_concurrency || p.device_memory || p.webgl_vendor || p.audio_seed || p.client_rects_noise) {
+          adTags.push('<span class="tag tag-purple">FP</span>');
+        }
+
+        const card = document.createElement('div');
+        card.className = `profile-card ${isRunning ? 'running' : ''}`;
+        card.id = `profile-card-${p.id}`;
+        card.innerHTML = `
+          <div class="profile-card-header" onclick="toggleProfileDetails(${p.id})">
+            <div class="profile-avatar">${os.icon}</div>
+            <div class="profile-info">
+              <div class="profile-name">
+                ${p.name}
+                <span class="tag ${isRunning ? 'tag-green' : 'tag-gray'}" style="font-size:10px;padding:1px 7px;">
+                  <span class="status-dot ${isRunning ? 'running' : 'idle'}"></span>
+                  ${isRunning ? 'Running' : 'Idle'}
+                </span>
+              </div>
+              <div class="profile-os">${os.name} &middot; ${browser} &middot; ${p.viewport_width || 1920}x${p.viewport_height || 1080}</div>
+            </div>
+            <span class="profile-expand-icon">&#9662;</span>
+          </div>
+
+          <div class="profile-details" onclick="event.stopPropagation()">
+            <div class="details-grid">
+              <div class="detail-item">
+                <span class="detail-label">Timezone</span>
+                <span class="detail-value">${p.timezone || '—'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Location</span>
+                <span class="detail-value">${p.geolocation_lat ? p.geolocation_lat.toFixed(2)+', '+p.geolocation_lng.toFixed(2) : '—'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Language</span>
+                <span class="detail-value">${p.language || '—'}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Startup</span>
+                <span class="detail-value">${p.startup_url || '—'}</span>
+              </div>
+            </div>
+            <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px;">
+              ${proxyLabel}
+              ${adTags.join(' ')}
+            </div>
+            ${p.notes ? `<div style="margin-top:10px;font-size:12px;color:var(--text-muted);line-height:1.5;white-space:pre-wrap;word-break:break-word;">${p.notes}</div>` : ''}
+          </div>
+
+          <div class="profile-actions">
+            ${isRunning
+              ? `<button class="btn-icon danger" title="Stop" onclick="stop(${p.id})" ${isBusy?'disabled':''}>&#9632;</button>`
+              : `<button class="btn-icon" title="Launch" onclick="launch(${p.id})" ${isBusy?'disabled':''}>&#9654;</button>`
+            }
+            <button class="btn-icon" title="Duplicate" onclick="duplicateProfile(${p.id})">&#128260;</button>
+            <button class="btn-icon" title="Edit" onclick="editProfile(${p.id})">&#9998;</button>
+            <button class="btn-icon" title="Delete" onclick="remove(${p.id})">&#128465;</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    async function loadProfiles() {
+      try {
+        const [profiles, sessions] = await Promise.all([
+          api('GET', '/api/profiles'),
+          api('GET', '/api/sessions').catch(() => []),
+        ]);
+        allProfiles = profiles;
+        runningProfileIds = new Set((sessions || []).map(s => s.profileId));
+        document.getElementById('profileCount').textContent = profiles.length;
+
+        const filterTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+        // Auto-switch new users to grid view when they have few profiles
+        if (!localStorage.getItem('veilbrowse-view') && profiles.length > 0 && profiles.length < 5) {
+          currentView = 'grid';
+        }
+        setView(currentView);
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    async function createProfile() {
+      const name = document.getElementById('fName').value.trim();
+      if (!name) { notify('Profile name is required'); return; }
+
+      const editId = document.getElementById('fEditId').value;
+      const proxyId = document.getElementById('fProxyId').value;
+      const body = {
+        name,
+        user_agent: document.getElementById('fUA').value || null,
+        viewport_width: parseInt(document.getElementById('fWidth').value) || 1920,
+        viewport_height: parseInt(document.getElementById('fHeight').value) || 1080,
+        timezone: document.getElementById('fTimezone').value || 'America/New_York',
+        geolocation_lat: document.getElementById('fLat').value || null,
+        geolocation_lng: document.getElementById('fLng').value || null,
+        language: document.getElementById('fLang').value || 'en-US',
+        proxy_id: proxyId ? parseInt(proxyId) : null,
+        proxy_host: !proxyId ? (document.getElementById('fProxyHost').value || null) : null,
+        proxy_port: !proxyId ? (document.getElementById('fProxyPort').value || null) : null,
+        proxy_username: !proxyId ? (document.getElementById('fProxyUser').value || null) : null,
+        proxy_password: !proxyId ? (document.getElementById('fProxyPass').value || null) : null,
+        canvas_seed: document.getElementById('fCanvasSeed').value ? parseInt(document.getElementById('fCanvasSeed').value) : null,
+        webrtc_policy: document.getElementById('fWebRTC').value || 'block_local_ips',
+        startup_url: document.getElementById('fStartupUrl').value || 'https://www.google.com',
+        hardware_concurrency: document.getElementById('fHwConcurrency').value ? parseInt(document.getElementById('fHwConcurrency').value) : null,
+        device_memory: document.getElementById('fDeviceMemory').value ? parseInt(document.getElementById('fDeviceMemory').value) : null,
+        webgl_vendor: document.getElementById('fWebglVendor').value || null,
+        webgl_renderer: document.getElementById('fWebglRenderer').value || null,
+        audio_seed: document.getElementById('fAudioSeed').value ? parseInt(document.getElementById('fAudioSeed').value) : null,
+        client_rects_noise: document.getElementById('fClientRects').value ? parseFloat(document.getElementById('fClientRects').value) : null,
+        notes: document.getElementById('fNotes').value || null,
+      };
+
+      try {
+        if (editId) {
+          await api('PUT', `/api/profiles/${editId}`, body);
+          notify('Profile updated', 'success');
+        } else {
+          await api('POST', '/api/profiles', body);
+          notify('Profile created', 'success');
+        }
+        closeModal();
+        cancelForm();
+        loadProfiles();
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    async function editProfile(id) {
+      try {
+        const p = await api('GET', `/api/profiles/${id}`);
+        await loadProxies();
+
+        document.getElementById('fEditId').value = p.id;
+        document.getElementById('formTitle').textContent = 'Edit Profile';
+        document.getElementById('btnSaveProfile').textContent = 'Update Profile';
+
+        document.getElementById('fName').value = p.name || '';
+        document.getElementById('fUA').value = p.user_agent || '';
+        document.getElementById('fWidth').value = p.viewport_width || 1920;
+        document.getElementById('fHeight').value = p.viewport_height || 1080;
+        document.getElementById('fTimezone').value = p.timezone || 'America/New_York';
+        document.getElementById('fLang').value = p.language || 'en-US';
+        document.getElementById('fLat').value = p.geolocation_lat || '';
+        document.getElementById('fLng').value = p.geolocation_lng || '';
+        document.getElementById('fProxyId').value = p.proxy_id || '';
+        document.getElementById('fProxyHost').value = p.proxy_host || '';
+        document.getElementById('fProxyPort').value = p.proxy_port || '';
+        document.getElementById('fProxyUser').value = p.proxy_username || '';
+        document.getElementById('fProxyPass').value = p.proxy_password || '';
+        document.getElementById('fWebRTC').value = p.webrtc_policy || 'block_local_ips';
+        document.getElementById('fCanvasSeed').value = p.canvas_seed || '';
+        document.getElementById('fStartupUrl').value = p.startup_url || 'https://www.google.com';
+        document.getElementById('fHwConcurrency').value = p.hardware_concurrency || '';
+        document.getElementById('fDeviceMemory').value = p.device_memory || '';
+        document.getElementById('fWebglVendor').value = p.webgl_vendor || '';
+        document.getElementById('fWebglRenderer').value = p.webgl_renderer || '';
+        document.getElementById('fAudioSeed').value = p.audio_seed || '';
+        document.getElementById('fClientRects').value = p.client_rects_noise || '';
+        document.getElementById('fNotes').value = p.notes || '';
+        toggleProxyFields();
+
+        switchTab('basic');
+        document.getElementById('modalOverlay').classList.add('open');
+        document.getElementById('modalPanel').classList.add('open');
+        showPage('profiles');
+      } catch (e) {
+        notify(e.message, 'error');
+      }
+    }
+
+    function cancelForm() {
+      document.getElementById('fEditId').value = '';
+      document.getElementById('formTitle').textContent = 'Create Profile';
+      document.getElementById('btnSaveProfile').textContent = 'Save Profile';
+      document.querySelectorAll('.modal-body input, .modal-body select, .modal-body textarea').forEach(i => {
+        if (['fWidth','fHeight','fTimezone','fLang','fWebRTC','fStartupUrl'].includes(i.id)) return;
+        if (i.tagName === 'SELECT') i.selectedIndex = 0;
+        else i.value = '';
+      });
+      document.getElementById('fWidth').value = 1920;
+      document.getElementById('fHeight').value = 1080;
+      document.getElementById('fTimezone').value = 'America/New_York';
+      document.getElementById('fLang').value = 'en-US';
+      document.getElementById('fWebRTC').value = 'block_local_ips';
+      document.getElementById('fStartupUrl').value = 'https://www.google.com';
+      toggleProxyFields();
+      switchTab('basic');
+    }
+
+    // ── Keyboard ──
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+      if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        openModal();
+      }
+    });
+
+    // ── SSE ──
+    function connectSSE() {
+      const es = new EventSource('/api/events');
+      es.addEventListener('session-started', (e) => {
+        const data = JSON.parse(e.data);
+        loadSessions();
+        loadProfiles();
+        notify(`Session started: ${data.profileName || data.profileId}`, 'success');
+      });
+      es.addEventListener('session-stopped', (e) => {
+        const data = JSON.parse(e.data);
+        if (activeTimers[data.profileId]) {
+          clearInterval(activeTimers[data.profileId]);
+          delete activeTimers[data.profileId];
+        }
+        const card = document.getElementById(`session-${data.profileId}`);
+        if (card) card.remove();
+        loadProfiles();
+        notify(`Session stopped: ${data.profileName || data.profileId}`, 'info');
+      });
+      es.onerror = () => {
+        console.warn('[SSE] connection error, will retry');
+      };
+    }
+
+    // ── Page Visibility: pause screenshot polling when tab hidden ──
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        Object.values(activeTimers).forEach(id => clearInterval(id));
+      } else {
+        loadSessions();
+      }
+    });
+
+    // ── Init ──
+    loadProfiles();
+    loadSessions();
+    connectSSE();
+  </script>
+</body>
+</html>

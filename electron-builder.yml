@@ -1,0 +1,40 @@
+appId: com.phantomgrid.desktop
+copyright: Copyright © 2024
+productName: PhantomGrid
+
+# Only build Linux target
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - "electron-main.js"
+  - "server/**/*"
+  - "public/**/*"
+  - "data/.gitkeep"
+  - "scripts/**/*"
+  - "!scripts/postinstall.js"
+  - "!**/*.db"
+  - "!**/*.db-shm"
+  - "!**/*.db-wal"
+  - "!data/profiles/**/*"
+  - "node_modules/**/*"
+  - "package.json"
+
+asar: true
+asarUnpack:
+  - "node_modules/sqlite3/**/*.node"
+  - "node_modules/playwright/**/*.node"
+
+linux:
+  target:
+    - AppImage
+  category: Network
+  maintainer: phantomgrid
+  vendor: phantomgrid
+  synopsis: Anti-detect browser manager for Linux
+  description: Manage isolated Chrome profiles with fingerprint randomization, proxy pools, and anti-detection scripting.
+  executableName: phantomgrid
+
+appImage:
+  artifactName: "PhantomGrid-${version}.AppImage"

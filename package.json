@@ -1,0 +1,21 @@
+{
+  "name": "veilbrowse",
+  "version": "1.0.0",
+  "description": "Open-source anti-detect browser manager for Linux. Isolated profiles, proxy pools, fingerprint spoofing.",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "ELECTRON_DISABLE_SANDBOX=1 electron .",
+    "server": "node server/index.js",
+    "postinstall": "node scripts/postinstall.js",
+    "dist:linux": "electron-builder --linux"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "playwright": "^1.40.0",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  }
+}

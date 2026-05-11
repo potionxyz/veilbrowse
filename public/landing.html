@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeilBrowse — Anti-Detect Browser for Multiple Accounts</title>
+  <meta name="description" content="Open-source anti-detect browser for multi-accounting, affiliate marketing, and web scraping. 23+ fingerprint checks. Linux. Free.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://veilbrowse.dev">
+  <meta property="og:title" content="VeilBrowse — Anti-Detect Browser for Multiple Accounts">
+  <meta property="og:description" content="Open-source browser fingerprint spoofing for professionals. Create isolated profiles with unique hardware, WebGL, canvas, and network signatures. Passes every major fingerprint audit.">
+  <meta property="og:image" content="https://veilbrowse.dev/og.png">
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://veilbrowse.dev">
+  <meta property="twitter:title" content="VeilBrowse — Anti-Detect Browser for Multiple Accounts">
+  <meta property="twitter:description" content="Open-source browser fingerprint spoofing for professionals. Create isolated profiles with unique hardware, WebGL, canvas, and network signatures. Passes every major fingerprint audit.">
+  <meta property="twitter:image" content="https://veilbrowse.dev/og.png">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2306b6d4'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='700' text-anchor='middle' fill='%23fff' font-family='system-ui'%3EV%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-root: #18191c;
+      --bg-surface: #232428;
+      --bg-elevated: #2b2d31;
+      --bg-input: #1e1f22;
+      --border: #2f3035;
+      --border-hover: #3a3c42;
+      --border-active: #4a4d55;
+      --text-primary: #dbdee1;
+      --text-secondary: #949ba4;
+      --text-muted: #6d6f78;
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --accent-glow: rgba(6, 182, 212, 0.12);
+      --accent-dim: rgba(6, 182, 212, 0.06);
+      --danger: #ef4444;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.08);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.08);
+      --info: #60a5fa;
+      --info-bg: rgba(96, 165, 250, 0.08);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --radius-xl: 20px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+      --transition: all 0.15s ease;
+    }
+
+    [data-theme="light"] {
+      --bg-root: #f2f3f5;
+      --bg-surface: #ffffff;
+      --bg-elevated: #ebedef;
+      --bg-input: #ffffff;
+      --border: #e3e5e8;
+      --border-hover: #d5d8dc;
+      --border-active: #c8ccd0;
+      --text-primary: #313338;
+      --text-secondary: #4f5660;
+      --text-muted: #959ba3;
+      --accent: #06b6d4;
+      --accent-hover: #0891b2;
+      --accent-glow: rgba(6, 182, 212, 0.10);
+      --accent-dim: rgba(6, 182, 212, 0.04);
+      --danger: #dc2626;
+      --success: #059669;
+      --success-bg: rgba(5, 150, 105, 0.06);
+      --warning: #d97706;
+      --warning-bg: rgba(245, 158, 11, 0.06);
+      --info: #2563eb;
+      --info-bg: rgba(37, 99, 235, 0.06);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-root);
+      color: var(--text-primary);
+      line-height: 1.6;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ── Platform Banner ── */
+    .platform-banner {
+      background: var(--warning-bg);
+      border-bottom: 1px solid rgba(245,158,11,0.15);
+      padding: 10px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-secondary);
+      position: relative;
+      z-index: 1001;
+    }
+    .platform-banner strong {
+      color: var(--warning);
+      font-weight: 600;
+    }
+    .platform-banner__close {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px 6px;
+      line-height: 1;
+    }
+    .platform-banner__close:hover { color: var(--text-primary); }
+
+    /* ── Header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(24, 25, 28, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s ease;
+    }
+    [data-theme="light"] .header {
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .header__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+    .logo:hover { opacity: 0.85; }
+    .logo__mark {
+      width: 32px; height: 32px;
+      background: var(--accent);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .nav__links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav__links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav__links a:hover { color: var(--text-primary); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      font-family: inherit;
+      line-height: 1;
+    }
+    .btn--primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .btn--primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+    .btn--outline {
+      background: transparent;
+      color: var(--text-primary);
+      border-color: var(--border);
+    }
+    .btn--outline:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-hover);
+    }
+    .btn--small { padding: 7px 14px; font-size: 13px; }
+    .btn--large { padding: 14px 28px; font-size: 15px; border-radius: var(--radius-lg); }
+
+    .theme-toggle {
+      width: 36px; height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+    .theme-toggle:hover {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 100px 24px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .hero__title {
+      font-size: clamp(42px, 7vw, 72px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.12rem;
+      margin-bottom: 24px;
+    }
+    .hero__title span {
+      color: var(--accent);
+      position: relative;
+    }
+    .hero__title span::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: 0; right: 0;
+      height: 10px;
+      background: var(--accent-glow);
+      border-radius: 4px;
+      z-index: -1;
+    }
+    .hero__subtitle {
+      font-size: clamp(17px, 2vw, 20px);
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+      margin: 0 auto 36px;
+      letter-spacing: -0.02rem;
+    }
+    .hero__cta { margin-bottom: 64px; }
+
+    /* ── Browser Mockup ── */
+    .browser-mockup {
+      max-width: 900px;
+      margin: 0 auto;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      background: var(--bg-surface);
+      text-align: left;
+    }
+    .browser-bar {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--bg-elevated);
+    }
+    .browser-dots {
+      display: flex;
+      gap: 6px;
+    }
+    .browser-dots span {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: block;
+    }
+    .browser-dots span:nth-child(1) { background: #ff5f56; }
+    .browser-dots span:nth-child(2) { background: #ffbd2e; }
+    .browser-dots span:nth-child(3) { background: #27c93f; }
+    .browser-address {
+      flex: 1;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .browser-body {
+      padding: 20px;
+    }
+    .mock-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .mock-search {
+      flex: 1;
+      max-width: 280px;
+      height: 32px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+    .mock-btn {
+      width: 100px; height: 32px;
+      background: var(--accent);
+      border-radius: var(--radius-sm);
+      opacity: 0.8;
+    }
+    .mock-table-header {
+      display: grid;
+      grid-template-columns: 40px 1fr 100px 120px;
+      gap: 12px;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    .mock-th {
+      height: 10px;
+      background: var(--text-muted);
+      border-radius: 2px;
+      opacity: 0.3;
+    }
+    .mock-th:nth-child(1) { width: 16px; }
+    .mock-th:nth-child(3) { width: 60px; }
+    .mock-th:nth-child(4) { width: 80px; }
+    .mock-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 100px 120px;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 6px;
+      transition: background 0.12s;
+    }
+    .mock-row:hover { background: var(--bg-elevated); }
+    .mock-avatar {
+      width: 28px; height: 28px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .mock-avatar.win { background: #3b82f6; }
+    .mock-avatar.mac { background: #a855f7; }
+    .mock-avatar.iphone { background: #ec4899; }
+    .mock-name {
+      height: 10px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      opacity: 0.5;
+      max-width: 140px;
+    }
+    .mock-meta {
+      height: 8px;
+      background: var(--text-muted);
+      border-radius: 2px;
+      opacity: 0.3;
+      max-width: 200px;
+      margin-top: 6px;
+    }
+    .mock-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .mock-status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .mock-status-dot.on { background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .mock-status-dot.off { background: var(--text-muted); }
+    .mock-status-text {
+      height: 8px;
+      background: var(--text-muted);
+      border-radius: 2px;
+      opacity: 0.4;
+      width: 50px;
+    }
+    .mock-actions {
+      display: flex;
+      gap: 6px;
+    }
+    .mock-actions span {
+      width: 24px; height: 24px;
+      border-radius: var(--radius-sm);
+      background: var(--border);
+    }
+
+    /* ── Stats ── */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+    .stat-block {
+      text-align: center;
+      padding: 28px 20px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    .stat-block:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+    .stat-block__num {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.02rem;
+    }
+    .stat-block__label {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      letter-spacing: -0.015rem;
+    }
+    .stat-block__desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      letter-spacing: -0.01rem;
+    }
+
+    /* ── Section ── */
+    .section {
+      padding: 80px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section--alt {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .section--alt .section { padding: 80px 24px; }
+    .section__header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 64px;
+    }
+    .section__eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .section__title {
+      font-size: clamp(30px, 4vw, 44px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.08rem;
+      margin-bottom: 16px;
+    }
+    .section__subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      letter-spacing: -0.02rem;
+    }
+
+    /* ── Expandable Cards ── */
+    .expandable-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ecard {
+      background: var(--bg-root);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .ecard:hover { border-color: var(--border-hover); }
+    .ecard__header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 28px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .ecard__icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .ecard__icon-wrap--affiliate { background: var(--accent-dim); }
+    .ecard__icon-wrap--ecommerce { background: var(--success-bg); }
+    .ecard__icon-wrap--scraping { background: var(--info-bg); }
+    .ecard__icon-wrap--social { background: rgba(236, 72, 153, 0.08); }
+
+    /* CSS Icons for solution cards */
+    .icon-megaphone {
+      width: 20px; height: 16px;
+      position: relative;
+    }
+    .icon-megaphone::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 2px;
+      width: 8px; height: 12px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    .icon-megaphone::after {
+      content: '';
+      position: absolute;
+      left: 6px; top: 0;
+      width: 0; height: 0;
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      border-left: 12px solid var(--accent);
+    }
+
+    .icon-bag {
+      width: 16px; height: 14px;
+      border: 2px solid var(--success);
+      border-radius: 2px 2px 6px 6px;
+      position: relative;
+    }
+    .icon-bag::before {
+      content: '';
+      position: absolute;
+      top: -5px; left: 50%;
+      transform: translateX(-50%);
+      width: 8px; height: 4px;
+      border: 2px solid var(--success);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 16px; height: 16px;
+    }
+    .icon-grid span {
+      background: var(--info);
+      border-radius: 1px;
+    }
+
+    .icon-social {
+      display: flex;
+      gap: 2px;
+      align-items: flex-end;
+    }
+    .icon-social span {
+      width: 7px;
+      background: #ec4899;
+      border-radius: 3px;
+    }
+    .icon-social span:nth-child(1) { height: 10px; }
+    .icon-social span:nth-child(2) { height: 16px; }
+    .icon-social span:nth-child(3) { height: 7px; }
+
+    .ecard__info { flex: 1; min-width: 0; }
+    .ecard__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      letter-spacing: -0.02rem;
+    }
+    .ecard__desc {
+      font-size: 14px;
+      color: var(--text-secondary);
+      letter-spacing: -0.01rem;
+    }
+    .ecard__toggle {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+    .ecard.expanded .ecard__toggle { transform: rotate(180deg); }
+    .ecard__body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      border-top: 1px solid transparent;
+    }
+    .ecard.expanded .ecard__body {
+      max-height: 400px;
+      padding: 0 28px 28px;
+      border-top-color: var(--border);
+    }
+    .ecard__content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .ecard__text p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .ecard__text ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .ecard__text ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    .ecard__text ul li::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .ecard__visual {
+      background: var(--bg-elevated);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      aspect-ratio: 16/10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Mini browser mockup for ecard visuals */
+    .mini-browser {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      gap: 8px;
+    }
+    .mini-browser-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+    .mini-browser-bar span {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+    }
+    .mini-browser-bar span:nth-child(1) { background: #ff5f56; }
+    .mini-browser-bar span:nth-child(2) { background: #ffbd2e; }
+    .mini-browser-bar span:nth-child(3) { background: #27c93f; }
+    .mini-browser-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.02);
+    }
+    .mini-browser-row .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+    .mini-browser-row .line {
+      height: 6px;
+      border-radius: 2px;
+      background: var(--border-hover);
+    }
+    .mini-browser-row .line.short { width: 40px; }
+    .mini-browser-row .line.mid { width: 80px; }
+    .mini-browser-row .line.long { flex: 1; }
+
+    /* ── Feature Rows ── */
+    .feature-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 100px;
+    }
+    .feature-row:last-child { margin-bottom: 0; }
+    .feature-row--reverse .feature-row__content { order: 2; }
+    .feature-row--reverse .feature-row__visual { order: 1; }
+
+    .feature-row__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+      color: var(--accent);
+      margin-bottom: 16px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .feature-row__title {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.06rem;
+      margin-bottom: 16px;
+    }
+    .feature-row__text {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 24px;
+      letter-spacing: -0.015rem;
+    }
+    .feature-row__list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .feature-row__list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      letter-spacing: -0.01rem;
+    }
+    .feature-row__list li::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+      margin-top: 8px;
+    }
+    .feature-row__visual {
+      background: var(--bg-surface);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border);
+      aspect-ratio: 4/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 32px;
+    }
+
+    /* Fingerprint check mockup */
+    .fp-mockup {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .fp-mockup-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-root);
+      border: 1px solid var(--border);
+    }
+    .fp-mockup-check {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--success-bg);
+      border: 1px solid rgba(16,185,129,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .fp-mockup-check::after {
+      content: '';
+      width: 5px; height: 8px;
+      border-right: 2px solid var(--success);
+      border-bottom: 2px solid var(--success);
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+    .fp-mockup-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .fp-mockup-value {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-elevated);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Proxy mockup */
+    .proxy-mockup {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .proxy-mockup-card {
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-root);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .proxy-mockup-status {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .proxy-mockup-status.on { background: var(--success); box-shadow: 0 0 6px var(--success); }
+    .proxy-mockup-status.warn { background: var(--warning); }
+    .proxy-mockup-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .proxy-mockup-lines .line {
+      height: 6px;
+      border-radius: 2px;
+      background: var(--border-hover);
+    }
+    .proxy-mockup-lines .line.short { width: 60%; }
+    .proxy-mockup-lines .line.mid { width: 40%; }
+    .proxy-mockup-ping {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ── Grid Cards ── */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .grid-card {
+      background: var(--bg-root);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: var(--transition);
+    }
+    .grid-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .grid-card__icon-wrap {
+      width: 40px; height: 40px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .grid-card__icon-wrap--geo { background: var(--accent-dim); }
+    .grid-card__icon-wrap--proxy { background: var(--success-bg); }
+    .grid-card__icon-wrap--webrtc { background: var(--info-bg); }
+    .grid-card__icon-wrap--audio { background: rgba(245, 158, 11, 0.08); }
+    .grid-card__icon-wrap--font { background: rgba(236, 72, 153, 0.08); }
+    .grid-card__icon-wrap--team { background: rgba(139, 92, 246, 0.08); }
+
+    /* Grid CSS icons */
+    .icon-geo {
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-top: 10px solid var(--accent);
+      position: relative;
+    }
+    .icon-geo::after {
+      content: '';
+      position: absolute;
+      bottom: 4px; left: -4px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+    }
+
+    .icon-proxy-link {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .icon-proxy-link span {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      border: 2px solid var(--success);
+    }
+    .icon-proxy-link::after {
+      content: '';
+      width: 6px; height: 2px;
+      background: var(--success);
+    }
+
+    .icon-shield {
+      width: 14px; height: 16px;
+      background: var(--info);
+      border-radius: 2px 2px 8px 8px;
+      position: relative;
+    }
+    .icon-shield::before {
+      content: '';
+      position: absolute;
+      top: -3px; left: 50%;
+      transform: translateX(-50%);
+      width: 8px; height: 3px;
+      background: var(--info);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .icon-audio {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 16px;
+    }
+    .icon-audio span {
+      width: 3px;
+      background: var(--warning);
+      border-radius: 2px;
+    }
+    .icon-audio span:nth-child(1) { height: 6px; }
+    .icon-audio span:nth-child(2) { height: 14px; }
+    .icon-audio span:nth-child(3) { height: 10px; }
+    .icon-audio span:nth-child(4) { height: 16px; }
+
+    .icon-font {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ec4899;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+    }
+
+    .icon-team {
+      display: flex;
+      gap: -2px;
+    }
+    .icon-team span {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 2px solid #8b5cf6;
+      background: var(--bg-root);
+    }
+    .icon-team span:nth-child(2) { margin-left: -3px; }
+    .icon-team span:nth-child(3) { margin-left: -3px; }
+
+    .grid-card__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.025rem;
+      line-height: 1.25;
+    }
+    .grid-card__text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      letter-spacing: -0.01rem;
+    }
+
+    /* ── CTA Banner ── */
+    .cta-section { padding: 80px 24px; }
+    .cta-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--accent);
+      border-radius: var(--radius-xl);
+      padding: 64px 48px;
+      text-align: center;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-box__title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.06rem;
+    }
+    .cta-box__text {
+      font-size: 18px;
+      opacity: 0.85;
+      margin-bottom: 32px;
+      letter-spacing: -0.02rem;
+    }
+    .cta-box .btn {
+      color: var(--accent);
+      background: #fff;
+      border-color: #fff;
+    }
+    .cta-box .btn:hover {
+      background: rgba(255,255,255,0.9);
+      border-color: rgba(255,255,255,0.9);
+    }
+
+    /* ── FAQ ── */
+    .faq-list {
+      max-width: 760px;
+      margin: 48px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .faq-item {
+      background: var(--bg-root);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .faq-item:hover { border-color: var(--border-hover); }
+    .faq-item__question {
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      gap: 16px;
+    }
+    .faq-item__icon {
+      flex-shrink: 0;
+      font-size: 12px;
+      color: var(--text-muted);
+      transition: transform 0.2s;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .faq-item.expanded .faq-item__icon { transform: rotate(180deg); }
+    .faq-item__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.expanded .faq-item__answer {
+      max-height: 300px;
+      padding: 0 24px 18px;
+    }
+    .faq-item__answer p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Comparison Table ── */
+    .compare-section {
+      padding: 80px 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+    .compare-table thead th {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+    }
+    .compare-table tbody tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child {
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .compare-table .check {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--success);
+      font-weight: 500;
+    }
+    .compare-table .cross {
+      color: var(--text-muted);
+    }
+    .compare-table .price {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+    }
+    .compare-table .highlight-col { background: var(--accent-dim); }
+
+    /* ── Install Command ── */
+    .install-box {
+      background: var(--bg-root);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .install-box code {
+      color: var(--accent);
+      font-weight: 500;
+    }
+    .install-copy {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    .install-copy:hover {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+    }
+
+    /* ── Waitlist ── */
+    .waitlist-box {
+      max-width: 520px;
+      margin: 0 auto;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .waitlist-input {
+      flex: 1;
+      min-width: 240px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text-primary);
+    }
+    .waitlist-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px var(--accent-glow);
+    }
+    .waitlist-input::placeholder { color: var(--text-muted); }
+
+    /* ── Trust / Built in Public ── */
+    .trust-section {
+      padding: 80px 24px;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .trust-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .trust-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .trust-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 64px 24px 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .footer__top {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 48px;
+      margin-bottom: 64px;
+    }
+    .footer__brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+    .footer__desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 300px;
+      letter-spacing: -0.01rem;
+    }
+    .footer__col-title {
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.04rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .footer__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer__links a {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+      letter-spacing: -0.01rem;
+    }
+    .footer__links a:hover { color: var(--text-primary); }
+    .footer__bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer__copy {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .footer__legal {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer__legal a {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .footer__legal a:hover { color: var(--text-secondary); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav__links { display: none; }
+      .hero { padding: 80px 20px 60px; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .ecard__content { grid-template-columns: 1fr; }
+      .ecard__visual { display: none; }
+      .feature-row {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 60px;
+      }
+      .feature-row--reverse .feature-row__content,
+      .feature-row--reverse .feature-row__visual { order: unset; }
+      .grid-cards { grid-template-columns: 1fr; }
+      .mock-table-header { display: none; }
+      .mock-row {
+        grid-template-columns: 40px 1fr auto;
+      }
+      .mock-status { display: none; }
+      .cta-box { padding: 40px 24px; }
+      .footer__top {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+      }
+      .platform-banner { font-size: 12px; padding: 8px 40px 8px 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-strip { grid-template-columns: 1fr; }
+      .footer__top { grid-template-columns: 1fr; }
+      .footer__bottom { flex-direction: column; text-align: center; }
+      .hero__title { letter-spacing: -0.06rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Platform Banner -->
+  <div class="platform-banner" id="platformBanner">
+    <strong>Linux only.</strong> Windows and macOS support is planned.
+    <button class="platform-banner__close" onclick="document.getElementById('platformBanner').style.display='none'">&times;</button>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="/landing" class="logo">
+        <div class="logo__mark">V</div>
+        <span>VeilBrowse</span>
+      </a>
+      <nav class="nav">
+        <ul class="nav__links">
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
+            <span id="themeIcon">&#127769;</span>
+          </button>
+          <a href="/" class="btn btn--primary btn--small">Open App</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1 class="hero__title">
+      50 isolated browsers.<br>One Linux machine.<br><span>Zero linkability.</span>
+    </h1>
+    <p class="hero__subtitle">
+      The anti-detect browser that's actually free. No subscription. No 14-day trial. No credit card. Open-source fingerprint spoofing for ad accounts, scrapers, storefronts, and social profiles — all from the same laptop.
+    </p>
+    <div class="hero__cta" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;">
+      <a href="/" class="btn btn--primary btn--large">Download for Linux &rarr;</a>
+      <span style="font-size:14px;color:var(--text-muted);">or <a href="#waitlist" style="color:var(--accent);text-decoration:none;font-weight:500;">join the Windows/macOS waitlist</a></span>
+    </div>
+
+    <!-- Browser Mockup -->
+    <div class="browser-mockup">
+      <div class="browser-bar">
+        <div class="browser-dots"><span></span><span></span><span></span></div>
+        <div class="browser-address">localhost:8888</div>
+      </div>
+      <div class="browser-body">
+        <div class="mock-toolbar">
+          <div class="mock-search"></div>
+          <div class="mock-btn"></div>
+        </div>
+        <div class="mock-table-header">
+          <div class="mock-th"></div>
+          <div class="mock-th"></div>
+          <div class="mock-th"></div>
+          <div class="mock-th"></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar win">W</div>
+          <div>
+            <div class="mock-name"></div>
+            <div class="mock-meta"></div>
+          </div>
+          <div class="mock-status">
+            <div class="mock-status-dot on"></div>
+            <div class="mock-status-text"></div>
+          </div>
+          <div class="mock-actions"><span></span><span></span></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar mac">M</div>
+          <div>
+            <div class="mock-name" style="max-width:100px;"></div>
+            <div class="mock-meta" style="max-width:160px;"></div>
+          </div>
+          <div class="mock-status">
+            <div class="mock-status-dot off"></div>
+            <div class="mock-status-text"></div>
+          </div>
+          <div class="mock-actions"><span></span><span></span></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar iphone">i</div>
+          <div>
+            <div class="mock-name" style="max-width:120px;"></div>
+            <div class="mock-meta" style="max-width:140px;"></div>
+          </div>
+          <div class="mock-status">
+            <div class="mock-status-dot on"></div>
+            <div class="mock-status-text"></div>
+          </div>
+          <div class="mock-actions"><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-strip">
+    <div class="stat-block">
+      <div class="stat-block__num" style="font-size:28px;letter-spacing:0;">$0 forever</div>
+      <div class="stat-block__label">No subscription</div>
+      <div class="stat-block__desc">Unlimited profiles. No credit card. No hidden tiers.</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block__num">3 clicks</div>
+      <div class="stat-block__label">From install to running</div>
+      <div class="stat-block__desc">One command on Ubuntu. Pick a preset. Launch. Done.</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block__num">Linux</div>
+      <div class="stat-block__label">Native, no VM</div>
+      <div class="stat-block__desc">Uses your system Chrome. No Docker, no VirtualBox overhead.</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block__num">MIT</div>
+      <div class="stat-block__label">Open source</div>
+      <div class="stat-block__desc">Audit the anti-detection code yourself. No black boxes.</div>
+    </div>
+  </div>
+
+  <!-- Solutions -->
+  <section class="section section--alt" id="solutions">
+    <div class="section">
+      <div class="section__header">
+        <div class="section__eyebrow">Solutions</div>
+        <h2 class="section__title">Built for every use case</h2>
+        <p class="section__subtitle">Whether you're running ads, managing stores, or scraping data. Every profile gets its own isolated browser environment with a unique fingerprint.</p>
+      </div>
+
+      <div class="expandable-cards">
+        <div class="ecard expanded" data-ecard="3">
+          <div class="ecard__header" onclick="toggleEcard(3)">
+            <div class="ecard__icon-wrap ecard__icon-wrap--scraping">
+              <div class="icon-grid">
+                <span></span><span></span>
+                <span></span><span></span>
+              </div>
+            </div>
+            <div class="ecard__info">
+              <div class="ecard__title">CAPTCHA walls killed your scraper.</div>
+              <div class="ecard__desc">Anti-bot systems fingerprint your headless browser in milliseconds. Same signature, same block.</div>
+            </div>
+            <div class="ecard__toggle">&#9660;</div>
+          </div>
+          <div class="ecard__body">
+            <div class="ecard__content">
+              <div class="ecard__text">
+                <p>Rotate through VeilBrowse profiles with different fingerprints for every request. Each session looks like a different real user on a different real device. Passes BrowserLeaks, CreepJS, and FingerprintJS out of the box.</p>
+                <ul>
+                  <li>Automated profile rotation for scale</li>
+                  <li>WebRTC leak protection</li>
+                  <li>Font and audio fingerprint randomization</li>
+                  <li>API for headless automation</li>
+                </ul>
+                <a href="/" class="btn btn--primary btn--small">Try for free</a>
+              </div>
+              <div class="ecard__visual">
+                <div class="mini-browser">
+                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ecard" data-ecard="2">
+          <div class="ecard__header" onclick="toggleEcard(2)">
+            <div class="ecard__icon-wrap ecard__icon-wrap--ecommerce">
+              <div class="icon-bag"></div>
+            </div>
+            <div class="ecard__info">
+              <div class="ecard__title">eBay suspended your second storefront.</div>
+              <div class="ecard__desc">Amazon, Shopify, and Etsy detect shared devices fast. One suspension cascades across every account you run.</div>
+            </div>
+            <div class="ecard__toggle">&#9660;</div>
+          </div>
+          <div class="ecard__body">
+            <div class="ecard__content">
+              <div class="ecard__text">
+                <p>Each VeilBrowse profile gets its own cookies, storage, and hardware signature. Platforms see completely different devices, locations, and browsers — even though you're on the same laptop.</p>
+                <ul>
+                  <li>Separate browser storage per profile (no cross-contamination)</li>
+                  <li>Realistic desktop and mobile fingerprints</li>
+                  <li>Timezone and geolocation matching to your proxy</li>
+                  <li>Hardware spec spoofing (CPU, RAM, GPU)</li>
+                </ul>
+                <a href="/" class="btn btn--primary btn--small">Try for free</a>
+              </div>
+              <div class="ecard__visual">
+                <div class="mini-browser">
+                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ecard" data-ecard="1">
+          <div class="ecard__header" onclick="toggleEcard(1)">
+            <div class="ecard__icon-wrap ecard__icon-wrap--affiliate">
+              <div class="icon-megaphone"></div>
+            </div>
+            <div class="ecard__info">
+              <div class="ecard__title">Your ad account got banned. Again.</div>
+              <div class="ecard__desc">Facebook, Google, and TikTok link your accounts through browser fingerprints. One ban becomes ten.</div>
+            </div>
+            <div class="ecard__toggle">&#9660;</div>
+          </div>
+          <div class="ecard__body">
+            <div class="ecard__content">
+              <div class="ecard__text">
+                <p>VeilBrowse isolates every account in its own browser with a unique device fingerprint. Same Linux machine, 50 accounts, zero linkability. Farm, warm up, and launch campaigns without platforms knowing they're the same operator.</p>
+                <ul>
+                  <li>One-click profile creation with realistic fingerprints</li>
+                  <li>Built-in proxy rotation and health monitoring</li>
+                  <li>Cookie import/export for account warming</li>
+                  <li>Canvas and WebGL fingerprint spoofing that passes audits</li>
+                </ul>
+                <a href="/" class="btn btn--primary btn--small">Try for free</a>
+              </div>
+              <div class="ecard__visual">
+                <div class="mini-browser">
+                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ecard" data-ecard="4">
+          <div class="ecard__header" onclick="toggleEcard(4)">
+            <div class="ecard__icon-wrap ecard__icon-wrap--social">
+              <div class="icon-social">
+                <span></span><span></span><span></span>
+              </div>
+            </div>
+            <div class="ecard__info">
+              <div class="ecard__title">Shadow bans on every account but the first.</div>
+              <div class="ecard__desc">Instagram, Twitter, and LinkedIn quietly suppress reach when they detect the same device managing multiple accounts.</div>
+            </div>
+            <div class="ecard__toggle">&#9660;</div>
+          </div>
+          <div class="ecard__body">
+            <div class="ecard__content">
+              <div class="ecard__text">
+                <p>Post, engage, and grow from multiple social accounts with full reach. Each account runs in its own isolated browser environment with a unique mobile or desktop fingerprint. Platforms see completely separate users.</p>
+                <ul>
+                  <li>Mobile fingerprint presets (iPhone, Android)</li>
+                  <li>Touch event simulation</li>
+                  <li>Screen resolution matching</li>
+                  <li>Session screenshot monitoring</li>
+                </ul>
+                <a href="/" class="btn btn--primary btn--small">Try for free</a>
+              </div>
+              <div class="ecard__visual">
+                <div class="mini-browser">
+                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                  <div class="mini-browser-row">
+                    <div class="dot"></div>
+                    <div class="line short"></div>
+                    <div class="line long"></div>
+                    <div class="line mid"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="compare-section" id="comparison">
+    <div class="section__header" style="margin-bottom:40px;">
+      <div class="section__eyebrow">Comparison</div>
+      <h2 class="section__title">Why operators are switching</h2>
+      <p class="section__subtitle">Same anti-detection power. Zero subscription fees. Full source transparency.</p>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:40%;">Feature</th>
+          <th class="highlight-col" style="text-align:center;">VeilBrowse</th>
+          <th style="text-align:center;">AdsPower</th>
+          <th style="text-align:center;">Multilogin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Price</td>
+          <td class="highlight-col" style="text-align:center;"><span class="price" style="color:var(--success);font-weight:700;">Free forever</span></td>
+          <td style="text-align:center;"><span class="price">$99/mo</span></td>
+          <td style="text-align:center;"><span class="price">$99/mo</span></td>
+        </tr>
+        <tr>
+          <td>Profile limit</td>
+          <td class="highlight-col" style="text-align:center;"><span class="check">Unlimited</span></td>
+          <td style="text-align:center;"><span class="cross">100</span></td>
+          <td style="text-align:center;"><span class="cross">100</span></td>
+        </tr>
+        <tr>
+          <td>Open source</td>
+          <td class="highlight-col" style="text-align:center;"><span class="check">MIT License</span></td>
+          <td style="text-align:center;"><span class="cross">Closed</span></td>
+          <td style="text-align:center;"><span class="cross">Closed</span></td>
+        </tr>
+        <tr>
+          <td>Linux native</td>
+          <td class="highlight-col" style="text-align:center;"><span class="check">Native app</span></td>
+          <td style="text-align:center;"><span class="cross">No</span></td>
+          <td style="text-align:center;"><span class="cross">No</span></td>
+        </tr>
+        <tr>
+          <td>Built-in proxy pool</td>
+          <td class="highlight-col" style="text-align:center;"><span class="check">Included</span></td>
+          <td style="text-align:center;"><span class="cross">Extra cost</span></td>
+          <td style="text-align:center;"><span class="cross">Extra cost</span></td>
+        </tr>
+        <tr>
+          <td>Fingerprint audits passed</td>
+          <td class="highlight-col" style="text-align:center;"><span class="check">23/27</span></td>
+          <td style="text-align:center;"><span class="cross">Undisclosed</span></td>
+          <td style="text-align:center;"><span class="cross">Undisclosed</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Features -->
+  <section class="section" id="features">
+    <div class="section__header">
+      <div class="section__eyebrow">Features</div>
+      <h2 class="section__title">Everything you need to stay invisible</h2>
+      <p class="section__subtitle">Built by developers who understand browser fingerprinting at the deepest level. Every check, every parameter, every edge case covered.</p>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-row__content">
+        <div class="feature-row__eyebrow">
+          Fingerprint Spoofing
+        </div>
+        <h3 class="feature-row__title">Real browser fingerprints in one click</h3>
+        <p class="feature-row__text">Every profile gets a unique, realistic fingerprint based on genuine device data. Passes 23+ anti-detection checks out of the box with no configuration needed.</p>
+        <ul class="feature-row__list">
+          <li>Canvas, WebGL, WebRTC protection</li>
+          <li>Hardware spoofing (CPU cores, RAM, GPU)</li>
+          <li>Font and audio fingerprint randomization</li>
+          <li>Device name & webcam spoofing</li>
+          <li>Client rects noise injection</li>
+        </ul>
+      </div>
+      <div class="feature-row__visual">
+        <div class="fp-mockup">
+          <div class="fp-mockup-row">
+            <div class="fp-mockup-check"></div>
+            <div class="fp-mockup-label">Canvas 2D</div>
+            <div class="fp-mockup-value">spoofed</div>
+          </div>
+          <div class="fp-mockup-row">
+            <div class="fp-mockup-check"></div>
+            <div class="fp-mockup-label">WebGL Vendor</div>
+            <div class="fp-mockup-value">NVIDIA</div>
+          </div>
+          <div class="fp-mockup-row">
+            <div class="fp-mockup-check"></div>
+            <div class="fp-mockup-label">WebRTC</div>
+            <div class="fp-mockup-value">blocked</div>
+          </div>
+          <div class="fp-mockup-row">
+            <div class="fp-mockup-check"></div>
+            <div class="fp-mockup-label">AudioContext</div>
+            <div class="fp-mockup-value">seeded</div>
+          </div>
+          <div class="fp-mockup-row">
+            <div class="fp-mockup-check"></div>
+            <div class="fp-mockup-label">HardwareConcurrency</div>
+            <div class="fp-mockup-value">8 cores</div>
+          </div>
+          <div class="fp-mockup-row">
+            <div class="fp-mockup-check"></div>
+            <div class="fp-mockup-label">DeviceMemory</div>
+            <div class="fp-mockup-value">8 GB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feature-row feature-row--reverse">
+      <div class="feature-row__content">
+        <div class="feature-row__eyebrow">
+          Proxy & Network
+        </div>
+        <h3 class="feature-row__title">Route every profile through its own proxy</h3>
+        <p class="feature-row__text">Built-in proxy pool manager with HTTP, HTTPS, and SOCKS5 support. Automatic health checks, latency monitoring, and per-profile routing. WebRTC leak protection included.</p>
+        <ul class="feature-row__list">
+          <li>HTTP / HTTPS / SOCKS5 proxy support</li>
+          <li>Per-profile proxy assignment</li>
+          <li>Built-in health checks and latency tests</li>
+          <li>WebRTC local IP blocking</li>
+          <li>Geolocation matching to proxy location</li>
+        </ul>
+      </div>
+      <div class="feature-row__visual">
+        <div class="proxy-mockup">
+          <div class="proxy-mockup-card">
+            <div class="proxy-mockup-status on"></div>
+            <div class="proxy-mockup-lines">
+              <div class="line short"></div>
+              <div class="line mid"></div>
+            </div>
+            <div class="proxy-mockup-ping">42ms</div>
+          </div>
+          <div class="proxy-mockup-card">
+            <div class="proxy-mockup-status on"></div>
+            <div class="proxy-mockup-lines">
+              <div class="line short"></div>
+              <div class="line mid"></div>
+            </div>
+            <div class="proxy-mockup-ping">128ms</div>
+          </div>
+          <div class="proxy-mockup-card">
+            <div class="proxy-mockup-status warn"></div>
+            <div class="proxy-mockup-lines">
+              <div class="line short"></div>
+              <div class="line mid"></div>
+            </div>
+            <div class="proxy-mockup-ping">fail</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grid Features -->
+  <section class="section section--alt">
+    <div class="section">
+      <div class="section__header">
+        <div class="section__eyebrow">Platform</div>
+        <h2 class="section__title">Complete control over every parameter</h2>
+        <p class="section__subtitle">Override every fingerprint parameter manually or let VeilBrowse randomize them automatically from a curated pool of realistic hardware configurations.</p>
+      </div>
+      <div class="grid-cards">
+        <div class="grid-card">
+          <div class="grid-card__icon-wrap grid-card__icon-wrap--geo">
+            <div class="icon-geo"></div>
+          </div>
+          <h3 class="grid-card__title">Geolocation & Timezone</h3>
+          <p class="grid-card__text">Spoof GPS coordinates, timezone, and locale to match your proxy location perfectly.</p>
+        </div>
+        <div class="grid-card">
+          <div class="grid-card__icon-wrap grid-card__icon-wrap--proxy">
+            <div class="icon-proxy-link">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <h3 class="grid-card__title">Proxy Integration</h3>
+          <p class="grid-card__text">HTTP, HTTPS, SOCKS5 support with built-in health checks and latency monitoring.</p>
+        </div>
+        <div class="grid-card">
+          <div class="grid-card__icon-wrap grid-card__icon-wrap--webrtc">
+            <div class="icon-shield"></div>
+          </div>
+          <h3 class="grid-card__title">WebRTC Protection</h3>
+          <p class="grid-card__text">Block local IP leaks or drop all ICE candidates for maximum privacy.</p>
+        </div>
+        <div class="grid-card">
+          <div class="grid-card__icon-wrap grid-card__icon-wrap--audio">
+            <div class="icon-audio">
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <h3 class="grid-card__title">Audio Context Spoofing</h3>
+          <p class="grid-card__text">Randomize audio fingerprints so your profile sounds different every time.</p>
+        </div>
+        <div class="grid-card">
+          <div class="grid-card__icon-wrap grid-card__icon-wrap--font">
+            <div class="icon-font">Ag</div>
+          </div>
+          <h3 class="grid-card__title">Font Fingerprinting</h3>
+          <p class="grid-card__text">Per-OS font whitelists and synthetic measureText metrics for undetectable fonts.</p>
+        </div>
+        <div class="grid-card">
+          <div class="grid-card__icon-wrap grid-card__icon-wrap--team">
+            <div class="icon-team">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <h3 class="grid-card__title">Team Sharing</h3>
+          <p class="grid-card__text">Transfer profiles between team members with full permission controls.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section section--alt" id="how-it-works">
+    <div class="section">
+      <div class="section__header">
+        <div class="section__eyebrow">Getting Started</div>
+        <h2 class="section__title">Up and running in 3 steps</h2>
+        <p class="section__subtitle">No complex setup. No VM required. Just install, create a profile, and browse.</p>
+      </div>
+      <div class="grid-cards">
+        <div class="grid-card" style="text-align: center;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 20px; font-family: 'JetBrains Mono', monospace;">1</div>
+          <h3 class="grid-card__title">Download & Install</h3>
+          <p class="grid-card__text">One command on Ubuntu 22+. Uses your system Google Chrome. No VM, no Docker.</p>
+          <div class="install-box">
+            <code>curl -fsSL veilbrowse.dev/install | bash</code>
+            <button class="install-copy" onclick="navigator.clipboard.writeText('curl -fsSL veilbrowse.dev/install | bash');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);">Copy</button>
+          </div>
+        </div>
+        <div class="grid-card" style="text-align: center;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 20px; font-family: 'JetBrains Mono', monospace;">2</div>
+          <h3 class="grid-card__title">Create a Profile</h3>
+          <p class="grid-card__text">Pick a preset (Windows Chrome, Mac Safari, iPhone) or customize every fingerprint parameter.</p>
+        </div>
+        <div class="grid-card" style="text-align: center;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 20px; font-family: 'JetBrains Mono', monospace;">3</div>
+          <h3 class="grid-card__title">Launch & Browse</h3>
+          <p class="grid-card__text">Hit Launch. A real Chrome window opens with your spoofed identity. Done.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section section--alt" id="faq">
+    <div class="section">
+      <div class="section__header">
+        <div class="section__eyebrow">FAQ</div>
+        <h2 class="section__title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span>What is an anti-detect browser?</span>
+            <span class="faq-item__icon">&#9660;</span>
+          </div>
+          <div class="faq-item__answer">
+            <p>An anti-detect browser creates isolated browsing environments with unique digital fingerprints for each profile. This prevents websites from linking your multiple accounts together through browser fingerprinting techniques like canvas hashing, WebGL vendor strings, audio context analysis, and more.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span>Is VeilBrowse really free?</span>
+            <span class="faq-item__icon">&#9660;</span>
+          </div>
+          <div class="faq-item__answer">
+            <p>Yes. The core browser is MIT licensed and free forever. We don't have a business model yet because we're building the product first. When we do monetize, it will be for optional cloud features — never the local browser. You can create as many profiles as your disk space allows. No profile limits, no hidden tiers, no credit card required.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span>What proxies are supported?</span>
+            <span class="faq-item__icon">&#9660;</span>
+          </div>
+          <div class="faq-item__answer">
+            <p>VeilBrowse supports HTTP, HTTPS, and SOCKS5 proxies with full authentication (username/password). You can add proxies individually or manage them in a pool with built-in health checks that monitor latency and uptime automatically.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span>How does fingerprint randomization work?</span>
+            <span class="faq-item__icon">&#9660;</span>
+          </div>
+          <div class="faq-item__answer">
+            <p>Each profile can have custom CPU cores, RAM amount, GPU vendor/renderer, audio seed, and client rects noise. You can randomize all parameters with one click or set them manually for specific use cases. We maintain a curated pool of realistic hardware configurations based on real market data.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-item__question" onclick="toggleFaq(this)">
+            <span>Does it work on Windows and macOS?</span>
+            <span class="faq-item__icon">&#9660;</span>
+          </div>
+          <div class="faq-item__answer">
+            <p>Currently VeilBrowse runs natively on Linux with your system's Google Chrome binary. Windows and macOS support is planned. The app is built with Electron + Playwright, so cross-platform support is straightforward. It's just a matter of testing and packaging.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust / Built in Public -->
+  <section class="trust-section">
+    <div class="section__eyebrow" style="margin-bottom:16px;">Built in Public</div>
+    <h2 class="section__title" style="margin-bottom:16px;">You don't have to trust us.<br>Audit the code.</h2>
+    <p class="section__subtitle" style="max-width:560px;margin:0 auto;">Every fingerprint vector, every proxy route, every anti-detection technique is open source. No black boxes. No "proprietary algorithms."</p>
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+        </div>
+        <div class="trust-label">Open Source</div>
+        <div class="trust-desc">MIT licensed. Full source on GitHub. Audit every line.</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="trust-label">Transparent Limits</div>
+        <div class="trust-desc">We publish exactly which 23 vectors we mask and which 4 we can't.</div>
+      </div>
+      <div class="trust-item">
+        <div class="trust-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="trust-label">Active Development</div>
+        <div class="trust-desc">Shipping weekly. Public commit history. No abandoned repo.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2 class="cta-box__title">Ready to stop paying $99/mo?</h2>
+      <p class="cta-box__text">Download VeilBrowse for Linux. Free, open source, no credit card required.</p>
+      <a href="/" class="btn btn--large">Download for Linux &rarr;</a>
+    </div>
+  </section>
+
+  <!-- Waitlist -->
+  <section class="section section--alt" id="waitlist">
+    <div class="section">
+      <div class="section__header">
+        <div class="section__eyebrow">Waitlist</div>
+        <h2 class="section__title">Windows & macOS coming soon</h2>
+        <p class="section__subtitle">We're Linux-native first. Join the waitlist and we'll email you when cross-platform packages are ready.</p>
+      </div>
+      <div class="waitlist-box">
+        <input type="email" class="waitlist-input" placeholder="your@email.com" id="waitlistEmail">
+        <button class="btn btn--primary" onclick="alert('Waitlist signup is not yet connected. Add your email handler here.');">Join Waitlist</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__top">
+      <div>
+        <a href="/landing" class="footer__brand">
+          <div class="logo__mark" style="width:28px;height:28px;font-size:12px;">V</div>
+          <span>VeilBrowse</span>
+        </a>
+        <p class="footer__desc">Open-source anti-detect browser for multi-accounting, affiliate marketing, and web scraping. Built for professionals.</p>
+      </div>
+      <div>
+        <div class="footer__col-title">Product</div>
+        <ul class="footer__links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="/">Open App</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Resources</div>
+        <ul class="footer__links">
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer__col-title">Legal</div>
+        <ul class="footer__links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">MIT License</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="footer__copy">&copy; 2025 VeilBrowse. Open source under MIT License.</div>
+      <ul class="footer__legal">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // ── Theme ──
+    (function initTheme() {
+      const saved = localStorage.getItem('veilbrowse-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      updateThemeIcon(theme);
+    })();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('veilbrowse-theme', next);
+      updateThemeIcon(next);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('themeIcon');
+      if (icon) icon.innerHTML = theme === 'dark' ? '&#127769;' : '&#9728;&#65039;';
+    }
+
+    // ── Expandable Cards ──
+    function toggleEcard(id) {
+      const card = document.querySelector('[data-ecard="' + id + '"]');
+      if (!card) return;
+      const isExpanded = card.classList.contains('expanded');
+      if (typeof id === 'number' || (typeof id === 'string' && !id.startsWith('faq'))) {
+        document.querySelectorAll('.ecard.expanded[data-ecard]').forEach(c => {
+          const cid = c.getAttribute('data-ecard');
+          if (cid !== String(id) && !cid.startsWith('faq')) c.classList.remove('expanded');
+        });
+      }
+      card.classList.toggle('expanded', !isExpanded);
+    }
+
+    // ── FAQ ──
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const wasExpanded = item.classList.contains('expanded');
+      document.querySelectorAll('.faq-item.expanded').forEach(i => i.classList.remove('expanded'));
+      if (!wasExpanded) item.classList.add('expanded');
+    }
+
+    // ── Smooth Scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+</body>
+</html>
