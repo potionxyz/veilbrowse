@@ -49,58 +49,57 @@ app.get('/start/:id', (req, res) => {
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%2306b6d4'/%3E%3Ctext x='50' y='68' font-size='58' font-weight='700' text-anchor='middle' fill='%23fff' font-family='system-ui'%3EV%3C/text%3E%3C/svg%3E">
   <style>
     :root {
-      --bg-root: #18191c;
-      --bg-surface: #232428;
-      --bg-elevated: #2b2d31;
-      --bg-input: #1e1f22;
-      --border: #2f3035;
-      --border-hover: #3a3c42;
-      --border-active: #4a4d55;
-      --text-primary: #dbdee1;
-      --text-secondary: #949ba4;
-      --text-muted: #6d6f78;
+      --bg-root: #0a0a0f;
+      --bg-surface: #111118;
+      --bg-elevated: #18181f;
+      --bg-input: #0f0f14;
+      --border: #1e1e26;
+      --border-hover: #2a2a35;
+      --border-active: #3a3a48;
+      --text-primary: #f0f0f5;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
       --accent: #06b6d4;
-      --accent-hover: #0891b2;
-      --accent-glow: rgba(6, 182, 212, 0.12);
-      --accent-dim: rgba(6, 182, 212, 0.06);
-      --danger: #ef4444;
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.08);
+      --accent-hover: #22d3ee;
+      --accent-glow: rgba(6, 182, 212, 0.15);
+      --accent-dim: rgba(6, 182, 212, 0.08);
+      --danger: #f87171;
+      --success: #34d399;
+      --success-bg: rgba(52, 211, 153, 0.08);
       --info: #60a5fa;
-      --radius-sm: 6px;
-      --radius-md: 8px;
-      --radius-lg: 12px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-      --dot-color: rgba(255,255,255,0.03);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.6), 0 0 0 1px var(--border);
     }
     [data-theme="light"] {
-      --bg-root: #f2f3f5;
+      --bg-root: #fafafa;
       --bg-surface: #ffffff;
-      --bg-elevated: #ebedef;
+      --bg-elevated: #f3f4f6;
       --bg-input: #ffffff;
-      --border: #e3e5e8;
-      --border-hover: #d5d8dc;
-      --border-active: #c8ccd0;
-      --text-primary: #313338;
-      --text-secondary: #4f5660;
-      --text-muted: #959ba3;
-      --accent: #06b6d4;
-      --accent-hover: #0891b2;
-      --accent-glow: rgba(6, 182, 212, 0.10);
-      --accent-dim: rgba(6, 182, 212, 0.04);
+      --border: #e5e7eb;
+      --border-hover: #d1d5db;
+      --border-active: #9ca3af;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #9ca3af;
+      --accent: #0891b2;
+      --accent-hover: #0e7490;
+      --accent-glow: rgba(8, 145, 178, 0.12);
+      --accent-dim: rgba(8, 145, 178, 0.06);
       --danger: #dc2626;
       --success: #059669;
       --success-bg: rgba(5, 150, 105, 0.06);
       --info: #2563eb;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-      --dot-color: rgba(0,0,0,0.035);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px var(--border);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.08), 0 0 0 1px var(--border);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg-root);
+      background: var(--bg-root) url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
       color: var(--text-primary);
       display: flex;
       align-items: center;
@@ -109,18 +108,26 @@ app.get('/start/:id', (req, res) => {
       padding: 24px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
-      background-size: 24px 24px;
       transition: background 0.3s ease, color 0.3s ease;
     }
     .card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius-lg);
       padding: 28px;
       max-width: 520px;
       width: 100%;
       transition: background 0.3s ease, border-color 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.5;
     }
     .brand {
       display: flex;
@@ -134,7 +141,7 @@ app.get('/start/:id', (req, res) => {
     .brand-icon {
       width: 24px;
       height: 24px;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
       border-radius: 6px;
       display: flex;
       align-items: center;
@@ -143,6 +150,7 @@ app.get('/start/:id', (req, res) => {
       font-weight: 700;
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
     }
     .brand-text {
       font-size: 13px;
@@ -168,6 +176,18 @@ app.get('/start/:id', (req, res) => {
       background: var(--bg-input);
       color: var(--text-primary);
       border-color: var(--border-hover);
+    }
+    .moon-icon {
+      width: 12px; height: 12px; border-radius: 50%;
+      box-shadow: inset -2px -1px 0 0 currentColor;
+      transform: rotate(-20deg);
+      display: inline-block;
+    }
+    .sun-icon {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: currentColor;
+      box-shadow: 3px 0 0 -2px currentColor, -3px 0 0 -2px currentColor, 0 3px 0 -2px currentColor, 0 -3px 0 -2px currentColor, 2px 2px 0 -2px currentColor, -2px -2px 0 -2px currentColor, 2px -2px 0 -2px currentColor, -2px 2px 0 -2px currentColor;
+      display: inline-block;
     }
     h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; color: var(--text-primary); letter-spacing: -0.2px; }
     .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; font-weight: 400; }
@@ -205,7 +225,7 @@ app.get('/start/:id', (req, res) => {
     }
     .tag-cyan { background: rgba(96,165,250,0.08); color: #60a5fa; border: 1px solid rgba(96,165,250,0.15); }
     [data-theme="light"] .tag-cyan { background: rgba(37,99,235,0.06); color: #2563eb; border-color: rgba(37,99,235,0.12); }
-    .tag-green { background: var(--success-bg); color: var(--success); border: 1px solid rgba(16,185,129,0.15); }
+    .tag-green { background: var(--success-bg); color: var(--success); border: 1px solid rgba(52,211,153,0.15); }
     [data-theme="light"] .tag-green { border-color: rgba(5,150,105,0.12); }
     .tag-gray { background: var(--bg-elevated); color: var(--text-muted); border: 1px solid var(--border); }
     .startup-url {
@@ -225,19 +245,20 @@ app.get('/start/:id', (req, res) => {
       align-items: center;
       gap: 6px;
       padding: 7px 14px;
-      border-radius: 6px;
-      border: 1px solid var(--accent);
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
       font-size: 12px;
       font-weight: 500;
       cursor: pointer;
       text-decoration: none;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
       color: #fff;
       font-family: 'Inter', sans-serif;
-      transition: background 0.15s ease, border-color 0.15s ease;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.15), 0 2px 8px rgba(6, 182, 212, 0.1);
     }
-    .btn:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 0 24px rgba(6, 182, 212, 0.25), 0 4px 12px rgba(6, 182, 212, 0.15); }
     .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
   </style>
 </head>
@@ -247,7 +268,7 @@ app.get('/start/:id', (req, res) => {
       <div class="brand-icon">V</div>
       <div class="brand-text">VEILBROWSE</div>
       <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
-        <span id="themeIcon">&#127769;</span>
+        <span id="themeIcon" class="moon-icon"></span>
       </button>
     </div>
     <h1>${p.name}</h1>
@@ -308,11 +329,10 @@ app.get('/start/:id', (req, res) => {
     </div>
     <div class="startup-url">
       <div class="startup-url-text">Startup URL: <strong>${p.startup_url || 'https://www.google.com'}</strong></div>
-      <a class="btn" href="${p.startup_url || 'https://www.google.com'}" target="_blank" id="openBtn">Open &rarr;</a>
+      <a class="btn" href="${p.startup_url || 'https://www.google.com'}" id="openBtn">Open &rarr;</a>
     </div>
     <div id="countdownWrap" style="margin-top:12px;text-align:center;font-size:13px;color:var(--text-muted);">
-      Redirecting in <strong id="countdownNum" style="color:var(--accent);">3</strong>s &mdash;
-      <a href="#" id="cancelRedirect" style="color:var(--text-secondary);text-decoration:underline;">cancel</a>
+      <span id="countdownText">Launching in <strong id="countdownNum" style="color:var(--accent);">3</strong>s</span>
     </div>
   </div>
   <script>
@@ -333,30 +353,26 @@ app.get('/start/:id', (req, res) => {
     }
     function updateIcon(theme) {
       const icon = document.getElementById('themeIcon');
-      if (icon) icon.innerHTML = theme === 'dark' ? '&#127769;' : '&#9728;&#65039;';
+      if (!icon) return;
+      icon.className = theme === 'dark' ? 'moon-icon' : 'sun-icon';
     }
     (function() {
-      const url = '${p.startup_url || 'https://www.google.com'}';
       let seconds = 3;
       const numEl = document.getElementById('countdownNum');
+      const textEl = document.getElementById('countdownText');
       const wrapEl = document.getElementById('countdownWrap');
-      const cancelEl = document.getElementById('cancelRedirect');
       let timer = setInterval(function() {
         seconds--;
         if (numEl) numEl.textContent = seconds;
         if (seconds <= 0) {
           clearInterval(timer);
-          if (wrapEl) wrapEl.style.display = 'none';
-          window.location.href = url;
+          if (textEl) textEl.innerHTML = '<span style="color:var(--success);">Profile launched</span>';
+          setTimeout(function() {
+            if (wrapEl) wrapEl.style.opacity = '0';
+            setTimeout(function() { if (wrapEl) wrapEl.style.display = 'none'; }, 300);
+          }, 1500);
         }
       }, 1000);
-      if (cancelEl) {
-        cancelEl.addEventListener('click', function(e) {
-          e.preventDefault();
-          clearInterval(timer);
-          if (wrapEl) wrapEl.style.display = 'none';
-        });
-      }
     })();
   </script>
 </body>
