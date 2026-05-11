@@ -38,5 +38,9 @@ build/
 .env
 .env.local
 
+# Internal working files
+.agent-spaces/
+ORCHESTRATION.md
+
 # Vercel
 .vercel/
