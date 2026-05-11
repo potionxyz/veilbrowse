@@ -421,30 +421,30 @@
 
     /* ── Browser Mockup ── */
     .mockup-container {
-      max-width: 960px;
-      margin: 0 auto 60px;
+      max-width: 1100px;
+      margin: 0 auto 80px;
       position: relative;
     }
     .mockup-container::before {
       content: '';
       position: absolute;
-      inset: -20px;
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(139, 92, 246, 0.04));
-      border-radius: 32px;
+      inset: -30px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.06));
+      border-radius: 40px;
       z-index: -1;
-      filter: blur(40px);
+      filter: blur(50px);
     }
     .browser-mockup {
       border-radius: var(--radius-xl);
       overflow: hidden;
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-lg), 0 0 80px rgba(6, 182, 212, 0.08);
+      box-shadow: var(--shadow-lg), 0 0 100px rgba(6, 182, 212, 0.1);
       background: var(--bg-surface);
       text-align: left;
       transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .browser-mockup:hover {
-      transform: translateY(-4px) scale(1.005);
+      transform: translateY(-6px) scale(1.008);
     }
     .browser-bar {
       padding: 14px 18px;
@@ -481,19 +481,140 @@
       font-family: 'JetBrains Mono', monospace;
       text-align: center;
     }
-    .browser-body {
-      padding: 24px;
+
+    /* ── App Mock Layout ── */
+    .app-mock {
+      display: flex;
+      min-height: 520px;
+      background: var(--bg-root);
     }
-    .mock-toolbar {
+    .mock-sidebar {
+      width: 210px;
+      flex-shrink: 0;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 16px 0;
+    }
+    .mock-sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 16px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 12px;
+    }
+    .mock-brand-mark {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .mock-brand-mark svg {
+      width: 18px; height: 18px;
+      opacity: 0.9;
+    }
+    .mock-nav { display: flex; flex-direction: column; padding: 0 10px; gap: 2px; }
+    .mock-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      transition: var(--transition);
+      border: none;
+      background: transparent;
+    }
+    .mock-nav-item:hover { background: var(--bg-elevated); color: var(--text-primary); }
+    .mock-nav-item.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      font-weight: 600;
+      border: 1px solid rgba(6, 182, 212, 0.15);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.08);
+    }
+    .mock-nav-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .mock-nav-icon svg { width: 16px; height: 16px; opacity: 0.8; }
+    .mock-sidebar-trust {
+      margin-top: auto;
+      padding: 12px 14px 0;
+      margin: auto 10px 0;
+      border-top: 1px solid var(--border);
+    }
+    .mock-trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .mock-trust-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 6px var(--success);
+      flex-shrink: 0;
+    }
+    .mock-sidebar-footer {
+      padding: 8px 16px 0;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .mock-main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      gap: 16px;
+    }
+    .mock-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 20px;
+    }
+    .mock-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .mock-count {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-dim);
+      border: 1px solid rgba(6,182,212,0.15);
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .mock-toolbar-row {
+      display: flex;
+      align-items: center;
       gap: 12px;
     }
-    .mock-search {
+    .mock-search-real {
       flex: 1;
-      max-width: 280px;
+      max-width: 260px;
       height: 36px;
       background: var(--bg-input);
       border: 1px solid var(--border);
@@ -502,142 +623,187 @@
       align-items: center;
       padding: 0 12px;
       gap: 8px;
-    }
-    .mock-search-icon {
-      width: 14px; height: 14px;
-      border: 2px solid var(--text-muted);
-      border-radius: 50%;
-      position: relative;
-    }
-    .mock-search-icon::after {
-      content: '';
-      position: absolute;
-      width: 6px; height: 2px;
-      background: var(--text-muted);
-      bottom: -3px; right: -5px;
-      transform: rotate(45deg);
-      border-radius: 1px;
-    }
-    .mock-search-text {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--text-muted);
     }
-    .mock-btn-group {
-      display: flex;
-      gap: 8px;
+    .mock-search-real svg {
+      width: 14px; height: 14px;
+      opacity: 0.5;
+      flex-shrink: 0;
     }
-    .mock-btn {
+    .mock-new-btn {
       height: 36px;
       padding: 0 16px;
       border-radius: var(--radius-sm);
       background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
       display: flex;
       align-items: center;
       gap: 6px;
+      border: none;
+      box-shadow: 0 4px 16px rgba(6,182,212,0.2);
     }
-    .mock-btn-icon {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.3);
+    .mock-new-btn svg { width: 14px; height: 14px; }
+    .mock-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-    .mock-btn-text {
-      width: 60px; height: 8px;
-      border-radius: 2px;
-      background: rgba(255,255,255,0.4);
+    .mock-filter-chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+    }
+    .mock-filter-chip.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: rgba(6,182,212,0.2);
     }
 
-    .mock-table-header {
+    .mock-cards-grid {
       display: grid;
-      grid-template-columns: 48px 1.5fr 100px 100px 100px 48px;
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 8px;
     }
-    .mock-th {
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
+    .mock-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.2s;
     }
-    .mock-row {
-      display: grid;
-      grid-template-columns: 48px 1.5fr 100px 100px 100px 48px;
-      gap: 12px;
+    .mock-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .mock-card:hover { border-color: var(--border-hover); }
+    .mock-card:hover::before { opacity: 1; }
+    .mock-card.running {
+      border-color: rgba(52, 211, 153, 0.25);
+      background: rgba(52, 211, 153, 0.02);
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.05);
+    }
+    .mock-card.running::before {
+      background: linear-gradient(90deg, transparent, var(--success), transparent);
+      opacity: 0.6;
+    }
+    .mock-card-header {
+      padding: 14px;
+      display: flex;
       align-items: center;
-      padding: 12px 16px;
-      border-radius: var(--radius-sm);
-      margin-bottom: 4px;
-      transition: background 0.15s;
-      border: 1px solid transparent;
+      gap: 12px;
     }
-    .mock-row:hover {
-      background: var(--bg-elevated);
-      border-color: var(--border);
-    }
-    .mock-avatar {
-      width: 32px; height: 32px;
+    .mock-card-avatar {
+      width: 40px; height: 40px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      font-family: 'JetBrains Mono', monospace;
+      flex-shrink: 0;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
     }
-    .mock-avatar.win { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
-    .mock-avatar.mac { background: linear-gradient(135deg, #a855f7, #c084fc); }
-    .mock-avatar.iphone { background: linear-gradient(135deg, #ec4899, #f472b6); }
-    .mock-avatar.android { background: linear-gradient(135deg, #22c55e, #4ade80); }
-    .mock-name {
+    .mock-card.running .mock-card-avatar {
+      background: rgba(52, 211, 153, 0.08);
+      border-color: rgba(52, 211, 153, 0.2);
+      box-shadow: 0 0 12px rgba(52, 211, 153, 0.1);
+    }
+    .mock-card-avatar svg { width: 20px; height: 20px; }
+    .mock-card-info { flex: 1; min-width: 0; }
+    .mock-card-title {
+      font-weight: 600;
       font-size: 14px;
-      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.15px;
       color: var(--text-primary);
-      margin-bottom: 2px;
     }
-    .mock-meta {
+    .mock-card-meta {
       font-size: 12px;
       color: var(--text-muted);
+      margin-top: 2px;
     }
-    .mock-status {
+    .mock-card-status {
       display: flex;
       align-items: center;
       gap: 6px;
       font-size: 12px;
       font-weight: 500;
+      flex-shrink: 0;
     }
+    .mock-card-status.running { color: var(--success); }
+    .mock-card-status.idle { color: var(--text-muted); }
     .mock-status-dot {
-      width: 8px; height: 8px;
+      width: 5px; height: 5px;
       border-radius: 50%;
+      display: inline-block;
     }
-    .mock-status-dot.on {
-      background: var(--success);
-      box-shadow: 0 0 8px var(--success);
+    .mock-status-dot.running { background: var(--success); box-shadow: 0 0 8px var(--success); }
+    .mock-status-dot.idle { background: var(--text-muted); }
+
+    .mock-tags {
+      padding: 0 14px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
     }
-    .mock-status-dot.off { background: var(--text-muted); opacity: 0.5; }
-    .mock-status.on { color: var(--success); }
-    .mock-status.off { color: var(--text-muted); }
-    .mock-proxy {
+    .mock-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+    .mock-tag-green { background: var(--success-bg); color: var(--success); border: 1px solid rgba(52,211,153,0.15); }
+    .mock-tag-cyan { background: rgba(96,165,250,0.08); color: var(--info); border: 1px solid rgba(96,165,250,0.15); }
+    .mock-tag-purple { background: rgba(139,92,246,0.08); color: #a78bfa; border: 1px solid rgba(139,92,246,0.15); }
+    .mock-tag-gray { background: var(--bg-elevated); color: var(--text-muted); border: 1px solid var(--border); }
+    .mock-tag-proxy { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(6,182,212,0.15); }
+
+    .mock-card-details {
+      border-top: 1px solid var(--border);
+      padding: 10px 14px;
+    }
+    .mock-details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .mock-detail { display: flex; flex-direction: column; gap: 2px; }
+    .mock-detail-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .mock-detail-value {
       font-size: 12px;
       color: var(--text-secondary);
       font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .mock-actions {
-      display: flex;
-      gap: 6px;
-      justify-content: flex-end;
-    }
-    .mock-actions span {
-      width: 28px; height: 28px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-    .mock-actions span:hover { background: var(--border-hover); }
 
     /* ── Stats ── */
     .stats-strip {
@@ -1461,8 +1627,9 @@
       .feature-grid { grid-template-columns: repeat(2, 1fr); }
       .public-grid { grid-template-columns: repeat(2, 1fr); }
       .problem-card__content { grid-template-columns: 1fr; }
-      .mock-table-header,
-      .mock-row { grid-template-columns: 48px 1fr 80px 80px 80px 48px; }
+      .mock-cards-grid { grid-template-columns: 1fr; }
+      .mock-card-details { display: none; }
+      .mock-filters { display: none; }
     }
 
     @media (max-width: 768px) {
@@ -1539,23 +1706,24 @@
       .browser-dots { gap: 6px; }
       .browser-dots span { width: 10px; height: 10px; }
       .browser-address { font-size: 10px; max-width: 180px; padding: 4px 10px; }
-      .browser-body { padding: 14px; }
-      .mock-toolbar { margin-bottom: 12px; }
-      .mock-search { max-width: 140px; height: 28px; }
-      .mock-btn { height: 28px; padding: 0 10px; }
-      .mock-btn-text { width: 40px; }
-      .mock-table-header { display: none; }
-      .mock-row {
-        grid-template-columns: 36px 1fr auto;
-        gap: 10px;
-        padding: 10px 12px;
-      }
-      .mock-avatar { width: 28px; height: 28px; font-size: 10px; }
-      .mock-name { font-size: 13px; }
-      .mock-meta { font-size: 11px; }
-      .mock-proxy { display: none; }
-      .mock-status { display: none; }
-      .mock-actions span { width: 24px; height: 24px; }
+      .app-mock { min-height: 380px; }
+      .mock-sidebar { width: 160px; }
+      .mock-sidebar-brand { font-size: 13px; padding: 4px 12px 12px; }
+      .mock-brand-mark { width: 26px; height: 26px; }
+      .mock-brand-mark svg { width: 14px; height: 14px; }
+      .mock-nav-item { font-size: 12px; padding: 6px 10px; }
+      .mock-main { padding: 14px; }
+      .mock-title { font-size: 16px; }
+      .mock-search-real { max-width: 140px; height: 32px; font-size: 12px; }
+      .mock-new-btn { height: 32px; padding: 0 12px; font-size: 12px; }
+      .mock-cards-grid { grid-template-columns: 1fr; gap: 10px; }
+      .mock-card-header { padding: 10px 12px; }
+      .mock-card-avatar { width: 32px; height: 32px; }
+      .mock-card-avatar svg { width: 16px; height: 16px; }
+      .mock-card-title { font-size: 13px; }
+      .mock-card-meta { font-size: 11px; }
+      .mock-tags { padding: 0 12px 8px; }
+      .mock-card-details { display: none; }
 
       .stats-strip {
         grid-template-columns: repeat(2, 1fr);
@@ -1659,8 +1827,9 @@
       .problem-card__title { font-size: 14px; }
       .problem-card__desc { font-size: 12px; }
       .feature-grid { grid-template-columns: 1fr; }
-      .mock-row { grid-template-columns: 28px 1fr auto; }
-      .mock-avatar { width: 24px; height: 24px; font-size: 9px; }
+      .mock-sidebar { display: none; }
+      .mock-main { padding: 12px; }
+      .mock-cards-grid { gap: 8px; }
     }
 
     @media (max-width: 360px) {
@@ -1749,68 +1918,175 @@
         <div class="browser-dots"><span></span><span></span><span></span></div>
         <div class="browser-address">localhost:8888</div>
       </div>
-      <div class="browser-body">
-        <div class="mock-toolbar">
-          <div class="mock-search">
-            <div class="mock-search-icon"></div>
-            <div class="mock-search-text">Search profiles...</div>
+      <div class="app-mock">
+        <!-- Sidebar -->
+        <aside class="mock-sidebar">
+          <div class="mock-sidebar-brand">
+            <div class="mock-brand-mark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span>VeilBrowse</span>
           </div>
-          <div class="mock-btn-group">
-            <div class="mock-btn"><div class="mock-btn-text"></div></div>
+          <nav class="mock-nav">
+            <div class="mock-nav-item active">
+              <div class="mock-nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              Profiles
+            </div>
+            <div class="mock-nav-item">
+              <div class="mock-nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              Proxies
+            </div>
+            <div class="mock-nav-item">
+              <div class="mock-nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+              </div>
+              Groups
+            </div>
+          </nav>
+          <div class="mock-sidebar-trust">
+            <div class="mock-trust-badge">
+              <div class="mock-trust-dot"></div>
+              No telemetry
+            </div>
           </div>
-        </div>
-        <div class="mock-table-header">
-          <div class="mock-th"></div>
-          <div class="mock-th">Profile</div>
-          <div class="mock-th">Status</div>
-          <div class="mock-th">Proxy</div>
-          <div class="mock-th">Platform</div>
-          <div class="mock-th"></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar win">W</div>
-          <div>
-            <div class="mock-name">eBay Seller #1</div>
-            <div class="mock-meta">Chrome 124 / Win10 / US-East</div>
+          <div class="mock-sidebar-footer">v1.0.1</div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="mock-main">
+          <div class="mock-header">
+            <div class="mock-title">
+              Profiles
+              <span class="mock-count">6</span>
+            </div>
           </div>
-          <div class="mock-status on"><div class="mock-status-dot on"></div> Active</div>
-          <div class="mock-proxy">192.168.1.1</div>
-          <div class="mock-status on">Desktop</div>
-          <div class="mock-actions"><span></span><span></span></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar mac">M</div>
-          <div>
-            <div class="mock-name">Amazon Storefront</div>
-            <div class="mock-meta">Safari 17 / macOS / US-West</div>
+          <div class="mock-toolbar-row">
+            <div class="mock-search-real">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Search profiles...
+            </div>
+            <div class="mock-new-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Profile
+            </div>
           </div>
-          <div class="mock-status off"><div class="mock-status-dot off"></div> Idle</div>
-          <div class="mock-proxy">10.0.0.5</div>
-          <div class="mock-status on">Desktop</div>
-          <div class="mock-actions"><span></span><span></span></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar iphone">i</div>
-          <div>
-            <div class="mock-name">TikTok Account #2</div>
-            <div class="mock-meta">Safari iOS / iPhone 15 / UK</div>
+          <div class="mock-filters">
+            <div class="mock-filter-chip active">All</div>
+            <div class="mock-filter-chip">Active</div>
+            <div class="mock-filter-chip">E-Commerce</div>
+            <div class="mock-filter-chip">Social Media</div>
+            <div class="mock-filter-chip">EU Proxies</div>
           </div>
-          <div class="mock-status on"><div class="mock-status-dot on"></div> Active</div>
-          <div class="mock-proxy">203.0.113.4</div>
-          <div class="mock-status on">Mobile</div>
-          <div class="mock-actions"><span></span><span></span></div>
-        </div>
-        <div class="mock-row">
-          <div class="mock-avatar android">A</div>
-          <div>
-            <div class="mock-name">Instagram Growth</div>
-            <div class="mock-meta">Chrome Mobile / Android 14 / DE</div>
+          <div class="mock-cards-grid">
+            <!-- Card 1 -->
+            <div class="mock-card running">
+              <div class="mock-card-header">
+                <div class="mock-card-avatar">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="9" height="9" rx="1"/><rect x="13" y="2" width="9" height="9" rx="1"/><rect x="2" y="13" width="9" height="9" rx="1"/><rect x="13" y="13" width="9" height="9" rx="1"/></svg>
+                </div>
+                <div class="mock-card-info">
+                  <div class="mock-card-title">eBay Seller #1</div>
+                  <div class="mock-card-meta">Chrome 124 / Windows 10 / US-East</div>
+                </div>
+                <div class="mock-card-status running">
+                  <span class="mock-status-dot running"></span> Active
+                </div>
+              </div>
+              <div class="mock-tags">
+                <span class="mock-tag mock-tag-green">Randomized</span>
+                <span class="mock-tag mock-tag-proxy">192.168.1.1</span>
+                <span class="mock-tag mock-tag-cyan">E-Commerce</span>
+              </div>
+              <div class="mock-card-details">
+                <div class="mock-details-grid">
+                  <div class="mock-detail">
+                    <div class="mock-detail-label">User Agent</div>
+                    <div class="mock-detail-value">Mozilla/5.0 (Win64) Chrome/124</div>
+                  </div>
+                  <div class="mock-detail">
+                    <div class="mock-detail-label">Resolution</div>
+                    <div class="mock-detail-value">1920 x 1080</div>
+                  </div>
+                  <div class="mock-detail">
+                    <div class="mock-detail-label">Timezone</div>
+                    <div class="mock-detail-value">America/New_York</div>
+                  </div>
+                  <div class="mock-detail">
+                    <div class="mock-detail-label">WebGL</div>
+                    <div class="mock-detail-value">NVIDIA GeForce GTX 1660</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="mock-card">
+              <div class="mock-card-header">
+                <div class="mock-card-avatar">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-1.7 0-3 1.2-3 2.6 0 .5.2 1 .5 1.4-.6.3-1.2.8-1.6 1.4-.5.7-.9 1.6-.9 2.6 0 2.5 2 4.5 4.5 4.5h2c2.5 0 4.5-2 4.5-4.5 0-1-.3-1.9-.9-2.6-.4-.6-1-1.1-1.6-1.4.3-.4.5-.9.5-1.4 0-1.4-1.3-2.6-3-2.6z"/><path d="M12 22v-3"/><path d="M9 19h6"/></svg>
+                </div>
+                <div class="mock-card-info">
+                  <div class="mock-card-title">Amazon Storefront</div>
+                  <div class="mock-card-meta">Safari 17 / macOS Sonoma / US-West</div>
+                </div>
+                <div class="mock-card-status idle">
+                  <span class="mock-status-dot idle"></span> Idle
+                </div>
+              </div>
+              <div class="mock-tags">
+                <span class="mock-tag mock-tag-green">Randomized</span>
+                <span class="mock-tag mock-tag-proxy">10.0.0.5</span>
+                <span class="mock-tag mock-tag-cyan">E-Commerce</span>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="mock-card running">
+              <div class="mock-card-header">
+                <div class="mock-card-avatar">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#f472b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="mock-card-info">
+                  <div class="mock-card-title">TikTok Account #2</div>
+                  <div class="mock-card-meta">Safari iOS / iPhone 15 / UK</div>
+                </div>
+                <div class="mock-card-status running">
+                  <span class="mock-status-dot running"></span> Active
+                </div>
+              </div>
+              <div class="mock-tags">
+                <span class="mock-tag mock-tag-green">Randomized</span>
+                <span class="mock-tag mock-tag-proxy">203.0.113.4</span>
+                <span class="mock-tag mock-tag-purple">Social Media</span>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="mock-card">
+              <div class="mock-card-header">
+                <div class="mock-card-avatar">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 6v12"/><path d="M16 6v12"/><path d="M12 10v4"/></svg>
+                </div>
+                <div class="mock-card-info">
+                  <div class="mock-card-title">Instagram Growth</div>
+                  <div class="mock-card-meta">Chrome Mobile / Android 14 / DE</div>
+                </div>
+                <div class="mock-card-status idle">
+                  <span class="mock-status-dot idle"></span> Idle
+                </div>
+              </div>
+              <div class="mock-tags">
+                <span class="mock-tag mock-tag-green">Randomized</span>
+                <span class="mock-tag mock-tag-proxy">198.51.100.7</span>
+                <span class="mock-tag mock-tag-purple">Social Media</span>
+              </div>
+            </div>
           </div>
-          <div class="mock-status off"><div class="mock-status-dot off"></div> Idle</div>
-          <div class="mock-proxy">198.51.100.7</div>
-          <div class="mock-status on">Mobile</div>
-          <div class="mock-actions"><span></span><span></span></div>
-        </div>
+        </main>
       </div>
     </div>
   </div>
