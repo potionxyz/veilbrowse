@@ -566,7 +566,7 @@
     .btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none !important; }
 
     /* ── Layout ── */
-    .content-area { padding: 24px 28px; max-width: 1400px; width: 100%; flex: 1; }
+    .content-area { padding: 24px 28px; max-width: 1600px; width: 100%; flex: 1; }
 
     .page-section { animation: fadeIn 0.25s ease; }
 
@@ -1514,6 +1514,67 @@
       }
       .top-bar {
         padding: 0 20px;
+      }
+    }
+
+    @media (min-width: 1920px) {
+      .content-area {
+        max-width: 1800px;
+        padding: 28px 40px;
+      }
+      .profiles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      }
+      .sessions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      }
+      .proxies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+      .modal-panel {
+        width: 560px;
+      }
+      .data-table {
+        font-size: 14px;
+      }
+      .data-table th,
+      .data-table td {
+        padding: 12px 16px;
+      }
+    }
+
+    @media (min-width: 2560px) {
+      .content-area {
+        max-width: none;
+        padding: 32px 48px;
+      }
+      .profiles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      }
+      .sessions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      }
+      .proxies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+      .modal-panel {
+        width: 680px;
+      }
+      .data-table {
+        font-size: 15px;
+      }
+      .data-table th,
+      .data-table td {
+        padding: 14px 18px;
+      }
+      .profile-card-header {
+        padding: 16px;
+      }
+      .profile-name {
+        font-size: 15px;
+      }
+      .session-header {
+        padding: 12px 14px;
       }
     }
 
