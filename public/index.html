@@ -383,6 +383,52 @@
       color: var(--text-primary);
       border-color: var(--border-hover);
     }
+    .theme-toggle .moon-icon {
+      width: 14px; height: 14px; border-radius: 50%;
+      box-shadow: inset -2.5px -1px 0 0 currentColor;
+      transform: rotate(-20deg);
+    }
+    .theme-toggle .sun-icon {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: currentColor;
+      box-shadow: 3.5px 0 0 -2px currentColor, -3.5px 0 0 -2px currentColor, 0 3.5px 0 -2px currentColor, 0 -3.5px 0 -2px currentColor, 2.5px 2.5px 0 -2px currentColor, -2.5px -2.5px 0 -2px currentColor, 2.5px -2.5px 0 -2px currentColor, -2.5px 2.5px 0 -2px currentColor;
+    }
+
+    .telemetry-toggle {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      flex-shrink: 0;
+      position: relative;
+    }
+    .telemetry-toggle:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-hover);
+    }
+    .telemetry-toggle.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .telemetry-toggle .pulse-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor;
+    }
+    .telemetry-toggle.active .pulse-dot {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
 
     .view-toggle {
       display: flex;
@@ -1262,8 +1308,11 @@
           </div>
         </div>
         <div class="top-bar-right">
+          <button class="telemetry-toggle" id="telemetryToggle" onclick="toggleTelemetry()" title="Anonymous usage stats (off by default)">
+            <div class="pulse-dot"></div>
+          </button>
           <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
-            <span id="themeIcon">&#127769;</span>
+            <span id="themeIcon" class="moon-icon"></span>
           </button>
           <button class="btn btn-primary" onclick="openModal()">
             <span>+</span> New Profile
@@ -1571,7 +1620,40 @@
 
     function updateThemeIcon(theme) {
       const icon = document.getElementById('themeIcon');
-      if (icon) icon.innerHTML = theme === 'dark' ? '&#127769;' : '&#9728;&#65039;';
+      if (!icon) return;
+      icon.className = theme === 'dark' ? 'moon-icon' : 'sun-icon';
+    }
+
+    // ── Telemetry (off by default) ──
+    (function initTelemetry() {
+      const enabled = localStorage.getItem('veilbrowse-telemetry') === 'true';
+      updateTelemetryIcon(enabled);
+      if (enabled) sendPing();
+    })();
+
+    function toggleTelemetry() {
+      const enabled = localStorage.getItem('veilbrowse-telemetry') === 'true';
+      const next = !enabled;
+      localStorage.setItem('veilbrowse-telemetry', next ? 'true' : 'false');
+      updateTelemetryIcon(next);
+      if (next) sendPing();
+    }
+
+    function updateTelemetryIcon(enabled) {
+      const btn = document.getElementById('telemetryToggle');
+      if (!btn) return;
+      btn.classList.toggle('active', enabled);
+      btn.title = enabled ? 'Anonymous usage stats: ON' : 'Anonymous usage stats: OFF (click to enable)';
+    }
+
+    function sendPing() {
+      const sessionId = localStorage.getItem('veilbrowse-session') || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
+      localStorage.setItem('veilbrowse-session', sessionId);
+      fetch('https://veilbrowse.vercel.app/api/ping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ v: '1.0.0', p: navigator.platform, s: sessionId })
+      }).catch(() => {});
     }
 
     // ── State ──
