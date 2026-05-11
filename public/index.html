@@ -1375,6 +1375,131 @@
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
 
+    @media (max-width: 1200px) {
+      .sidebar {
+        width: 200px;
+        padding: 16px 0;
+      }
+      .sidebar-brand {
+        padding: 0 16px 20px;
+        font-size: 15px;
+      }
+      .sidebar-brand .brand-mark {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+      }
+      .sidebar-nav {
+        padding: 0 10px;
+      }
+      .sidebar-link {
+        padding: 7px 10px;
+        font-size: 12px;
+      }
+      .sidebar-trust {
+        margin: 10px 12px 0;
+        padding: 8px 10px;
+      }
+      .sidebar-trust-title {
+        font-size: 10px;
+      }
+      .sidebar-trust-desc {
+        font-size: 9px;
+      }
+      .content-area {
+        padding: 20px 24px;
+      }
+      .profiles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+      .sessions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
+      .proxies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+      .modal-panel {
+        width: 440px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 64px;
+        padding: 16px 0;
+        align-items: center;
+      }
+      .sidebar-brand {
+        padding: 0 0 16px;
+        justify-content: center;
+        width: 100%;
+      }
+      .sidebar-brand span {
+        display: none;
+      }
+      .sidebar-brand .brand-mark {
+        width: 32px;
+        height: 32px;
+        font-size: 13px;
+      }
+      .sidebar-nav {
+        padding: 0 10px;
+        width: 100%;
+        align-items: center;
+      }
+      .sidebar-link {
+        padding: 10px;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-md);
+      }
+      .sidebar-link span:last-child {
+        display: none;
+      }
+      .sidebar-icon {
+        margin: 0;
+        font-size: 18px;
+      }
+      .sidebar-trust {
+        display: none;
+      }
+      .sidebar-footer {
+        display: none;
+      }
+      .content-area {
+        padding: 20px;
+      }
+      .profiles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+      .sessions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+      .proxies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+      .data-table {
+        font-size: 12px;
+      }
+      .data-table th,
+      .data-table td {
+        padding: 8px 10px;
+      }
+      .data-table .table-tags {
+        max-width: 120px;
+      }
+      .table-proxy {
+        max-width: 120px;
+      }
+      .modal-panel {
+        width: 400px;
+      }
+      .top-bar {
+        padding: 0 20px;
+      }
+    }
+
     @media (max-width: 768px) {
       .sidebar { display: none; }
       .top-bar { padding: 0 16px; }
