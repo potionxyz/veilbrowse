@@ -166,7 +166,60 @@
       color: var(--accent);
       font-weight: 600;
     }
-    .sidebar-link .sidebar-icon { font-size: 16px; width: 20px; text-align: center; }
+    .sidebar-link .sidebar-icon { font-size: 16px; width: 20px; text-align: center; display: inline-flex; align-items: center; justify-content: center; }
+
+    /* CSS-only sidebar icons */
+    .icon-profiles {
+      width: 14px; height: 16px;
+      border: 2px solid currentColor;
+      border-radius: 2px;
+      position: relative;
+      display: inline-block;
+    }
+    .icon-profiles::before {
+      content: '';
+      position: absolute;
+      top: 4px; left: 2px; right: 2px;
+      height: 2px;
+      background: currentColor;
+      box-shadow: 0 4px 0 0 currentColor;
+    }
+    .icon-proxies {
+      width: 16px; height: 10px;
+      border: 2px solid currentColor;
+      border-radius: 2px;
+      position: relative;
+      display: inline-block;
+    }
+    .icon-proxies::before,
+    .icon-proxies::after {
+      content: '';
+      position: absolute;
+      width: 2px; height: 4px;
+      background: var(--bg-root);
+      top: -3px;
+    }
+    .icon-proxies::before { left: 3px; }
+    .icon-proxies::after { right: 3px; }
+
+    .os-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px; height: 22px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+      line-height: 1;
+    }
+    .os-windows { background: #0078d4; }
+    .os-macos { background: #555; }
+    .os-ios { background: #007aff; }
+    .os-android { background: #3ddc84; color: #000; }
+    .os-linux { background: #f5c211; color: #000; }
+    .os-unknown { background: var(--text-muted); }
 
     .sidebar-footer {
       margin-top: auto;
@@ -1175,11 +1228,11 @@
       </div>
       <nav class="sidebar-nav">
         <a class="sidebar-link active" id="navProfiles" onclick="showPage('profiles')">
-          <span class="sidebar-icon">&#128203;</span>
+          <span class="sidebar-icon"><span class="icon-profiles"></span></span>
           <span>Profiles</span>
         </a>
         <a class="sidebar-link" id="navProxies" onclick="showPage('proxies')">
-          <span class="sidebar-icon">&#128268;</span>
+          <span class="sidebar-icon"><span class="icon-proxies"></span></span>
           <span>Proxies</span>
         </a>
       </nav>
@@ -1576,14 +1629,14 @@
     function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
     function getOSInfo(ua) {
-      if (!ua) return { icon: '&#128187;', name: 'Unknown', short: 'Unknown' };
-      if (ua.includes('iPhone')) return { icon: '&#128241;', name: 'iPhone', short: 'iOS' };
-      if (ua.includes('iPad')) return { icon: '&#128241;', name: 'iPad', short: 'iOS' };
-      if (ua.includes('Android')) return { icon: '&#129302;', name: 'Android', short: 'Android' };
-      if (ua.includes('Mac OS') || ua.includes('Macintosh')) return { icon: '&#127823;', name: 'macOS', short: 'macOS' };
-      if (ua.includes('Windows')) return { icon: '&#128187;', name: 'Windows', short: 'Windows' };
-      if (ua.includes('Linux')) return { icon: '&#128421;', name: 'Linux', short: 'Linux' };
-      return { icon: '&#128187;', name: 'Unknown', short: 'Unknown' };
+      if (!ua) return { icon: '<span class="os-badge os-unknown">?</span>', name: 'Unknown', short: 'Unknown' };
+      if (ua.includes('iPhone')) return { icon: '<span class="os-badge os-ios">i</span>', name: 'iPhone', short: 'iOS' };
+      if (ua.includes('iPad')) return { icon: '<span class="os-badge os-ios">i</span>', name: 'iPad', short: 'iOS' };
+      if (ua.includes('Android')) return { icon: '<span class="os-badge os-android">A</span>', name: 'Android', short: 'Android' };
+      if (ua.includes('Mac OS') || ua.includes('Macintosh')) return { icon: '<span class="os-badge os-macos">M</span>', name: 'macOS', short: 'macOS' };
+      if (ua.includes('Windows')) return { icon: '<span class="os-badge os-windows">W</span>', name: 'Windows', short: 'Windows' };
+      if (ua.includes('Linux')) return { icon: '<span class="os-badge os-linux">L</span>', name: 'Linux', short: 'Linux' };
+      return { icon: '<span class="os-badge os-unknown">?</span>', name: 'Unknown', short: 'Unknown' };
     }
 
     function getBrowserInfo(ua) {

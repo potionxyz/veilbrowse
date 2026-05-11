@@ -16,7 +16,7 @@ VeilBrowse creates isolated Chrome browser profiles with unique fingerprints. Ea
 - **Proxy integration** — HTTP, HTTPS, SOCKS5 with health checks
 - **Geolocation & timezone matching**
 
-Run 50 profiles from one Linux machine. Platforms see 50 different devices.
+Run unlimited profiles from one Linux machine. Platforms see completely different devices.
 
 ## Quick start
 
