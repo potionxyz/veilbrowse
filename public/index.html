@@ -1649,7 +1649,7 @@
     function sendPing() {
       const sessionId = localStorage.getItem('veilbrowse-session') || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
       localStorage.setItem('veilbrowse-session', sessionId);
-      fetch('https://veilbrowse.vercel.app/api/ping', {
+      fetch('https://veilbrowse.dev/api/ping', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ v: '1.0.0', p: navigator.platform, s: sessionId })

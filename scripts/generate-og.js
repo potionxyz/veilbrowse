@@ -68,7 +68,7 @@ const path = require('path');
   <div class="badge">Open Source &middot; Linux Native &middot; MIT License</div>
   <h1>Unlimited isolated browsers.<br>Zero <span>linkability</span>.</h1>
   <p>VeilBrowse — anti-detect browser manager for Linux</p>
-  <div class="footer">veilbrowse.vercel.app</div>
+  <div class="footer">veilbrowse.dev</div>
 </body>
 </html>
   `;
