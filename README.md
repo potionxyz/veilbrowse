@@ -24,7 +24,7 @@ Run 50 profiles from one Linux machine. Platforms see 50 different devices.
 
 ```bash
 # Clone
-git clone https://github.com/YOUR_USERNAME/veilbrowse.git
+git clone https://github.com/potionxyz/veilbrowse.git
 cd veilbrowse
 
 # Install dependencies
