@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VeilBrowse — Anti-Detect Browser for Multiple Accounts</title>
-  <meta name="description" content="Open-source anti-detect browser for multi-accounting, affiliate marketing, and web scraping. 23+ fingerprint checks. Linux. Free.">
+  <title>VeilBrowse — Isolated Browser Manager for Linux</title>
+  <meta name="description" content="Free, open-source browser isolation for Linux. Run unlimited profiles with independent cookies, storage, and fingerprints. Built for scrapers and multi-account operators.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://veilbrowse.dev">
   <meta property="og:image" content="https://veilbrowse.dev/og.png">
@@ -17,65 +17,67 @@
   <script defer src="/_vercel/speed-insights/script.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-root: #18191c;
-      --bg-surface: #232428;
-      --bg-elevated: #2b2d31;
-      --bg-input: #1e1f22;
-      --border: #2f3035;
-      --border-hover: #3a3c42;
-      --border-active: #4a4d55;
-      --text-primary: #dbdee1;
-      --text-secondary: #949ba4;
-      --text-muted: #6d6f78;
+      --bg-root: #0a0a0f;
+      --bg-surface: #111118;
+      --bg-elevated: #18181f;
+      --bg-input: #0f0f14;
+      --border: #1e1e26;
+      --border-hover: #2a2a35;
+      --border-active: #3a3a48;
+      --text-primary: #f0f0f5;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
       --accent: #06b6d4;
-      --accent-hover: #0891b2;
-      --accent-glow: rgba(6, 182, 212, 0.12);
-      --accent-dim: rgba(6, 182, 212, 0.06);
-      --danger: #ef4444;
-      --success: #10b981;
-      --success-bg: rgba(16, 185, 129, 0.08);
-      --warning: #f59e0b;
-      --warning-bg: rgba(245, 158, 11, 0.08);
+      --accent-hover: #22d3ee;
+      --accent-glow: rgba(6, 182, 212, 0.15);
+      --accent-dim: rgba(6, 182, 212, 0.08);
+      --accent-faint: rgba(6, 182, 212, 0.03);
+      --danger: #f87171;
+      --success: #34d399;
+      --success-bg: rgba(52, 211, 153, 0.08);
+      --warning: #fbbf24;
+      --warning-bg: rgba(251, 191, 36, 0.08);
       --info: #60a5fa;
       --info-bg: rgba(96, 165, 250, 0.08);
-      --radius-sm: 6px;
-      --radius-md: 10px;
-      --radius-lg: 14px;
-      --radius-xl: 20px;
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
-      --transition: all 0.15s ease;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.5), 0 0 0 1px var(--border);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.6), 0 0 0 1px var(--border);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.7), 0 0 0 1px var(--border);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     [data-theme="light"] {
-      --bg-root: #f2f3f5;
+      --bg-root: #fafafa;
       --bg-surface: #ffffff;
-      --bg-elevated: #ebedef;
+      --bg-elevated: #f3f4f6;
       --bg-input: #ffffff;
-      --border: #e3e5e8;
-      --border-hover: #d5d8dc;
-      --border-active: #c8ccd0;
-      --text-primary: #313338;
-      --text-secondary: #4f5660;
-      --text-muted: #959ba3;
-      --accent: #06b6d4;
-      --accent-hover: #0891b2;
-      --accent-glow: rgba(6, 182, 212, 0.10);
-      --accent-dim: rgba(6, 182, 212, 0.04);
+      --border: #e5e7eb;
+      --border-hover: #d1d5db;
+      --border-active: #9ca3af;
+      --text-primary: #111827;
+      --text-secondary: #4b5563;
+      --text-muted: #9ca3af;
+      --accent: #0891b2;
+      --accent-hover: #0e7490;
+      --accent-glow: rgba(8, 145, 178, 0.12);
+      --accent-dim: rgba(8, 145, 178, 0.06);
+      --accent-faint: rgba(8, 145, 178, 0.03);
       --danger: #dc2626;
       --success: #059669;
       --success-bg: rgba(5, 150, 105, 0.06);
       --warning: #d97706;
-      --warning-bg: rgba(245, 158, 11, 0.06);
+      --warning-bg: rgba(217, 119, 6, 0.06);
       --info: #2563eb;
       --info-bg: rgba(37, 99, 235, 0.06);
-      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05), 0 0 0 1px var(--border);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.08), 0 0 0 1px var(--border);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.1), 0 0 0 1px var(--border);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -92,16 +94,45 @@
       overflow-x: hidden;
     }
 
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* ── Scroll Animations ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
     /* ── Platform Banner ── */
     .platform-banner {
       background: var(--warning-bg);
-      border-bottom: 1px solid rgba(245,158,11,0.15);
+      border-bottom: 1px solid rgba(251, 191, 36, 0.15);
       padding: 10px 24px;
       text-align: center;
       font-size: 13px;
       color: var(--text-secondary);
       position: relative;
       z-index: 1001;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.01em;
     }
     .platform-banner strong {
       color: var(--warning);
@@ -119,6 +150,7 @@
       font-size: 16px;
       padding: 2px 6px;
       line-height: 1;
+      transition: color 0.15s;
     }
     .platform-banner__close:hover { color: var(--text-primary); }
 
@@ -127,14 +159,14 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(24, 25, 28, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: rgba(10, 10, 15, 0.7);
+      backdrop-filter: blur(24px) saturate(1.2);
+      -webkit-backdrop-filter: blur(24px) saturate(1.2);
       border-bottom: 1px solid var(--border);
       transition: background 0.3s ease;
     }
     [data-theme="light"] .header {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(250, 250, 250, 0.7);
     }
 
     .header__inner {
@@ -151,16 +183,16 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       letter-spacing: -0.5px;
       color: var(--text-primary);
       text-decoration: none;
     }
-    .logo:hover { opacity: 0.85; }
+    .logo:hover { opacity: 0.8; }
     .logo__mark {
       width: 32px; height: 32px;
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
@@ -170,6 +202,7 @@
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
       flex-shrink: 0;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
     }
 
     .nav {
@@ -206,16 +239,29 @@
       text-decoration: none;
       font-family: inherit;
       line-height: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+    .btn:hover::before {
+      transform: translateX(100%);
     }
     .btn--primary {
-      background: var(--accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
       color: #fff;
-      border-color: var(--accent);
+      border-color: transparent;
+      box-shadow: 0 0 24px rgba(6, 182, 212, 0.2), 0 4px 12px rgba(6, 182, 212, 0.15);
     }
     .btn--primary:hover {
-      background: var(--accent-hover);
-      border-color: var(--accent-hover);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(6, 182, 212, 0.3), 0 6px 20px rgba(6, 182, 212, 0.2);
     }
     .btn--outline {
       background: transparent;
@@ -225,8 +271,19 @@
     .btn--outline:hover {
       background: var(--bg-elevated);
       border-color: var(--border-hover);
+      transform: translateY(-1px);
     }
-    .btn--small { padding: 7px 14px; font-size: 13px; }
+    .btn--ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border-color: transparent;
+      padding: 8px 14px;
+    }
+    .btn--ghost:hover {
+      color: var(--text-primary);
+      background: var(--bg-elevated);
+    }
+    .btn--small { padding: 8px 16px; font-size: 13px; }
     .btn--large { padding: 14px 28px; font-size: 15px; border-radius: var(--radius-lg); }
 
     .theme-toggle {
@@ -245,61 +302,166 @@
     .theme-toggle:hover {
       background: var(--bg-elevated);
       color: var(--text-primary);
+      border-color: var(--border-hover);
     }
-
-    .nav__mobile-btn { display: none; }
-    .nav__mobile-menu { display: none; }
+    .theme-toggle .moon-icon {
+      width: 14px; height: 14px; border-radius: 50%;
+      box-shadow: inset -2.5px -1px 0 0 currentColor;
+      transform: rotate(-20deg);
+    }
+    .theme-toggle .sun-icon {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: currentColor;
+      box-shadow: 3.5px 0 0 -2px currentColor, -3.5px 0 0 -2px currentColor, 0 3.5px 0 -2px currentColor, 0 -3.5px 0 -2px currentColor, 2.5px 2.5px 0 -2px currentColor, -2.5px -2.5px 0 -2px currentColor, 2.5px -2.5px 0 -2px currentColor, -2.5px 2.5px 0 -2px currentColor;
+    }
 
     /* ── Hero ── */
     .hero {
-      padding: 100px 24px 80px;
+      position: relative;
+      padding: 120px 24px 100px;
       max-width: 1100px;
       margin: 0 auto;
       text-align: center;
+      overflow: hidden;
     }
+    .hero__glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero__glow-2 {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.08) 0%, transparent 70%);
+      top: 20%;
+      right: 10%;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      background: var(--accent-faint);
+      border: 1px solid rgba(6, 182, 212, 0.15);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 32px;
+      letter-spacing: -0.01em;
+    }
+    .hero__badge-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
     .hero__title {
-      font-size: clamp(42px, 7vw, 72px);
-      font-weight: 700;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
       line-height: 1.05;
-      letter-spacing: -0.12rem;
+      letter-spacing: -0.04em;
       margin-bottom: 24px;
     }
-    .hero__title span {
-      color: var(--accent);
-      position: relative;
+    .hero__title .line-1 { display: block; }
+    .hero__title .line-2 {
+      display: block;
+      background: linear-gradient(135deg, var(--accent), #a5f3fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .hero__title span::after {
-      content: '';
-      position: absolute;
-      bottom: 4px; left: 0; right: 0;
-      height: 10px;
-      background: var(--accent-glow);
-      border-radius: 4px;
-      z-index: -1;
+    [data-theme="light"] .hero__title .line-2 {
+      background: linear-gradient(135deg, #0891b2, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+
     .hero__subtitle {
-      font-size: clamp(17px, 2vw, 20px);
+      font-size: clamp(16px, 2vw, 20px);
       color: var(--text-secondary);
       line-height: 1.7;
-      max-width: 640px;
-      margin: 0 auto 36px;
-      letter-spacing: -0.02rem;
+      max-width: 560px;
+      margin: 0 auto 40px;
+      letter-spacing: -0.01em;
     }
-    .hero__cta { margin-bottom: 64px; }
+
+    .hero__cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 80px;
+    }
+
+    .hero__meta {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .hero__meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero__meta-dot {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--success);
+    }
 
     /* ── Browser Mockup ── */
-    .browser-mockup {
-      max-width: 900px;
+    .mockup-container {
+      max-width: 960px;
       margin: 0 auto;
+      position: relative;
+    }
+    .mockup-container::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(139, 92, 246, 0.04));
+      border-radius: 32px;
+      z-index: -1;
+      filter: blur(40px);
+    }
+    .browser-mockup {
       border-radius: var(--radius-xl);
       overflow: hidden;
       border: 1px solid var(--border);
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-lg), 0 0 80px rgba(6, 182, 212, 0.08);
       background: var(--bg-surface);
       text-align: left;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .browser-mockup:hover {
+      transform: translateY(-4px) scale(1.005);
     }
     .browser-bar {
-      padding: 12px 16px;
+      padding: 14px 18px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -308,164 +470,231 @@
     }
     .browser-dots {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
     .browser-dots span {
-      width: 10px; height: 10px;
+      width: 12px; height: 12px;
       border-radius: 50%;
       display: block;
+      transition: transform 0.2s;
     }
-    .browser-dots span:nth-child(1) { background: #ff5f56; }
-    .browser-dots span:nth-child(2) { background: #ffbd2e; }
-    .browser-dots span:nth-child(3) { background: #27c93f; }
+    .browser-dots span:hover { transform: scale(1.2); }
+    .browser-dots span:nth-child(1) { background: #ff5f57; }
+    .browser-dots span:nth-child(2) { background: #febc2e; }
+    .browser-dots span:nth-child(3) { background: #28c840; }
     .browser-address {
       flex: 1;
+      max-width: 320px;
+      margin: 0 auto;
       background: var(--bg-input);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 5px 14px;
+      border-radius: 8px;
+      padding: 6px 14px;
       font-size: 12px;
       color: var(--text-muted);
       font-family: 'JetBrains Mono', monospace;
+      text-align: center;
     }
     .browser-body {
-      padding: 20px;
+      padding: 24px;
     }
     .mock-toolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       gap: 12px;
     }
     .mock-search {
       flex: 1;
       max-width: 280px;
-      height: 32px;
+      height: 36px;
       background: var(--bg-input);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 8px;
+    }
+    .mock-search-icon {
+      width: 14px; height: 14px;
+      border: 2px solid var(--text-muted);
+      border-radius: 50%;
+      position: relative;
+    }
+    .mock-search-icon::after {
+      content: '';
+      position: absolute;
+      width: 6px; height: 2px;
+      background: var(--text-muted);
+      bottom: -3px; right: -5px;
+      transform: rotate(45deg);
+      border-radius: 1px;
+    }
+    .mock-search-text {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .mock-btn-group {
+      display: flex;
+      gap: 8px;
     }
     .mock-btn {
-      width: 100px; height: 32px;
-      background: var(--accent);
+      height: 36px;
+      padding: 0 16px;
       border-radius: var(--radius-sm);
-      opacity: 0.8;
+      background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+    .mock-btn-icon {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+    .mock-btn-text {
+      width: 60px; height: 8px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.4);
+    }
+
     .mock-table-header {
       display: grid;
-      grid-template-columns: 40px 1fr 100px 120px;
+      grid-template-columns: 48px 1.5fr 100px 100px 100px 48px;
       gap: 12px;
-      padding: 8px 12px;
+      padding: 10px 16px;
       border-bottom: 1px solid var(--border);
       margin-bottom: 8px;
     }
     .mock-th {
-      height: 10px;
-      background: var(--text-muted);
-      border-radius: 2px;
-      opacity: 0.3;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
     }
-    .mock-th:nth-child(1) { width: 16px; }
-    .mock-th:nth-child(3) { width: 60px; }
-    .mock-th:nth-child(4) { width: 80px; }
     .mock-row {
       display: grid;
-      grid-template-columns: 40px 1fr 100px 120px;
+      grid-template-columns: 48px 1.5fr 100px 100px 100px 48px;
       gap: 12px;
       align-items: center;
-      padding: 10px 12px;
+      padding: 12px 16px;
       border-radius: var(--radius-sm);
-      margin-bottom: 6px;
-      transition: background 0.12s;
+      margin-bottom: 4px;
+      transition: background 0.15s;
+      border: 1px solid transparent;
     }
-    .mock-row:hover { background: var(--bg-elevated); }
+    .mock-row:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border);
+    }
     .mock-avatar {
-      width: 28px; height: 28px;
+      width: 32px; height: 32px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       color: #fff;
       font-family: 'JetBrains Mono', monospace;
     }
-    .mock-avatar.win { background: #3b82f6; }
-    .mock-avatar.mac { background: #a855f7; }
-    .mock-avatar.iphone { background: #ec4899; }
+    .mock-avatar.win { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
+    .mock-avatar.mac { background: linear-gradient(135deg, #a855f7, #c084fc); }
+    .mock-avatar.iphone { background: linear-gradient(135deg, #ec4899, #f472b6); }
+    .mock-avatar.android { background: linear-gradient(135deg, #22c55e, #4ade80); }
     .mock-name {
-      height: 10px;
-      background: var(--text-primary);
-      border-radius: 2px;
-      opacity: 0.5;
-      max-width: 140px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 2px;
     }
     .mock-meta {
-      height: 8px;
-      background: var(--text-muted);
-      border-radius: 2px;
-      opacity: 0.3;
-      max-width: 200px;
-      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
     }
     .mock-status {
       display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
     }
     .mock-status-dot {
-      width: 6px; height: 6px;
+      width: 8px; height: 8px;
       border-radius: 50%;
     }
-    .mock-status-dot.on { background: var(--success); box-shadow: 0 0 6px var(--success); }
-    .mock-status-dot.off { background: var(--text-muted); }
-    .mock-status-text {
-      height: 8px;
-      background: var(--text-muted);
-      border-radius: 2px;
-      opacity: 0.4;
-      width: 50px;
+    .mock-status-dot.on {
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+    .mock-status-dot.off { background: var(--text-muted); opacity: 0.5; }
+    .mock-status.on { color: var(--success); }
+    .mock-status.off { color: var(--text-muted); }
+    .mock-proxy {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
     }
     .mock-actions {
       display: flex;
       gap: 6px;
+      justify-content: flex-end;
     }
     .mock-actions span {
-      width: 24px; height: 24px;
+      width: 28px; height: 28px;
       border-radius: var(--radius-sm);
-      background: var(--border);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      transition: background 0.15s;
     }
+    .mock-actions span:hover { background: var(--border-hover); }
 
     /* ── Stats ── */
     .stats-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      max-width: 1000px;
+      gap: 16px;
+      max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px 80px;
+      padding: 0 24px 100px;
     }
     .stat-block {
       text-align: center;
-      padding: 28px 20px;
+      padding: 32px 20px;
       border-radius: var(--radius-lg);
       background: var(--bg-surface);
       border: 1px solid var(--border);
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     .stat-block:hover {
       border-color: var(--border-hover);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
     }
+    .stat-block:hover::before { opacity: 1; }
     .stat-block__num {
-      font-size: 36px;
+      font-size: 32px;
       font-weight: 700;
       color: var(--accent);
       line-height: 1;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: -0.02rem;
+      letter-spacing: -0.04em;
     }
     .stat-block__label {
       font-size: 15px;
@@ -481,9 +710,9 @@
       letter-spacing: -0.01rem;
     }
 
-    /* ── Section ── */
+    /* ── Section System ── */
     .section {
-      padding: 80px 24px;
+      padding: 100px 24px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -492,150 +721,154 @@
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
-    .section--alt .section { padding: 80px 24px; }
+    .section--alt .section { padding: 100px 24px; }
     .section__header {
       text-align: center;
-      max-width: 700px;
-      margin: 0 auto 64px;
+      max-width: 640px;
+      margin: 0 auto 72px;
     }
     .section__eyebrow {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: var(--accent-faint);
+      border: 1px solid rgba(6, 182, 212, 0.12);
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.05rem;
+      letter-spacing: 0.08em;
       color: var(--accent);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
       font-family: 'JetBrains Mono', monospace;
     }
     .section__title {
-      font-size: clamp(30px, 4vw, 44px);
+      font-size: clamp(28px, 4vw, 42px);
       font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.08rem;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
       margin-bottom: 16px;
     }
     .section__subtitle {
       font-size: 18px;
       color: var(--text-secondary);
-      line-height: 1.6;
-      letter-spacing: -0.02rem;
+      line-height: 1.7;
+      letter-spacing: -0.01em;
     }
 
-    /* ── Expandable Cards ── */
-    .expandable-cards {
+    /* ── Who It's For ── */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .persona-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .persona-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .persona-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .persona-card:hover::before { opacity: 1; }
+    .persona-card__icon {
+      width: 44px; height: 44px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    .persona-card__icon--scraper {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+    .persona-card__icon--seller {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+    .persona-card__icon--privacy {
+      background: var(--info-bg);
+      color: var(--info);
+    }
+    .persona-card__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+    .persona-card__text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Problem Cards ── */
+    .problem-grid {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
     }
-    .ecard {
-      background: var(--bg-root);
+    .problem-card {
+      background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
       transition: var(--transition);
     }
-    .ecard:hover { border-color: var(--border-hover); }
-    .ecard__header {
+    .problem-card:hover { border-color: var(--border-hover); }
+    .problem-card__header {
       display: flex;
       align-items: center;
       gap: 16px;
       padding: 24px 28px;
       cursor: pointer;
       user-select: none;
+      transition: background 0.15s;
     }
-    .ecard__icon-wrap {
+    .problem-card__header:hover { background: var(--bg-elevated); }
+    .problem-card__icon-wrap {
       width: 44px; height: 44px;
       border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      position: relative;
     }
-    .ecard__icon-wrap--affiliate { background: var(--accent-dim); }
-    .ecard__icon-wrap--ecommerce { background: var(--success-bg); }
-    .ecard__icon-wrap--scraping { background: var(--info-bg); }
-    .ecard__icon-wrap--social { background: rgba(236, 72, 153, 0.08); }
+    .problem-card__icon-wrap--red { background: rgba(248, 113, 113, 0.08); }
+    .problem-card__icon-wrap--orange { background: rgba(251, 191, 36, 0.08); }
+    .problem-card__icon-wrap--purple { background: rgba(168, 85, 247, 0.08); }
+    .problem-card__icon-wrap--pink { background: rgba(236, 72, 153, 0.08); }
 
-    /* CSS Icons for solution cards */
-    .icon-megaphone {
-      width: 20px; height: 16px;
-      position: relative;
-    }
-    .icon-megaphone::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 2px;
-      width: 8px; height: 12px;
-      background: var(--accent);
-      border-radius: 2px;
-    }
-    .icon-megaphone::after {
-      content: '';
-      position: absolute;
-      left: 6px; top: 0;
-      width: 0; height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
-      border-left: 12px solid var(--accent);
-    }
-
-    .icon-bag {
-      width: 16px; height: 14px;
-      border: 2px solid var(--success);
-      border-radius: 2px 2px 6px 6px;
-      position: relative;
-    }
-    .icon-bag::before {
-      content: '';
-      position: absolute;
-      top: -5px; left: 50%;
-      transform: translateX(-50%);
-      width: 8px; height: 4px;
-      border: 2px solid var(--success);
-      border-bottom: none;
-      border-radius: 4px 4px 0 0;
-    }
-
-    .icon-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      width: 16px; height: 16px;
-    }
-    .icon-grid span {
-      background: var(--info);
-      border-radius: 1px;
-    }
-
-    .icon-social {
-      display: flex;
-      gap: 2px;
-      align-items: flex-end;
-    }
-    .icon-social span {
-      width: 7px;
-      background: #ec4899;
-      border-radius: 3px;
-    }
-    .icon-social span:nth-child(1) { height: 10px; }
-    .icon-social span:nth-child(2) { height: 16px; }
-    .icon-social span:nth-child(3) { height: 7px; }
-
-    .ecard__info { flex: 1; min-width: 0; }
-    .ecard__title {
-      font-size: 18px;
+    .problem-card__info { flex: 1; min-width: 0; }
+    .problem-card__title {
+      font-size: 17px;
       font-weight: 600;
       margin-bottom: 2px;
-      letter-spacing: -0.02rem;
+      letter-spacing: -0.02em;
     }
-    .ecard__desc {
+    .problem-card__desc {
       font-size: 14px;
       color: var(--text-secondary);
-      letter-spacing: -0.01rem;
     }
-    .ecard__toggle {
+    .problem-card__toggle {
       width: 32px; height: 32px;
       border-radius: 50%;
       background: var(--bg-elevated);
@@ -646,65 +879,80 @@
       font-size: 12px;
       color: var(--text-muted);
       flex-shrink: 0;
-      transition: transform 0.2s;
+      transition: transform 0.2s, background 0.15s;
     }
-    .ecard.expanded .ecard__toggle { transform: rotate(180deg); }
-    .ecard__body {
+    .problem-card.expanded .problem-card__toggle {
+      transform: rotate(180deg);
+      background: var(--accent-dim);
+      border-color: rgba(6, 182, 212, 0.2);
+      color: var(--accent);
+    }
+    .problem-card__body {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       border-top: 1px solid transparent;
     }
-    .ecard.expanded .ecard__body {
-      max-height: 400px;
+    .problem-card.expanded .problem-card__body {
+      max-height: 500px;
       padding: 0 28px 28px;
       border-top-color: var(--border);
     }
-    .ecard__content {
+    .problem-card__content {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 32px;
       align-items: center;
     }
-    .ecard__text p {
+    .problem-card__text p {
       font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.7;
       margin-bottom: 20px;
     }
-    .ecard__text ul {
+    .problem-card__text ul {
       list-style: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 20px;
     }
-    .ecard__text ul li {
+    .problem-card__text ul li {
       display: flex;
       align-items: flex-start;
-      gap: 8px;
+      gap: 10px;
       font-size: 14px;
       color: var(--text-secondary);
     }
-    .ecard__text ul li::before {
+    .problem-card__text ul li::before {
       content: '';
       width: 5px; height: 5px;
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
-      margin-top: 7px;
+      margin-top: 8px;
+      box-shadow: 0 0 6px var(--accent);
     }
-    .ecard__visual {
-      background: var(--bg-elevated);
+    .problem-card__visual {
+      background: var(--bg-root);
       border-radius: var(--radius-md);
       border: 1px solid var(--border);
       aspect-ratio: 16/10;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .problem-card__visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 50%, rgba(6, 182, 212, 0.03) 100%);
+      pointer-events: none;
     }
 
-    /* Mini browser mockup for ecard visuals */
+    /* Mini browser for problem visuals */
     .mini-browser {
       width: 100%; height: 100%;
       display: flex;
@@ -747,399 +995,201 @@
     .mini-browser-row .line.mid { width: 80px; }
     .mini-browser-row .line.long { flex: 1; }
 
-    /* ── Feature Rows ── */
-    .feature-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-      margin-bottom: 100px;
-    }
-    .feature-row:last-child { margin-bottom: 0; }
-    .feature-row--reverse .feature-row__content { order: 2; }
-    .feature-row--reverse .feature-row__visual { order: 1; }
-
-    .feature-row__eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05rem;
-      color: var(--accent);
-      margin-bottom: 16px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .feature-row__title {
-      font-size: 32px;
-      font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.06rem;
-      margin-bottom: 16px;
-    }
-    .feature-row__text {
-      font-size: 17px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 24px;
-      letter-spacing: -0.015rem;
-    }
-    .feature-row__list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .feature-row__list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 15px;
-      color: var(--text-secondary);
-      letter-spacing: -0.01rem;
-    }
-    .feature-row__list li::before {
-      content: '';
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-      margin-top: 8px;
-    }
-    .feature-row__visual {
-      background: var(--bg-surface);
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--border);
-      aspect-ratio: 4/3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 32px;
-    }
-
-    /* Fingerprint check mockup */
-    .fp-mockup {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .fp-mockup-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-root);
-      border: 1px solid var(--border);
-    }
-    .fp-mockup-check {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      background: var(--success-bg);
-      border: 1px solid rgba(16,185,129,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .fp-mockup-check::after {
-      content: '';
-      width: 5px; height: 8px;
-      border-right: 2px solid var(--success);
-      border-bottom: 2px solid var(--success);
-      transform: rotate(45deg) translate(-1px, -1px);
-    }
-    .fp-mockup-label {
-      font-size: 13px;
-      color: var(--text-secondary);
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .fp-mockup-value {
-      margin-left: auto;
-      font-size: 11px;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-      background: var(--bg-elevated);
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-
-    /* Proxy mockup */
-    .proxy-mockup {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .proxy-mockup-card {
-      padding: 14px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-root);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .proxy-mockup-status {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .proxy-mockup-status.on { background: var(--success); box-shadow: 0 0 6px var(--success); }
-    .proxy-mockup-status.warn { background: var(--warning); }
-    .proxy-mockup-lines {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .proxy-mockup-lines .line {
-      height: 6px;
-      border-radius: 2px;
-      background: var(--border-hover);
-    }
-    .proxy-mockup-lines .line.short { width: 60%; }
-    .proxy-mockup-lines .line.mid { width: 40%; }
-    .proxy-mockup-ping {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* ── Grid Cards ── */
-    .grid-cards {
+    /* ── Feature Grid ── */
+    .feature-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
     }
-    .grid-card {
-      background: var(--bg-root);
+    .feature-card {
+      background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 28px;
+      padding: 32px;
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
     }
-    .grid-card:hover {
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover {
       border-color: var(--border-hover);
-      transform: translateY(-2px);
+      transform: translateY(-4px);
       box-shadow: var(--shadow-md);
     }
-    .grid-card__icon-wrap {
-      width: 40px; height: 40px;
+    .feature-card:hover::before { opacity: 1; }
+    .feature-card__icon-wrap {
+      width: 44px; height: 44px;
       border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 20px;
-      position: relative;
     }
-    .grid-card__icon-wrap--geo { background: var(--accent-dim); }
-    .grid-card__icon-wrap--proxy { background: var(--success-bg); }
-    .grid-card__icon-wrap--webrtc { background: var(--info-bg); }
-    .grid-card__icon-wrap--audio { background: rgba(245, 158, 11, 0.08); }
-    .grid-card__icon-wrap--font { background: rgba(236, 72, 153, 0.08); }
-    .grid-card__icon-wrap--team { background: rgba(139, 92, 246, 0.08); }
-
-    /* Grid CSS icons */
-    .icon-geo {
-      width: 0; height: 0;
-      border-left: 7px solid transparent;
-      border-right: 7px solid transparent;
-      border-top: 10px solid var(--accent);
-      position: relative;
-    }
-    .icon-geo::after {
-      content: '';
-      position: absolute;
-      bottom: 4px; left: -4px;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-    }
-
-    .icon-proxy-link {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-    .icon-proxy-link span {
-      width: 8px; height: 8px;
-      border-radius: 2px;
-      border: 2px solid var(--success);
-    }
-    .icon-proxy-link::after {
-      content: '';
-      width: 6px; height: 2px;
-      background: var(--success);
-    }
-
-    .icon-shield {
-      width: 14px; height: 16px;
-      background: var(--info);
-      border-radius: 2px 2px 8px 8px;
-      position: relative;
-    }
-    .icon-shield::before {
-      content: '';
-      position: absolute;
-      top: -3px; left: 50%;
-      transform: translateX(-50%);
-      width: 8px; height: 3px;
-      background: var(--info);
-      border-radius: 2px 2px 0 0;
-    }
-
-    .icon-audio {
-      display: flex;
-      align-items: flex-end;
-      gap: 2px;
-      height: 16px;
-    }
-    .icon-audio span {
-      width: 3px;
-      background: var(--warning);
-      border-radius: 2px;
-    }
-    .icon-audio span:nth-child(1) { height: 6px; }
-    .icon-audio span:nth-child(2) { height: 14px; }
-    .icon-audio span:nth-child(3) { height: 10px; }
-    .icon-audio span:nth-child(4) { height: 16px; }
-
-    .icon-font {
-      font-size: 16px;
-      font-weight: 700;
-      color: #ec4899;
-      font-family: 'JetBrains Mono', monospace;
-      line-height: 1;
-    }
-
-    .icon-team {
-      display: flex;
-      gap: -2px;
-    }
-    .icon-team span {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      border: 2px solid #8b5cf6;
-      background: var(--bg-root);
-    }
-    .icon-team span:nth-child(2) { margin-left: -3px; }
-    .icon-team span:nth-child(3) { margin-left: -3px; }
-
-    .grid-card__title {
+    .feature-card__icon-wrap--cyan { background: var(--accent-dim); color: var(--accent); }
+    .feature-card__icon-wrap--green { background: var(--success-bg); color: var(--success); }
+    .feature-card__icon-wrap--blue { background: var(--info-bg); color: var(--info); }
+    .feature-card__icon-wrap--yellow { background: var(--warning-bg); color: var(--warning); }
+    .feature-card__icon-wrap--purple { background: rgba(139, 92, 246, 0.08); color: #a78bfa; }
+    .feature-card__icon-wrap--pink { background: rgba(236, 72, 153, 0.08); color: #ec4899; }
+    .feature-card__title {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 10px;
-      letter-spacing: -0.025rem;
-      line-height: 1.25;
+      letter-spacing: -0.02em;
     }
-    .grid-card__text {
+    .feature-card__text {
       font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.6;
-      letter-spacing: -0.01rem;
     }
 
-    /* ── CTA Banner ── */
-    .cta-section { padding: 80px 24px; }
-    .cta-box {
-      max-width: 800px;
-      margin: 0 auto;
-      background: var(--accent);
-      border-radius: var(--radius-xl);
-      padding: 64px 48px;
-      text-align: center;
-      color: #fff;
+    /* ── How It Works ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
       position: relative;
-      overflow: hidden;
     }
-    .cta-box::before {
+    .steps::before {
       content: '';
       position: absolute;
-      top: -50%; left: -50%;
-      width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
-      background-size: 20px 20px;
-      pointer-events: none;
+      top: 40px;
+      left: 16%;
+      right: 16%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), var(--accent), var(--border));
+      opacity: 0.5;
+      z-index: 0;
     }
-    .cta-box > * { position: relative; z-index: 1; }
-    .cta-box__title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: -0.06rem;
+    .step {
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
-    .cta-box__text {
-      font-size: 18px;
-      opacity: 0.85;
-      margin-bottom: 32px;
-      letter-spacing: -0.02rem;
-    }
-    .cta-box .btn {
-      color: var(--accent);
-      background: #fff;
-      border-color: #fff;
-    }
-    .cta-box .btn:hover {
-      background: rgba(255,255,255,0.9);
-      border-color: rgba(255,255,255,0.9);
-    }
-
-    /* ── FAQ ── */
-    .faq-list {
-      max-width: 760px;
-      margin: 48px auto 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .faq-item {
-      background: var(--bg-root);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      transition: var(--transition);
-    }
-    .faq-item:hover { border-color: var(--border-hover); }
-    .faq-item__question {
-      padding: 18px 24px;
+    .step__num {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--bg-surface);
+      border: 2px solid var(--border);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      gap: 16px;
-    }
-    .faq-item__icon {
-      flex-shrink: 0;
-      font-size: 12px;
-      color: var(--text-muted);
-      transition: transform 0.2s;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
       font-family: 'JetBrains Mono', monospace;
+      margin: 0 auto 24px;
+      position: relative;
+      box-shadow: var(--shadow-sm);
     }
-    .faq-item.expanded .faq-item__icon { transform: rotate(180deg); }
-    .faq-item__answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease, padding 0.3s ease;
+    .step__num::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      opacity: 0.2;
     }
-    .faq-item.expanded .faq-item__answer {
-      max-height: 300px;
-      padding: 0 24px 18px;
+    .step__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
-    .faq-item__answer p {
+    .step__text {
       font-size: 15px;
       color: var(--text-secondary);
       line-height: 1.7;
     }
 
-    /* ── Comparison Table ── */
+    /* ── Built in Public ── */
+    .public-section {
+      background: linear-gradient(180deg, var(--bg-root) 0%, rgba(6, 182, 212, 0.02) 50%, var(--bg-root) 100%);
+    }
+    .public-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .public-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .public-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .public-card__icon {
+      width: 56px; height: 56px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 24px;
+    }
+    .public-card__title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .public-card__text {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* GitHub contribution graph mockup */
+    .github-graph {
+      margin-top: 48px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .github-graph-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .github-graph-grid {
+      display: grid;
+      grid-template-columns: repeat(52, 1fr);
+      gap: 3px;
+    }
+    .github-graph-cell {
+      aspect-ratio: 1;
+      border-radius: 2px;
+      background: var(--border);
+      transition: transform 0.15s;
+    }
+    .github-graph-cell:hover { transform: scale(1.3); }
+    .github-graph-cell.l1 { background: rgba(6, 182, 212, 0.2); }
+    .github-graph-cell.l2 { background: rgba(6, 182, 212, 0.4); }
+    .github-graph-cell.l3 { background: rgba(6, 182, 212, 0.6); }
+    .github-graph-cell.l4 { background: rgba(6, 182, 212, 0.9); }
+
+    /* ── Comparison ── */
     .compare-section {
-      padding: 80px 24px;
+      padding: 100px 24px;
       max-width: 1000px;
       margin: 0 auto;
     }
@@ -1151,10 +1201,11 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       overflow: hidden;
+      background: var(--bg-surface);
     }
     .compare-table th,
     .compare-table td {
-      padding: 14px 20px;
+      padding: 16px 20px;
       border-bottom: 1px solid var(--border);
       text-align: left;
     }
@@ -1162,9 +1213,9 @@
       font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.08em;
       color: var(--text-muted);
-      background: var(--bg-surface);
+      background: var(--bg-elevated);
     }
     .compare-table tbody tr:last-child td { border-bottom: none; }
     .compare-table td:first-child {
@@ -1185,22 +1236,77 @@
       font-family: 'JetBrains Mono', monospace;
       font-weight: 500;
     }
-    .compare-table .highlight-col { background: var(--accent-dim); }
+    .compare-table .highlight-col {
+      background: linear-gradient(180deg, rgba(6, 182, 212, 0.04), transparent);
+      position: relative;
+    }
+    .compare-table .highlight-col::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
 
-    /* ── Install Command ── */
+    /* ── CTA ── */
+    .cta-section { padding: 100px 24px; }
+    .cta-box {
+      max-width: 800px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.05));
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      padding: 80px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-box__title {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+    }
+    .cta-box__text {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    .cta-box .btn {
+      box-shadow: 0 0 40px rgba(6, 182, 212, 0.2), 0 8px 24px rgba(6, 182, 212, 0.15);
+    }
+    .cta-box .btn:hover {
+      box-shadow: 0 0 60px rgba(6, 182, 212, 0.3), 0 12px 32px rgba(6, 182, 212, 0.2);
+    }
+
+    /* ── Install ── */
     .install-box {
+      max-width: 600px;
+      margin: 32px auto 0;
       background: var(--bg-root);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 14px 18px;
+      padding: 16px 20px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--text-secondary);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 16px;
+      word-break: break-all;
     }
     .install-box code {
       color: var(--accent);
@@ -1210,88 +1316,81 @@
       background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 5px 10px;
-      font-size: 12px;
+      padding: 8px 14px;
+      font-size: 13px;
       color: var(--text-secondary);
       cursor: pointer;
       font-family: inherit;
       transition: var(--transition);
+      flex-shrink: 0;
+      white-space: nowrap;
     }
     .install-copy:hover {
       background: var(--bg-surface);
       color: var(--text-primary);
+      border-color: var(--border-hover);
     }
 
-    /* ── Waitlist ── */
-    .waitlist-box {
-      max-width: 520px;
-      margin: 0 auto;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .waitlist-input {
-      flex: 1;
-      min-width: 240px;
-      background: var(--bg-input);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 10px 14px;
-      font-size: 14px;
-      font-family: inherit;
-      color: var(--text-primary);
-    }
-    .waitlist-input:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px var(--accent-glow);
-    }
-    .waitlist-input::placeholder { color: var(--text-muted); }
-
-    /* ── Trust / Built in Public ── */
-    .trust-section {
-      padding: 80px 24px;
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .trust-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-      margin-top: 40px;
-    }
-    .trust-item {
+    /* ── FAQ ── */
+    .faq-list {
+      max-width: 760px;
+      margin: 48px auto 0;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
-    .trust-icon {
-      width: 48px; height: 48px;
-      border-radius: var(--radius-md);
+    .faq-item {
       background: var(--bg-surface);
       border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .faq-item:hover { border-color: var(--border-hover); }
+    .faq-item__question {
+      padding: 20px 24px;
       display: flex;
       align-items: center;
-      justify-content: center;
-    }
-    .trust-label {
-      font-size: 14px;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 16px;
       font-weight: 600;
-      color: var(--text-primary);
+      gap: 16px;
+      transition: background 0.15s;
     }
-    .trust-desc {
-      font-size: 13px;
+    .faq-item__question:hover { background: var(--bg-elevated); }
+    .faq-item__icon {
+      flex-shrink: 0;
+      font-size: 12px;
       color: var(--text-muted);
-      line-height: 1.5;
+      transition: transform 0.2s;
+      font-family: 'JetBrains Mono', monospace;
     }
+    .faq-item.expanded .faq-item__icon { transform: rotate(180deg); color: var(--accent); }
+    .faq-item__answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .faq-item.expanded .faq-item__answer {
+      max-height: 400px;
+      padding: 0 24px 20px;
+    }
+    .faq-item__answer p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .faq-item__answer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .faq-item__answer a:hover { text-decoration: underline; }
 
     /* ── Footer ── */
     .footer {
       border-top: 1px solid var(--border);
-      padding: 64px 24px 32px;
+      padding: 80px 24px 40px;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -1320,9 +1419,9 @@
     }
     .footer__col-title {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.04rem;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
       margin-bottom: 20px;
       font-family: 'JetBrains Mono', monospace;
@@ -1363,29 +1462,33 @@
       font-size: 13px;
       color: var(--text-muted);
       text-decoration: none;
+      transition: color 0.15s;
     }
     .footer__legal a:hover { color: var(--text-secondary); }
 
+    /* ── Mobile Nav ── */
+    .nav__mobile-btn { display: none; }
+    .nav__mobile-menu { display: none; }
+
     /* ── Responsive ── */
     @media (max-width: 1024px) {
-      .feature-row { gap: 48px; }
-      .feature-row__title { font-size: 26px; }
-      .feature-row__visual { padding: 24px; }
-      .grid-cards { grid-template-columns: repeat(2, 1fr); }
-      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .feature-grid { grid-template-columns: repeat(2, 1fr); }
+      .public-grid { grid-template-columns: repeat(2, 1fr); }
+      .problem-card__content { grid-template-columns: 1fr; }
+      .mock-table-header,
+      .mock-row { grid-template-columns: 48px 1fr 80px 80px 80px 48px; }
     }
 
     @media (max-width: 768px) {
-      /* Header & Nav */
       .header__inner { padding: 0 16px; height: 56px; }
-      .logo { font-size: 18px; }
+      .logo { font-size: 16px; }
       .logo__mark { width: 28px; height: 28px; font-size: 12px; }
       .nav__links { display: none; }
       .nav { gap: 12px; }
       .btn--large { padding: 12px 22px; font-size: 14px; }
 
       .nav__mobile-btn {
-        display: flex !important;
+        display: flex;
         width: 36px; height: 36px;
         border-radius: var(--radius-sm);
         border: 1px solid var(--border);
@@ -1419,11 +1522,13 @@
         z-index: 999;
         flex-direction: column;
         gap: 4px;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       }
       .nav__mobile-menu.open { display: flex; }
       .nav__mobile-menu a {
         display: block;
-        padding: 10px 12px;
+        padding: 12px;
         border-radius: var(--radius-sm);
         color: var(--text-secondary);
         text-decoration: none;
@@ -1436,146 +1541,111 @@
         color: var(--text-primary);
       }
 
-      /* Hero */
-      .hero { padding: 60px 16px 48px; }
-      .hero__title { font-size: clamp(28px, 8vw, 48px); line-height: 1.08; }
-      .hero__subtitle { font-size: 15px; max-width: 100%; }
+      .hero { padding: 80px 16px 60px; }
+      .hero__title { font-size: clamp(32px, 8vw, 48px); }
+      .hero__subtitle { font-size: 16px; max-width: 100%; }
       .hero__cta { margin-bottom: 40px; }
+      .hero__meta { font-size: 11px; gap: 16px; }
 
-      /* Browser Mockup */
+      .mockup-container::before { inset: -10px; }
       .browser-mockup { border-radius: var(--radius-lg); }
-      .browser-bar { padding: 8px 12px; gap: 8px; }
-      .browser-dots { gap: 4px; }
-      .browser-dots span { width: 8px; height: 8px; }
-      .browser-address { font-size: 10px; padding: 3px 10px; }
-      .browser-body { padding: 12px; }
-      .mock-toolbar { margin-bottom: 10px; gap: 8px; }
-      .mock-search { max-width: 140px; height: 24px; }
-      .mock-btn { width: 60px; height: 24px; }
+      .browser-bar { padding: 10px 14px; }
+      .browser-dots { gap: 6px; }
+      .browser-dots span { width: 10px; height: 10px; }
+      .browser-address { font-size: 10px; max-width: 180px; padding: 4px 10px; }
+      .browser-body { padding: 14px; }
+      .mock-toolbar { margin-bottom: 12px; }
+      .mock-search { max-width: 140px; height: 28px; }
+      .mock-btn { height: 28px; padding: 0 10px; }
+      .mock-btn-text { width: 40px; }
       .mock-table-header { display: none; }
       .mock-row {
-        grid-template-columns: 32px 1fr auto;
-        gap: 8px;
-        padding: 8px;
+        grid-template-columns: 36px 1fr auto;
+        gap: 10px;
+        padding: 10px 12px;
       }
-      .mock-avatar { width: 24px; height: 24px; font-size: 9px; }
-      .mock-name { height: 8px; max-width: 100px; }
-      .mock-meta { height: 6px; max-width: 120px; }
+      .mock-avatar { width: 28px; height: 28px; font-size: 10px; }
+      .mock-name { font-size: 13px; }
+      .mock-meta { font-size: 11px; }
+      .mock-proxy { display: none; }
       .mock-status { display: none; }
-      .mock-actions span { width: 20px; height: 20px; }
+      .mock-actions span { width: 24px; height: 24px; }
 
-      /* Stats */
       .stats-strip {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
-        padding: 0 16px 48px;
+        padding: 0 16px 60px;
       }
-      .stat-block { padding: 20px 14px; }
-      .stat-block__num { font-size: 28px; }
+      .stat-block { padding: 24px 14px; }
+      .stat-block__num { font-size: 24px; }
       .stat-block__label { font-size: 14px; }
       .stat-block__desc { font-size: 12px; }
 
-      /* Sections */
-      .section { padding: 56px 16px; }
-      .section--alt .section { padding: 56px 16px; }
+      .section { padding: 60px 16px; }
+      .section--alt .section { padding: 60px 16px; }
       .section__header { margin-bottom: 40px; }
       .section__title { font-size: clamp(24px, 6vw, 32px); }
       .section__subtitle { font-size: 15px; }
 
-      /* Expandable Cards */
-      .ecard__header { padding: 16px 18px; gap: 12px; }
-      .ecard__icon-wrap { width: 38px; height: 38px; }
-      .ecard__title { font-size: 15px; }
-      .ecard__desc { font-size: 13px; }
-      .ecard__toggle { width: 28px; height: 28px; font-size: 10px; }
-      .ecard.expanded .ecard__body {
-        max-height: 600px;
+      .persona-grid { grid-template-columns: 1fr; gap: 14px; }
+      .persona-card { padding: 24px; }
+
+      .problem-card__header { padding: 16px 18px; gap: 12px; }
+      .problem-card__icon-wrap { width: 38px; height: 38px; }
+      .problem-card__title { font-size: 15px; }
+      .problem-card__desc { font-size: 13px; }
+      .problem-card.expanded .problem-card__body {
+        max-height: 700px;
         padding: 0 18px 18px;
       }
-      .ecard__content { grid-template-columns: 1fr; gap: 20px; }
-      .ecard__visual { display: none; }
-      .ecard__text p { font-size: 14px; margin-bottom: 14px; }
-      .ecard__text ul { gap: 8px; margin-bottom: 16px; }
-      .ecard__text ul li { font-size: 13px; }
+      .problem-card__text p { font-size: 14px; margin-bottom: 14px; }
+      .problem-card__text ul { gap: 8px; margin-bottom: 16px; }
+      .problem-card__text ul li { font-size: 13px; }
+      .problem-card__visual { display: none; }
 
-      /* Feature Rows */
-      .feature-row {
+      .feature-grid { grid-template-columns: 1fr; gap: 14px; }
+      .feature-card { padding: 24px; }
+
+      .steps {
         grid-template-columns: 1fr;
-        gap: 28px;
-        margin-bottom: 48px;
+        gap: 40px;
       }
-      .feature-row--reverse .feature-row__content,
-      .feature-row--reverse .feature-row__visual { order: unset; }
-      .feature-row__eyebrow { font-size: 11px; margin-bottom: 12px; }
-      .feature-row__title { font-size: 22px; margin-bottom: 12px; }
-      .feature-row__text { font-size: 15px; margin-bottom: 18px; }
-      .feature-row__list { gap: 8px; }
-      .feature-row__list li { font-size: 14px; }
-      .feature-row__visual {
-        aspect-ratio: 16/10;
-        padding: 20px;
-        border-radius: var(--radius-lg);
-      }
+      .steps::before { display: none; }
+      .step__num { width: 64px; height: 64px; font-size: 24px; }
 
-      /* Grid Cards */
-      .grid-cards { grid-template-columns: 1fr; gap: 14px; }
-      .grid-card { padding: 20px; }
-      .grid-card__icon-wrap { width: 36px; height: 36px; margin-bottom: 14px; }
-      .grid-card__title { font-size: 16px; }
-      .grid-card__text { font-size: 14px; }
+      .public-grid { grid-template-columns: 1fr; gap: 16px; }
+      .github-graph-grid { grid-template-columns: repeat(26, 1fr); }
 
-      /* CTA */
-      .cta-section { padding: 56px 16px; }
-      .cta-box { padding: 40px 24px; border-radius: var(--radius-lg); }
+      .cta-box { padding: 48px 24px; }
       .cta-box__title { font-size: 24px; }
       .cta-box__text { font-size: 15px; margin-bottom: 24px; }
 
-      /* FAQ */
+      .install-box {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 12px;
+      }
+      .install-copy { width: 100%; text-align: center; }
+
       .faq-list { margin-top: 32px; gap: 8px; }
       .faq-item__question { padding: 14px 16px; font-size: 14px; }
       .faq-item.expanded .faq-item__answer {
-        max-height: 400px;
+        max-height: 500px;
         padding: 0 16px 14px;
       }
       .faq-item__answer p { font-size: 14px; }
 
-      /* Comparison Table */
-      .compare-section { padding: 56px 16px; }
+      .compare-section { padding: 60px 16px; }
       .compare-table { font-size: 13px; border-radius: var(--radius-md); }
       .compare-table th,
       .compare-table td { padding: 10px 12px; }
       .compare-table thead th { font-size: 10px; letter-spacing: 0.4px; }
 
-      /* Trust */
-      .trust-section { padding: 56px 16px; }
-      .trust-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-        margin-top: 32px;
-      }
-      .trust-icon { width: 40px; height: 40px; }
-
-      /* Waitlist */
-      .waitlist-box { padding: 0 16px; }
-      .waitlist-input { min-width: 100%; }
-      .waitlist-box .btn { width: 100%; }
-
-      /* Install Box */
-      .install-box {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-        font-size: 11px;
-        padding: 12px 14px;
-        word-break: break-all;
-      }
-      .install-copy { width: 100%; text-align: center; }
-
-      /* Footer */
-      .footer { padding: 40px 16px 24px; }
+      .footer { padding: 48px 16px 24px; }
       .footer__top {
         grid-template-columns: 1fr 1fr;
-        gap: 28px;
+        gap: 32px;
         margin-bottom: 40px;
       }
       .footer__desc { font-size: 13px; }
@@ -1585,7 +1655,6 @@
       .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
       .footer__legal { gap: 16px; }
 
-      /* Platform Banner */
       .platform-banner {
         font-size: 11px;
         padding: 8px 36px 8px 12px;
@@ -1594,30 +1663,27 @@
     }
 
     @media (max-width: 480px) {
-      .hero__title { letter-spacing: -0.04rem; }
       .stats-strip { grid-template-columns: 1fr; }
       .footer__top { grid-template-columns: 1fr; }
       .compare-table { font-size: 12px; }
       .compare-table th,
       .compare-table td { padding: 8px 10px; }
       .cta-box__title { font-size: 20px; }
-      .feature-row__title { font-size: 20px; }
       .section__title { font-size: 24px; }
-      .ecard__title { font-size: 14px; }
-      .ecard__desc { font-size: 12px; }
-      .grid-cards { grid-template-columns: 1fr; }
+      .problem-card__title { font-size: 14px; }
+      .problem-card__desc { font-size: 12px; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .mock-row { grid-template-columns: 28px 1fr auto; }
+      .mock-avatar { width: 24px; height: 24px; font-size: 9px; }
     }
 
     @media (max-width: 360px) {
       .header__inner { padding: 0 12px; }
-      .hero { padding: 48px 12px 40px; }
-      .hero__title { font-size: 26px; }
+      .hero { padding: 60px 12px 40px; }
+      .hero__title { font-size: 28px; }
       .section { padding: 48px 12px; }
       .stats-strip { padding: 0 12px 40px; }
       .btn--primary.btn--large { padding: 10px 18px; font-size: 13px; }
-      .browser-dots span { width: 6px; height: 6px; }
-      .mock-row { grid-template-columns: 28px 1fr auto; }
-      .mock-avatar { width: 20px; height: 20px; font-size: 8px; }
     }
   </style>
 </head>
@@ -1625,7 +1691,7 @@
 
   <!-- Platform Banner -->
   <div class="platform-banner" id="platformBanner">
-    <strong>Linux only.</strong> Windows and macOS support is planned.
+    <strong>Linux only.</strong> Windows and macOS are not planned.
     <button class="platform-banner__close" onclick="document.getElementById('platformBanner').style.display='none'">&times;</button>
   </div>
 
@@ -1638,7 +1704,8 @@
       </a>
       <nav class="nav">
         <ul class="nav__links">
-          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#who-for">Who It's For</a></li>
+          <li><a href="#problems">Problems</a></li>
           <li><a href="#features">Features</a></li>
           <li><a href="#how-it-works">How It Works</a></li>
           <li><a href="#faq">FAQ</a></li>
@@ -1648,14 +1715,15 @@
             <span></span><span></span><span></span>
           </button>
           <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">
-            <span id="themeIcon">&#127769;</span>
+            <span id="themeIcon" class="moon-icon"></span>
           </button>
           <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">GitHub</a>
         </div>
       </nav>
     </div>
     <div class="nav__mobile-menu" id="mobileNavMenu">
-      <a href="#solutions" onclick="closeMobileNav()">Solutions</a>
+      <a href="#who-for" onclick="closeMobileNav()">Who It's For</a>
+      <a href="#problems" onclick="closeMobileNav()">Problems</a>
       <a href="#features" onclick="closeMobileNav()">Features</a>
       <a href="#how-it-works" onclick="closeMobileNav()">How It Works</a>
       <a href="#faq" onclick="closeMobileNav()">FAQ</a>
@@ -1664,18 +1732,34 @@
 
   <!-- Hero -->
   <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__glow-2"></div>
+    <div class="hero__badge">
+      <span class="hero__badge-dot"></span>
+      Open Source &middot; MIT License &middot; Linux
+    </div>
     <h1 class="hero__title">
-      Unlimited isolated browsers.<br>One Linux machine.<br><span>Zero linkability.</span>
+      <span class="line-1">Run unlimited browsers.</span>
+      <span class="line-2">Zero linkability.</span>
     </h1>
     <p class="hero__subtitle">
-      The anti-detect browser that's actually free. No subscription. No 14-day trial. No credit card. Open-source fingerprint spoofing for ad accounts, scrapers, storefronts, and social profiles — all from the same laptop.
+      Free, local browser isolation for Linux. Independent cookies, storage, and fingerprints per profile. Built for scrapers and multi-account operators who are tired of paying $99/month.
     </p>
-    <div class="hero__cta" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;">
-      <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--large">Get it on GitHub &rarr;</a>
-      <span style="font-size:14px;color:var(--text-muted);">or <a href="#waitlist" style="color:var(--accent);text-decoration:none;font-weight:500;">join the Windows/macOS waitlist</a></span>
+    <div class="hero__cta">
+      <a href="https://github.com/potionxyz/veilbrowse/releases" class="btn btn--primary btn--large">
+        <span style="font-size:18px;">+</span> Download for Linux
+      </a>
+      <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--outline btn--large">View on GitHub</a>
     </div>
+    <div class="hero__meta">
+      <span><span class="hero__meta-dot"></span> Free forever</span>
+      <span><span class="hero__meta-dot"></span> No accounts</span>
+      <span><span class="hero__meta-dot"></span> No telemetry (off by default)</span>
+    </div>
+  </section>
 
-    <!-- Browser Mockup -->
+  <!-- Browser Mockup -->
+  <div class="mockup-container reveal">
     <div class="browser-mockup">
       <div class="browser-bar">
         <div class="browser-dots"><span></span><span></span><span></span></div>
@@ -1683,636 +1767,590 @@
       </div>
       <div class="browser-body">
         <div class="mock-toolbar">
-          <div class="mock-search"></div>
-          <div class="mock-btn"></div>
+          <div class="mock-search">
+            <div class="mock-search-icon"></div>
+            <div class="mock-search-text">Search profiles...</div>
+          </div>
+          <div class="mock-btn-group">
+            <div class="mock-btn"><div class="mock-btn-text"></div></div>
+          </div>
         </div>
         <div class="mock-table-header">
           <div class="mock-th"></div>
-          <div class="mock-th"></div>
-          <div class="mock-th"></div>
+          <div class="mock-th">Profile</div>
+          <div class="mock-th">Status</div>
+          <div class="mock-th">Proxy</div>
+          <div class="mock-th">Platform</div>
           <div class="mock-th"></div>
         </div>
         <div class="mock-row">
           <div class="mock-avatar win">W</div>
           <div>
-            <div class="mock-name"></div>
-            <div class="mock-meta"></div>
+            <div class="mock-name">eBay Seller #1</div>
+            <div class="mock-meta">Chrome 124 / Win10 / US-East</div>
           </div>
-          <div class="mock-status">
-            <div class="mock-status-dot on"></div>
-            <div class="mock-status-text"></div>
-          </div>
+          <div class="mock-status on"><div class="mock-status-dot on"></div> Active</div>
+          <div class="mock-proxy">192.168.1.1</div>
+          <div class="mock-status on">Desktop</div>
           <div class="mock-actions"><span></span><span></span></div>
         </div>
         <div class="mock-row">
           <div class="mock-avatar mac">M</div>
           <div>
-            <div class="mock-name" style="max-width:100px;"></div>
-            <div class="mock-meta" style="max-width:160px;"></div>
+            <div class="mock-name">Amazon Storefront</div>
+            <div class="mock-meta">Safari 17 / macOS / US-West</div>
           </div>
-          <div class="mock-status">
-            <div class="mock-status-dot off"></div>
-            <div class="mock-status-text"></div>
-          </div>
+          <div class="mock-status off"><div class="mock-status-dot off"></div> Idle</div>
+          <div class="mock-proxy">10.0.0.5</div>
+          <div class="mock-status on">Desktop</div>
           <div class="mock-actions"><span></span><span></span></div>
         </div>
         <div class="mock-row">
           <div class="mock-avatar iphone">i</div>
           <div>
-            <div class="mock-name" style="max-width:120px;"></div>
-            <div class="mock-meta" style="max-width:140px;"></div>
+            <div class="mock-name">TikTok Account #2</div>
+            <div class="mock-meta">Safari iOS / iPhone 15 / UK</div>
           </div>
-          <div class="mock-status">
-            <div class="mock-status-dot on"></div>
-            <div class="mock-status-text"></div>
+          <div class="mock-status on"><div class="mock-status-dot on"></div> Active</div>
+          <div class="mock-proxy">203.0.113.4</div>
+          <div class="mock-status on">Mobile</div>
+          <div class="mock-actions"><span></span><span></span></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-avatar android">A</div>
+          <div>
+            <div class="mock-name">Instagram Growth</div>
+            <div class="mock-meta">Chrome Mobile / Android 14 / DE</div>
           </div>
+          <div class="mock-status off"><div class="mock-status-dot off"></div> Idle</div>
+          <div class="mock-proxy">198.51.100.7</div>
+          <div class="mock-status on">Mobile</div>
           <div class="mock-actions"><span></span><span></span></div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
   <!-- Stats -->
   <div class="stats-strip">
-    <div class="stat-block">
-      <div class="stat-block__num" style="font-size:28px;letter-spacing:0;">$0 forever</div>
-      <div class="stat-block__label">No subscription</div>
-      <div class="stat-block__desc">Unlimited profiles. No credit card. No hidden tiers.</div>
+    <div class="stat-block reveal">
+      <div class="stat-block__num">$0</div>
+      <div class="stat-block__label">Forever</div>
+      <div class="stat-block__desc">MIT licensed. No subscriptions, no trials, no credit card.</div>
     </div>
-    <div class="stat-block">
-      <div class="stat-block__num">3 clicks</div>
-      <div class="stat-block__label">From install to running</div>
-      <div class="stat-block__desc">One command on Ubuntu. Pick a preset. Launch. Done.</div>
+    <div class="stat-block reveal reveal-delay-1">
+      <div class="stat-block__num">Unlimited</div>
+      <div class="stat-block__label">Profiles</div>
+      <div class="stat-block__desc">Create as many isolated browser environments as you need.</div>
     </div>
-    <div class="stat-block">
+    <div class="stat-block reveal reveal-delay-2">
       <div class="stat-block__num">Linux</div>
-      <div class="stat-block__label">Native, no VM</div>
-      <div class="stat-block__desc">Uses your system Chrome. No Docker, no VirtualBox overhead.</div>
+      <div class="stat-block__label">Native</div>
+      <div class="stat-block__desc">Built for Linux first. Uses your existing Chrome installation.</div>
     </div>
-    <div class="stat-block">
-      <div class="stat-block__num">MIT</div>
-      <div class="stat-block__label">Open source</div>
-      <div class="stat-block__desc">Audit the anti-detection code yourself. No black boxes.</div>
+    <div class="stat-block reveal reveal-delay-3">
+      <div class="stat-block__num">Local</div>
+      <div class="stat-block__label">Data Storage</div>
+      <div class="stat-block__desc">Everything stays on your machine. No cloud sync, no accounts.</div>
     </div>
   </div>
 
-  <!-- Solutions -->
-  <section class="section section--alt" id="solutions">
-    <div class="section">
-      <div class="section__header">
-        <div class="section__eyebrow">Solutions</div>
-        <h2 class="section__title">Built for every use case</h2>
-        <p class="section__subtitle">Whether you're running ads, managing stores, or scraping data. Every profile gets its own isolated browser environment with a unique fingerprint.</p>
+  <!-- Who It's For -->
+  <section class="section" id="who-for">
+    <div class="section__header reveal">
+      <div class="section__eyebrow">Who It's For</div>
+      <h2 class="section__title">Three types of people</h2>
+      <p class="section__subtitle">VeilBrowse is not for everyone. It's specifically built for operators who need isolation without paying enterprise prices.</p>
+    </div>
+    <div class="persona-grid">
+      <div class="persona-card reveal reveal-delay-1">
+        <div class="persona-card__icon persona-card__icon--scraper">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        </div>
+        <div class="persona-card__title">Web Scrapers</div>
+        <div class="persona-card__text">You run data extraction at scale and platforms keep fingerprinting your headless setup. VeilBrowse gives each scraper instance a realistic browser fingerprint with independent cookies and local storage.</div>
       </div>
-
-      <div class="expandable-cards">
-        <div class="ecard expanded" data-ecard="3">
-          <div class="ecard__header" onclick="toggleEcard(3)">
-            <div class="ecard__icon-wrap ecard__icon-wrap--scraping">
-              <div class="icon-grid">
-                <span></span><span></span>
-                <span></span><span></span>
-              </div>
-            </div>
-            <div class="ecard__info">
-              <div class="ecard__title">CAPTCHA walls killed your scraper.</div>
-              <div class="ecard__desc">Anti-bot systems fingerprint your headless browser in milliseconds. Same signature, same block.</div>
-            </div>
-            <div class="ecard__toggle">&#9660;</div>
-          </div>
-          <div class="ecard__body">
-            <div class="ecard__content">
-              <div class="ecard__text">
-                <p>Rotate through VeilBrowse profiles with different fingerprints for every request. Each session looks like a different real user on a different real device. Passes BrowserLeaks, CreepJS, and FingerprintJS out of the box.</p>
-                <ul>
-                  <li>Automated profile rotation for scale</li>
-                  <li>WebRTC leak protection</li>
-                  <li>Font and audio fingerprint randomization</li>
-                  <li>API for headless automation</li>
-                </ul>
-                <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
-              </div>
-              <div class="ecard__visual">
-                <div class="mini-browser">
-                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="persona-card reveal reveal-delay-2">
+        <div class="persona-card__icon persona-card__icon--seller">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
         </div>
-
-        <div class="ecard" data-ecard="2">
-          <div class="ecard__header" onclick="toggleEcard(2)">
-            <div class="ecard__icon-wrap ecard__icon-wrap--ecommerce">
-              <div class="icon-bag"></div>
-            </div>
-            <div class="ecard__info">
-              <div class="ecard__title">eBay suspended your second storefront.</div>
-              <div class="ecard__desc">Amazon, Shopify, and Etsy detect shared devices fast. One suspension cascades across every account you run.</div>
-            </div>
-            <div class="ecard__toggle">&#9660;</div>
-          </div>
-          <div class="ecard__body">
-            <div class="ecard__content">
-              <div class="ecard__text">
-                <p>Each VeilBrowse profile gets its own cookies, storage, and hardware signature. Platforms see completely different devices, locations, and browsers — even though you're on the same laptop.</p>
-                <ul>
-                  <li>Separate browser storage per profile (no cross-contamination)</li>
-                  <li>Realistic desktop and mobile fingerprints</li>
-                  <li>Timezone and geolocation matching to your proxy</li>
-                  <li>Hardware spec spoofing (CPU, RAM, GPU)</li>
-                </ul>
-                <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
-              </div>
-              <div class="ecard__visual">
-                <div class="mini-browser">
-                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="persona-card__title">Multi-Account Sellers</div>
+        <div class="persona-card__text">You run multiple eBay, Amazon, or Etsy storefronts and platforms link them through shared browser fingerprints. Each profile gets its own device signature, geolocation, and proxy.</div>
+      </div>
+      <div class="persona-card reveal reveal-delay-3">
+        <div class="persona-card__icon persona-card__icon--privacy">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
         </div>
-
-        <div class="ecard" data-ecard="1">
-          <div class="ecard__header" onclick="toggleEcard(1)">
-            <div class="ecard__icon-wrap ecard__icon-wrap--affiliate">
-              <div class="icon-megaphone"></div>
-            </div>
-            <div class="ecard__info">
-              <div class="ecard__title">Your ad account got banned. Again.</div>
-              <div class="ecard__desc">Facebook, Google, and TikTok link your accounts through browser fingerprints. One ban becomes ten.</div>
-            </div>
-            <div class="ecard__toggle">&#9660;</div>
-          </div>
-          <div class="ecard__body">
-            <div class="ecard__content">
-              <div class="ecard__text">
-                <p>VeilBrowse isolates every account in its own browser with a unique device fingerprint. Same Linux machine, unlimited accounts, zero linkability. Farm, warm up, and launch campaigns without platforms knowing they're the same operator.</p>
-                <ul>
-                  <li>One-click profile creation with realistic fingerprints</li>
-                  <li>Built-in proxy rotation and health monitoring</li>
-                  <li>Cookie import/export for account warming</li>
-                  <li>Canvas and WebGL fingerprint spoofing that passes audits</li>
-                </ul>
-                <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
-              </div>
-              <div class="ecard__visual">
-                <div class="mini-browser">
-                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="ecard" data-ecard="4">
-          <div class="ecard__header" onclick="toggleEcard(4)">
-            <div class="ecard__icon-wrap ecard__icon-wrap--social">
-              <div class="icon-social">
-                <span></span><span></span><span></span>
-              </div>
-            </div>
-            <div class="ecard__info">
-              <div class="ecard__title">Shadow bans on every account but the first.</div>
-              <div class="ecard__desc">Instagram, Twitter, and LinkedIn quietly suppress reach when they detect the same device managing multiple accounts.</div>
-            </div>
-            <div class="ecard__toggle">&#9660;</div>
-          </div>
-          <div class="ecard__body">
-            <div class="ecard__content">
-              <div class="ecard__text">
-                <p>Post, engage, and grow from multiple social accounts with full reach. Each account runs in its own isolated browser environment with a unique mobile or desktop fingerprint. Platforms see completely separate users.</p>
-                <ul>
-                  <li>Mobile fingerprint presets (iPhone, Android)</li>
-                  <li>Touch event simulation</li>
-                  <li>Screen resolution matching</li>
-                  <li>Session screenshot monitoring</li>
-                </ul>
-                <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
-              </div>
-              <div class="ecard__visual">
-                <div class="mini-browser">
-                  <div class="mini-browser-bar"><span></span><span></span><span></span></div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                  <div class="mini-browser-row">
-                    <div class="dot"></div>
-                    <div class="line short"></div>
-                    <div class="line long"></div>
-                    <div class="line mid"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div class="persona-card__title">Privacy-Focused Devs</div>
+        <div class="persona-card__text">You want to compartmentalize your online identities without trusting a SaaS with your data. Everything lives in a local SQLite database on your machine.</div>
       </div>
     </div>
   </section>
 
-  <!-- Comparison -->
-  <section class="compare-section" id="comparison">
-    <div class="section__header" style="margin-bottom:40px;">
-      <div class="section__eyebrow">Comparison</div>
-      <h2 class="section__title">Why operators are switching</h2>
-      <p class="section__subtitle">Same anti-detection power. Zero subscription fees. Full source transparency.</p>
+  <!-- Problems -->
+  <section class="section section--alt" id="problems">
+    <div class="section__header reveal">
+      <div class="section__eyebrow">Problems</div>
+      <h2 class="section__title">What we actually solve</h2>
+      <p class="section__subtitle">Honest breakdown of the detection vectors we address and the ones we don't. No "100% undetectable" nonsense.</p>
     </div>
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th style="width:40%;">Feature</th>
-          <th class="highlight-col" style="text-align:center;">VeilBrowse</th>
-          <th style="text-align:center;">AdsPower</th>
-          <th style="text-align:center;">Multilogin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Price</td>
-          <td class="highlight-col" style="text-align:center;"><span class="price" style="color:var(--success);font-weight:700;">Free forever</span></td>
-          <td style="text-align:center;"><span class="price">$99/mo</span></td>
-          <td style="text-align:center;"><span class="price">$99/mo</span></td>
-        </tr>
-        <tr>
-          <td>Profile limit</td>
-          <td class="highlight-col" style="text-align:center;"><span class="check">Unlimited</span></td>
-          <td style="text-align:center;"><span class="cross">100</span></td>
-          <td style="text-align:center;"><span class="cross">100</span></td>
-        </tr>
-        <tr>
-          <td>Open source</td>
-          <td class="highlight-col" style="text-align:center;"><span class="check">MIT License</span></td>
-          <td style="text-align:center;"><span class="cross">Closed</span></td>
-          <td style="text-align:center;"><span class="cross">Closed</span></td>
-        </tr>
-        <tr>
-          <td>Linux native</td>
-          <td class="highlight-col" style="text-align:center;"><span class="check">Native app</span></td>
-          <td style="text-align:center;"><span class="cross">No</span></td>
-          <td style="text-align:center;"><span class="cross">No</span></td>
-        </tr>
-        <tr>
-          <td>Data stays local</td>
-          <td class="highlight-col" style="text-align:center;"><span class="check">Yes</span></td>
-          <td style="text-align:center;"><span class="cross">Cloud sync</span></td>
-          <td style="text-align:center;"><span class="cross">Cloud sync</span></td>
-        </tr>
-        <tr>
-          <td>Fingerprint audits passed</td>
-          <td class="highlight-col" style="text-align:center;"><span class="check">23/27</span></td>
-          <td style="text-align:center;"><span class="cross">Undisclosed</span></td>
-          <td style="text-align:center;"><span class="cross">Undisclosed</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="problem-grid">
+      <div class="problem-card reveal" data-card="1">
+        <div class="problem-card__header" onclick="toggleCard(1)">
+          <div class="problem-card__icon-wrap problem-card__icon-wrap--red">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#f87171;"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+          </div>
+          <div class="problem-card__info">
+            <div class="problem-card__title">Your scraper keeps getting fingerprinted.</div>
+            <div class="problem-card__desc">Headless Chrome leaks `navigator.webdriver`, consistent canvas hashes, and identical WebGL signatures across runs.</div>
+          </div>
+          <div class="problem-card__toggle">&#9660;</div>
+        </div>
+        <div class="problem-card__body">
+          <div class="problem-card__content">
+            <div class="problem-card__text">
+              <p>VeilBrowse launches real Chrome (not headless) with per-profile fingerprint randomization. Each profile gets unique canvas noise, WebGL vendor spoofing, client rectangle jitter, and hardware spec variation.</p>
+              <ul>
+                <li>Per-profile canvas noise (pixel-level variation)</li>
+                <li>WebGL vendor/renderer spoofing (NVIDIA/Intel/AMD)</li>
+                <li>Hardware concurrency and device memory override</li>
+                <li>Platform and timezone matching to proxy location</li>
+              </ul>
+              <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
+            </div>
+            <div class="problem-card__visual">
+              <div class="mini-browser">
+                <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card reveal reveal-delay-1" data-card="2">
+        <div class="problem-card__header" onclick="toggleCard(2)">
+          <div class="problem-card__icon-wrap problem-card__icon-wrap--orange">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#fbbf24;"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          </div>
+          <div class="problem-card__info">
+            <div class="problem-card__title">eBay suspended your second storefront.</div>
+            <div class="problem-card__desc">Amazon, Shopify, and Etsy detect shared devices fast. One suspension cascades across every account you run.</div>
+          </div>
+          <div class="problem-card__toggle">&#9660;</div>
+        </div>
+        <div class="problem-card__body">
+          <div class="problem-card__content">
+            <div class="problem-card__text">
+              <p>Each VeilBrowse profile gets its own cookies, storage, and hardware signature. Platforms see completely different devices, locations, and browsers — even though you're on the same laptop.</p>
+              <ul>
+                <li>Separate browser storage per profile (no cross-contamination)</li>
+                <li>Realistic desktop and mobile fingerprints</li>
+                <li>Timezone and geolocation matching to your proxy</li>
+                <li>Hardware spec spoofing (CPU, RAM, GPU)</li>
+              </ul>
+              <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
+            </div>
+            <div class="problem-card__visual">
+              <div class="mini-browser">
+                <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card reveal reveal-delay-2" data-card="3">
+        <div class="problem-card__header" onclick="toggleCard(3)">
+          <div class="problem-card__icon-wrap problem-card__icon-wrap--purple">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#a78bfa;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+          </div>
+          <div class="problem-card__info">
+            <div class="problem-card__title">Your ad account got banned. Again.</div>
+            <div class="problem-card__desc">Facebook, Google, and TikTok link your accounts through browser fingerprints. One ban becomes ten.</div>
+          </div>
+          <div class="problem-card__toggle">&#9660;</div>
+        </div>
+        <div class="problem-card__body">
+          <div class="problem-card__content">
+            <div class="problem-card__text">
+              <p>VeilBrowse isolates every account in its own browser with a unique device fingerprint. Same Linux machine, unlimited accounts, zero linkability. Farm, warm up, and launch campaigns without platforms knowing they're the same operator.</p>
+              <ul>
+                <li>One-click profile creation with realistic fingerprints</li>
+                <li>Built-in proxy health monitoring</li>
+                <li>Cookie import/export for account warming</li>
+                <li>Canvas and WebGL fingerprint randomization</li>
+              </ul>
+              <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
+            </div>
+            <div class="problem-card__visual">
+              <div class="mini-browser">
+                <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card reveal reveal-delay-3" data-card="4">
+        <div class="problem-card__header" onclick="toggleCard(4)">
+          <div class="problem-card__icon-wrap problem-card__icon-wrap--pink">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#f472b6;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="problem-card__info">
+            <div class="problem-card__title">Shadow bans on every account but the first.</div>
+            <div class="problem-card__desc">Instagram, Twitter, and LinkedIn quietly suppress reach when they detect the same device managing multiple accounts.</div>
+          </div>
+          <div class="problem-card__toggle">&#9660;</div>
+        </div>
+        <div class="problem-card__body">
+          <div class="problem-card__content">
+            <div class="problem-card__text">
+              <p>Post, engage, and grow from multiple social accounts with full reach. Each account runs in its own isolated browser environment with a unique mobile or desktop fingerprint. Platforms see completely separate users.</p>
+              <ul>
+                <li>Mobile fingerprint presets (iPhone, Android)</li>
+                <li>Touch event simulation</li>
+                <li>Screen resolution matching</li>
+                <li>Session screenshot monitoring</li>
+              </ul>
+              <a href="https://github.com/potionxyz/veilbrowse" class="btn btn--primary btn--small">Get it free &rarr;</a>
+            </div>
+            <div class="problem-card__visual">
+              <div class="mini-browser">
+                <div class="mini-browser-bar"><span></span><span></span><span></span></div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+                <div class="mini-browser-row">
+                  <div class="dot"></div>
+                  <div class="line short"></div>
+                  <div class="line long"></div>
+                  <div class="line mid"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Features -->
   <section class="section" id="features">
-    <div class="section__header">
+    <div class="section__header reveal">
       <div class="section__eyebrow">Features</div>
-      <h2 class="section__title">Everything you need to stay invisible</h2>
-      <p class="section__subtitle">Built by developers who understand browser fingerprinting at the deepest level. Every check, every parameter, every edge case covered.</p>
+      <h2 class="section__title">What you actually get</h2>
+      <p class="section__subtitle">Five real features. No filler, no "AI-powered" nonsense, no vaporware.</p>
     </div>
-
-    <div class="feature-row">
-      <div class="feature-row__content">
-        <div class="feature-row__eyebrow">
-          Fingerprint Spoofing
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-card__icon-wrap feature-card__icon-wrap--cyan">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
         </div>
-        <h3 class="feature-row__title">Real browser fingerprints in one click</h3>
-        <p class="feature-row__text">Every profile gets a unique, realistic fingerprint based on genuine device data. Passes 23+ anti-detection checks out of the box with no configuration needed.</p>
-        <ul class="feature-row__list">
-          <li>Canvas, WebGL, WebRTC protection</li>
-          <li>Hardware spoofing (CPU cores, RAM, GPU)</li>
-          <li>Font and audio fingerprint randomization</li>
-          <li>Device name & webcam spoofing</li>
-          <li>Client rects noise injection</li>
-        </ul>
+        <div class="feature-card__title">Fingerprint Randomization</div>
+        <div class="feature-card__text">Canvas noise, WebGL vendor spoofing, hardware override, and client rectangle jitter per profile. Not perfect — but tested and documented.</div>
       </div>
-      <div class="feature-row__visual">
-        <div class="fp-mockup">
-          <div class="fp-mockup-row">
-            <div class="fp-mockup-check"></div>
-            <div class="fp-mockup-label">Canvas 2D</div>
-            <div class="fp-mockup-value">spoofed</div>
-          </div>
-          <div class="fp-mockup-row">
-            <div class="fp-mockup-check"></div>
-            <div class="fp-mockup-label">WebGL Vendor</div>
-            <div class="fp-mockup-value">NVIDIA</div>
-          </div>
-          <div class="fp-mockup-row">
-            <div class="fp-mockup-check"></div>
-            <div class="fp-mockup-label">WebRTC</div>
-            <div class="fp-mockup-value">blocked</div>
-          </div>
-          <div class="fp-mockup-row">
-            <div class="fp-mockup-check"></div>
-            <div class="fp-mockup-label">AudioContext</div>
-            <div class="fp-mockup-value">seeded</div>
-          </div>
-          <div class="fp-mockup-row">
-            <div class="fp-mockup-check"></div>
-            <div class="fp-mockup-label">HardwareConcurrency</div>
-            <div class="fp-mockup-value">8 cores</div>
-          </div>
-          <div class="fp-mockup-row">
-            <div class="fp-mockup-check"></div>
-            <div class="fp-mockup-label">DeviceMemory</div>
-            <div class="fp-mockup-value">8 GB</div>
-          </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon-wrap feature-card__icon-wrap--green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
         </div>
+        <div class="feature-card__title">Proxy Management</div>
+        <div class="feature-card__text">Import proxy lists, assign per profile, monitor health with live latency checks. HTTP, SOCKS5, and authenticated proxies supported.</div>
       </div>
-    </div>
-
-    <div class="feature-row feature-row--reverse">
-      <div class="feature-row__content">
-        <div class="feature-row__eyebrow">
-          Proxy & Network
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-card__icon-wrap feature-card__icon-wrap--blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
         </div>
-        <h3 class="feature-row__title">Route every profile through its own proxy</h3>
-        <p class="feature-row__text">Built-in proxy pool manager with HTTP, HTTPS, and SOCKS5 support. Automatic health checks, latency monitoring, and per-profile routing. WebRTC leak protection included.</p>
-        <ul class="feature-row__list">
-          <li>HTTP / HTTPS / SOCKS5 proxy support</li>
-          <li>Per-profile proxy assignment</li>
-          <li>Built-in health checks and latency tests</li>
-          <li>WebRTC local IP blocking</li>
-          <li>Geolocation matching to proxy location</li>
-        </ul>
+        <div class="feature-card__title">Session Monitoring</div>
+        <div class="feature-card__text">Automatic screenshots of active browser sessions. Check if profiles are logged in, hit CAPTCHAs, or landed on error pages — without interrupting the session.</div>
       </div>
-      <div class="feature-row__visual">
-        <div class="proxy-mockup">
-          <div class="proxy-mockup-card">
-            <div class="proxy-mockup-status on"></div>
-            <div class="proxy-mockup-lines">
-              <div class="line short"></div>
-              <div class="line mid"></div>
-            </div>
-            <div class="proxy-mockup-ping">42ms</div>
-          </div>
-          <div class="proxy-mockup-card">
-            <div class="proxy-mockup-status on"></div>
-            <div class="proxy-mockup-lines">
-              <div class="line short"></div>
-              <div class="line mid"></div>
-            </div>
-            <div class="proxy-mockup-ping">128ms</div>
-          </div>
-          <div class="proxy-mockup-card">
-            <div class="proxy-mockup-status warn"></div>
-            <div class="proxy-mockup-lines">
-              <div class="line short"></div>
-              <div class="line mid"></div>
-            </div>
-            <div class="proxy-mockup-ping">fail</div>
-          </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-card__icon-wrap feature-card__icon-wrap--yellow">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
         </div>
+        <div class="feature-card__title">Cookie & Storage Isolation</div>
+        <div class="feature-card__text">Every profile gets a dedicated Chrome user data directory. Cookies, localStorage, IndexedDB, and cache are completely walled off from other profiles.</div>
       </div>
-    </div>
-  </section>
-
-  <!-- Grid Features -->
-  <section class="section section--alt">
-    <div class="section">
-      <div class="section__header">
-        <div class="section__eyebrow">Platform</div>
-        <h2 class="section__title">Complete control over every parameter</h2>
-        <p class="section__subtitle">Override every fingerprint parameter manually or let VeilBrowse randomize them automatically from a curated pool of realistic hardware configurations.</p>
+      <div class="feature-card reveal">
+        <div class="feature-card__icon-wrap feature-card__icon-wrap--purple">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="16" rx="2" ry="2"></rect><line x1="16" y1="3" x2="16" y2="7"></line><line x1="8" y1="3" x2="8" y2="7"></line><line x1="4" y1="11" x2="20" y2="11"></line><line x1="11" y1="15" x2="12" y2="15"></line><line x1="12" y1="15" x2="12" y2="18"></line></svg>
+        </div>
+        <div class="feature-card__title">Preset Fingerprints</div>
+        <div class="feature-card__text">One-click profiles for Windows Chrome, macOS Safari, iPhone Safari, and Android Chrome. UA, viewport, timezone, and geolocation pre-configured.</div>
       </div>
-      <div class="grid-cards">
-        <div class="grid-card">
-          <div class="grid-card__icon-wrap grid-card__icon-wrap--geo">
-            <div class="icon-geo"></div>
-          </div>
-          <h3 class="grid-card__title">Geolocation & Timezone</h3>
-          <p class="grid-card__text">Spoof GPS coordinates, timezone, and locale to match your proxy location perfectly.</p>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-card__icon-wrap feature-card__icon-wrap--pink">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
         </div>
-        <div class="grid-card">
-          <div class="grid-card__icon-wrap grid-card__icon-wrap--proxy">
-            <div class="icon-proxy-link">
-              <span></span>
-              <span></span>
-            </div>
-          </div>
-          <h3 class="grid-card__title">Proxy Integration</h3>
-          <p class="grid-card__text">HTTP, HTTPS, SOCKS5 support with built-in health checks and latency monitoring.</p>
-        </div>
-        <div class="grid-card">
-          <div class="grid-card__icon-wrap grid-card__icon-wrap--webrtc">
-            <div class="icon-shield"></div>
-          </div>
-          <h3 class="grid-card__title">WebRTC Protection</h3>
-          <p class="grid-card__text">Block local IP leaks or drop all ICE candidates for maximum privacy.</p>
-        </div>
-        <div class="grid-card">
-          <div class="grid-card__icon-wrap grid-card__icon-wrap--audio">
-            <div class="icon-audio">
-              <span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-          <h3 class="grid-card__title">Audio Context Spoofing</h3>
-          <p class="grid-card__text">Randomize audio fingerprints so your profile sounds different every time.</p>
-        </div>
-        <div class="grid-card">
-          <div class="grid-card__icon-wrap grid-card__icon-wrap--font">
-            <div class="icon-font">Ag</div>
-          </div>
-          <h3 class="grid-card__title">Font Fingerprinting</h3>
-          <p class="grid-card__text">Per-OS font whitelists and synthetic measureText metrics for undetectable fonts.</p>
-        </div>
-
+        <div class="feature-card__title">Zero Network Dependency</div>
+        <div class="feature-card__text">Works entirely offline after download. No cloud sync, no authentication servers, no telemetry (unless you explicitly opt in). Your data never leaves your machine.</div>
       </div>
     </div>
   </section>
 
   <!-- How It Works -->
   <section class="section section--alt" id="how-it-works">
-    <div class="section">
-      <div class="section__header">
-        <div class="section__eyebrow">Getting Started</div>
-        <h2 class="section__title">Up and running in 3 steps</h2>
-        <p class="section__subtitle">No complex setup. No VM required. Just install, create a profile, and browse.</p>
+    <div class="section__header reveal">
+      <div class="section__eyebrow">How It Works</div>
+      <h2 class="section__title">Three steps to isolation</h2>
+      <p class="section__subtitle">No Docker, no complex configs, no cloud accounts. Download, create a profile, launch.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step__num">1</div>
+        <div class="step__title">Download the AppImage</div>
+        <div class="step__text">Grab the latest release from GitHub. One 111MB file. Runs on any modern Linux distribution with Chrome installed.</div>
       </div>
-      <div class="grid-cards">
-        <div class="grid-card" style="text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 20px; font-family: 'JetBrains Mono', monospace;">1</div>
-          <h3 class="grid-card__title">Download & Install</h3>
-          <p class="grid-card__text">One command on Ubuntu 22+. Uses your system Google Chrome. No VM, no Docker.</p>
-          <div class="install-box">
-            <code>git clone https://github.com/potionxyz/veilbrowse.git && cd veilbrowse && npm install</code>
-            <button class="install-copy" onclick="navigator.clipboard.writeText('git clone https://github.com/potionxyz/veilbrowse.git && cd veilbrowse && npm install');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);">Copy</button>
-          </div>
-        </div>
-        <div class="grid-card" style="text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 20px; font-family: 'JetBrains Mono', monospace;">2</div>
-          <h3 class="grid-card__title">Create a Profile</h3>
-          <p class="grid-card__text">Pick a preset (Windows Chrome, Mac Safari, iPhone) or customize every fingerprint parameter.</p>
-        </div>
-        <div class="grid-card" style="text-align: center;">
-          <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; margin: 0 auto 20px; font-family: 'JetBrains Mono', monospace;">3</div>
-          <h3 class="grid-card__title">Launch & Browse</h3>
-          <p class="grid-card__text">Hit Launch. A real Chrome window opens with your spoofed identity. Done.</p>
-        </div>
+      <div class="step reveal reveal-delay-1">
+        <div class="step__num">2</div>
+        <div class="step__title">Create a Profile</div>
+        <div class="step__text">Choose a preset (Windows Chrome, macOS Safari, iPhone, Android) or configure your own fingerprint. Assign a proxy. Done in 30 seconds.</div>
       </div>
+      <div class="step reveal reveal-delay-2">
+        <div class="step__num">3</div>
+        <div class="step__title">Launch & Browse</div>
+        <div class="step__text">VeilBrowse launches Chrome with your isolated profile. The dashboard monitors the session with live screenshots. Create as many as you need.</div>
+      </div>
+    </div>
+    <div class="install-box reveal">
+      <div><code>curl -fsSL veilbrowse.dev/install | bash</code></div>
+      <button class="install-copy" onclick="navigator.clipboard.writeText('curl -fsSL veilbrowse.dev/install | bash');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500);">Copy</button>
+    </div>
+  </section>
+
+  <!-- Built in Public -->
+  <section class="section public-section" id="built-in-public">
+    <div class="section__header reveal">
+      <div class="section__eyebrow">Built in Public</div>
+      <h2 class="section__title">No black box</h2>
+      <p class="section__subtitle">Every line of code is on GitHub. Every limitation is documented. Every commit is public.</p>
+    </div>
+    <div class="public-grid">
+      <div class="public-card reveal">
+        <div class="public-card__icon" style="color: var(--success);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+        </div>
+        <div class="public-card__title">Open Source</div>
+        <div class="public-card__text">MIT licensed. Read the code, fork it, modify it, redistribute it. No enterprise licensing, no feature gates.</div>
+      </div>
+      <div class="public-card reveal reveal-delay-1">
+        <div class="public-card__icon" style="color: var(--accent);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </div>
+        <div class="public-card__title">Transparent Limits</div>
+        <div class="public-card__text">We list every fingerprint vector we cover and the ones we can't (TLS JA3, TCP TTL, behavioral biometrics). No false promises.</div>
+      </div>
+      <div class="public-card reveal reveal-delay-2">
+        <div class="public-card__icon" style="color: var(--warning);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        </div>
+        <div class="public-card__title">Active Development</div>
+        <div class="public-card__text">Shipping commits weekly. Community issues get real responses. Roadmap is public — vote on what gets built next.</div>
+      </div>
+    </div>
+    <div class="github-graph reveal">
+      <div class="github-graph-header">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        Contribution activity (last 52 weeks)
+      </div>
+      <div class="github-graph-grid" id="githubGraph"></div>
+    </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="compare-section" id="comparison">
+    <div class="section__header reveal" style="margin-bottom:40px;">
+      <div class="section__eyebrow">Comparison</div>
+      <h2 class="section__title">Why operators are switching</h2>
+      <p class="section__subtitle">Same core functionality. Different business model. Different trust model.</p>
+    </div>
+    <div class="reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="width:35%">Feature</th>
+            <th class="highlight-col" style="width:22%">VeilBrowse</th>
+            <th style="width:22%">AdsPower</th>
+            <th style="width:22%">Multilogin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Monthly cost</td>
+            <td class="highlight-col price" style="color:var(--success);">Free</td>
+            <td class="price">$9 - $50/mo</td>
+            <td class="price">$99 - $199/mo</td>
+          </tr>
+          <tr>
+            <td>Profile limit</td>
+            <td class="highlight-col price" style="color:var(--success);">Unlimited</td>
+            <td>10 - 1000</td>
+            <td>100 - 1000</td>
+          </tr>
+          <tr>
+            <td>Code visibility</td>
+            <td class="highlight-col"><span class="check">Open source (MIT)</span></td>
+            <td><span class="cross">Closed source</span></td>
+            <td><span class="cross">Closed source</span></td>
+          </tr>
+          <tr>
+            <td>Data location</td>
+            <td class="highlight-col"><span class="check">Local SQLite only</span></td>
+            <td><span class="cross">Cloud sync required</span></td>
+            <td><span class="cross">Cloud sync required</span></td>
+          </tr>
+          <tr>
+            <td>Account required</td>
+            <td class="highlight-col"><span class="check">None</span></td>
+            <td><span class="cross">Mandatory login</span></td>
+            <td><span class="cross">Mandatory login</span></td>
+          </tr>
+          <tr>
+            <td>Proxy rotation</td>
+            <td class="highlight-col"><span class="check">Built-in health checks</span></td>
+            <td><span class="check">Built-in</span></td>
+            <td><span class="check">Built-in</span></td>
+          </tr>
+          <tr>
+            <td>Fingerprint spoofing</td>
+            <td class="highlight-col"><span class="check">Canvas, WebGL, hardware</span></td>
+            <td><span class="check">Advanced</span></td>
+            <td><span class="check">Advanced</span></td>
+          </tr>
+          <tr>
+            <td>Team sharing</td>
+            <td class="highlight-col"><span class="cross">Not available</span></td>
+            <td><span class="check">Team seats</span></td>
+            <td><span class="check">Team seats</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
   <!-- FAQ -->
   <section class="section section--alt" id="faq">
-    <div class="section">
-      <div class="section__header">
-        <div class="section__eyebrow">FAQ</div>
-        <h2 class="section__title">Frequently Asked Questions</h2>
-      </div>
-      <div class="faq-list">
-        <div class="faq-item">
-          <div class="faq-item__question" onclick="toggleFaq(this)">
-            <span>What is an anti-detect browser?</span>
-            <span class="faq-item__icon">&#9660;</span>
-          </div>
-          <div class="faq-item__answer">
-            <p>An anti-detect browser creates isolated browsing environments with unique digital fingerprints for each profile. This prevents websites from linking your multiple accounts together through browser fingerprinting techniques like canvas hashing, WebGL vendor strings, audio context analysis, and more.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-item__question" onclick="toggleFaq(this)">
-            <span>Is VeilBrowse really free?</span>
-            <span class="faq-item__icon">&#9660;</span>
-          </div>
-          <div class="faq-item__answer">
-            <p>Yes. The core browser is MIT licensed and free forever. We don't have a business model yet because we're building the product first. When we do monetize, it will be for optional cloud features — never the local browser. You can create as many profiles as your disk space allows. No profile limits, no hidden tiers, no credit card required.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-item__question" onclick="toggleFaq(this)">
-            <span>What proxies are supported?</span>
-            <span class="faq-item__icon">&#9660;</span>
-          </div>
-          <div class="faq-item__answer">
-            <p>VeilBrowse supports HTTP, HTTPS, and SOCKS5 proxies with full authentication (username/password). You can add proxies individually or manage them in a pool with built-in health checks that monitor latency and uptime automatically.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-item__question" onclick="toggleFaq(this)">
-            <span>How does fingerprint randomization work?</span>
-            <span class="faq-item__icon">&#9660;</span>
-          </div>
-          <div class="faq-item__answer">
-            <p>Each profile can have custom CPU cores, RAM amount, GPU vendor/renderer, audio seed, and client rects noise. You can randomize all parameters with one click or set them manually for specific use cases. We maintain a curated pool of realistic hardware configurations based on real market data.</p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-item__question" onclick="toggleFaq(this)">
-            <span>Does it work on Windows and macOS?</span>
-            <span class="faq-item__icon">&#9660;</span>
-          </div>
-          <div class="faq-item__answer">
-            <p>Currently VeilBrowse runs natively on Linux with your system's Google Chrome binary. Windows and macOS support is planned. The app is built with Electron + Playwright, so cross-platform support is straightforward. It's just a matter of testing and packaging.</p>
-          </div>
-        </div>
-      </div>
+    <div class="section__header reveal">
+      <div class="section__eyebrow">FAQ</div>
+      <h2 class="section__title">Real answers</h2>
+      <p class="section__subtitle">No marketing speak. If something sucks, we tell you.</p>
     </div>
-  </section>
-
-  <!-- Trust / Built in Public -->
-  <section class="trust-section">
-    <div class="section__eyebrow" style="margin-bottom:16px;">Built in Public</div>
-    <h2 class="section__title" style="margin-bottom:16px;">You don't have to trust us.<br>Audit the code.</h2>
-    <p class="section__subtitle" style="max-width:560px;margin:0 auto;">Every fingerprint vector, every proxy route, every anti-detection technique is open source. No black boxes. No "proprietary algorithms."</p>
-    <div class="trust-grid">
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+    <div class="faq-list">
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-item__question">
+          Is VeilBrowse really free? What's the catch?
+          <span class="faq-item__icon">&#9660;</span>
         </div>
-        <div class="trust-label">Open Source</div>
-        <div class="trust-desc">MIT licensed. Full source on GitHub. Audit every line.</div>
+        <div class="faq-item__answer">
+          <p>Yes, completely free. MIT licensed open source. No catch, no freemium, no "enterprise tier." I built this because I needed it and got tired of paying for browser isolation. If enough people use it, I might add paid sync/hosting later — but the core product stays free forever.</p>
+        </div>
       </div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-item__question">
+          Is it actually "undetectable"?
+          <span class="faq-item__icon">&#9660;</span>
         </div>
-        <div class="trust-label">Transparent Limits</div>
-        <div class="trust-desc">We publish exactly which 23 vectors we mask and which 4 we can't.</div>
+        <div class="faq-item__answer">
+          <p>No. Nothing is undetectable. We spoof canvas fingerprints, WebGL signatures, hardware specs, and client rects — but we can't fix TCP/IP TTL, TLS JA3 signatures, font glyph rendering, or behavioral biometrics (mouse movement patterns, keystroke cadence). Against a motivated, well-resourced adversary (state actor, advanced platform anti-fraud), you'll still get caught. Against standard commercial detection? You're significantly harder to fingerprint than vanilla Chrome.</p>
+        </div>
       </div>
-      <div class="trust-item">
-        <div class="trust-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--info)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-item__question">
+          Does it work on Windows or macOS?
+          <span class="faq-item__icon">&#9660;</span>
         </div>
-        <div class="trust-label">Active Development</div>
-        <div class="trust-desc">Actively maintained. Regular updates. Public commit history.</div>
+        <div class="faq-item__answer">
+          <p>No. Linux only. The anti-detection stack relies on Linux-specific process isolation and Playwright's Chrome auto-detection paths. Windows and macOS ports would require significant platform-specific fingerprint research, Apple notarization (for Mac), and different native module compilation. It's not planned — I don't have the resources to maintain three platforms with the level of quality this needs.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-item__question">
+          How is this different from just using Chrome profiles?
+          <span class="faq-item__icon">&#9660;</span>
+        </div>
+        <div class="faq-item__answer">
+          <p>Chrome profiles share your OS fingerprint, hardware specs, and network signature. Two Chrome profiles on the same laptop still look like the same device to websites. VeilBrowse randomizes canvas noise, WebGL vendor, hardware concurrency, and timezone per profile — making each one appear as a completely different device. Plus you get proxy management, session screenshots, and one-click preset configurations.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-item__question">
+          What happens to my data?
+          <span class="faq-item__icon">&#9660;</span>
+        </div>
+        <div class="faq-item__answer">
+          <p>Everything stays in a local SQLite database on your machine. No cloud sync, no accounts, no telemetry (unless you explicitly toggle it on in the dashboard). We literally cannot see your profiles, cookies, or browsing history because the software never phones home.</p>
+        </div>
+      </div>
+      <div class="faq-item reveal" onclick="toggleFaq(this)">
+        <div class="faq-item__question">
+          Is there a business model? How do you make money?
+          <span class="faq-item__icon">&#9660;</span>
+        </div>
+        <div class="faq-item__answer">
+          <p>We don't have a business model yet because we're building the product first. If this grows, potential revenue streams could include: optional cloud backup of profile configs (not cookies), team sharing for agencies, or priority support. The core isolation engine will always be free and open source.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
   <section class="cta-section">
-    <div class="cta-box">
-      <h2 class="cta-box__title">Free forever. Unlimited profiles.<br>No catch.</h2>
-      <p class="cta-box__text">No subscription. No profile limits. No hidden tiers. Just an honest anti-detect browser for Linux.</p>
-      <a href="/" class="btn btn--large">Get it on GitHub &rarr;</a>
-    </div>
-  </section>
-
-  <!-- Waitlist -->
-  <section class="section section--alt" id="waitlist">
-    <div class="section">
-      <div class="section__header">
-        <div class="section__eyebrow">Waitlist</div>
-        <h2 class="section__title">Windows & macOS coming soon</h2>
-        <p class="section__subtitle">We're Linux-native first. Join the waitlist and we'll email you when cross-platform packages are ready.</p>
-      </div>
-      <div class="waitlist-box">
-        <input type="email" class="waitlist-input" placeholder="your@email.com" id="waitlistEmail">
-        <button class="btn btn--primary" onclick="joinWaitlist()">Join Waitlist</button>
-      </div>
-      <div id="waitlistMsg" style="text-align:center;margin-top:12px;font-size:13px;color:var(--success);font-weight:500;display:none;">Added. We'll reach out when Windows & macOS are ready.</div>
+    <div class="cta-box reveal">
+      <h2 class="cta-box__title">Free forever. Unlimited profiles.</h2>
+      <p class="cta-box__text">No subscription. No 14-day trial. No credit card. Download the AppImage and start isolating your browsers today.</p>
+      <a href="https://github.com/potionxyz/veilbrowse/releases" class="btn btn--primary btn--large">
+        <span style="font-size:18px;">+</span> Download for Linux
+      </a>
     </div>
   </section>
 
@@ -2324,41 +2362,38 @@
           <div class="logo__mark" style="width:28px;height:28px;font-size:12px;">V</div>
           <span>VeilBrowse</span>
         </a>
-        <p class="footer__desc">Open-source anti-detect browser for multi-accounting, affiliate marketing, and web scraping. Built for professionals.</p>
+        <p class="footer__desc">Open-source browser isolation for Linux. Built by <a href="https://x.com/potionxyz" style="color:var(--accent);text-decoration:none;">@potionxyz</a> in public.</p>
       </div>
       <div>
         <div class="footer__col-title">Product</div>
         <ul class="footer__links">
-          <li><a href="#features">Features</a></li>
-          <li><a href="#solutions">Solutions</a></li>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="https://github.com/potionxyz/veilbrowse">GitHub</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/releases">Download</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse#readme">Documentation</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/CHANGELOG.md">Changelog</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/issues">Issues</a></li>
         </ul>
       </div>
       <div>
-        <div class="footer__col-title">Resources</div>
+        <div class="footer__col-title">Community</div>
         <ul class="footer__links">
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="https://github.com/potionxyz/veilbrowse#readme">Documentation</a></li>
           <li><a href="https://github.com/potionxyz/veilbrowse">GitHub</a></li>
-          <li><a href="https://github.com/potionxyz/veilbrowse/issues">Support</a></li>
+          <li><a href="https://x.com/potionxyz">Twitter / X</a></li>
+          <li><a href="#" onclick="alert('Discord coming soon');return false;">Discord</a></li>
         </ul>
       </div>
       <div>
         <div class="footer__col-title">Legal</div>
         <ul class="footer__links">
-          <li><a href="https://github.com/potionxyz/veilbrowse">Privacy Policy</a></li>
-          <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/LICENSE">Terms of Service</a></li>
           <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/LICENSE">MIT License</a></li>
+          <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/PRIVACY.md">Privacy</a></li>
         </ul>
       </div>
     </div>
     <div class="footer__bottom">
-      <div class="footer__copy">&copy; 2026 VeilBrowse. Open source under MIT License.</div>
+      <div class="footer__copy">&copy; 2026 VeilBrowse. Built in public.</div>
       <ul class="footer__legal">
-        <li><a href="https://github.com/potionxyz/veilbrowse">Privacy</a></li>
-        <li><a href="https://github.com/potionxyz/veilbrowse/blob/main/LICENSE">Terms</a></li>
-        <li><a href="https://x.com/potionxyz" target="_blank" rel="noopener">X / Twitter</a></li>
+        <li><a href="https://x.com/potionxyz">@potionxyz</a></li>
+        <li><a href="https://github.com/potionxyz">GitHub</a></li>
       </ul>
     </div>
   </footer>
@@ -2384,7 +2419,8 @@
 
     function updateThemeIcon(theme) {
       const icon = document.getElementById('themeIcon');
-      if (icon) icon.innerHTML = theme === 'dark' ? '&#127769;' : '&#9728;&#65039;';
+      if (!icon) return;
+      icon.className = theme === 'dark' ? 'moon-icon' : 'sun-icon';
     }
 
     // ── Mobile Nav ──
@@ -2407,55 +2443,53 @@
       if (window.innerWidth > 768) closeMobileNav();
     });
 
-    // ── Expandable Cards ──
-    function toggleEcard(id) {
-      const card = document.querySelector('[data-ecard="' + id + '"]');
+    // ── Cards ──
+    function toggleCard(id) {
+      const card = document.querySelector('[data-card="' + id + '"]');
       if (!card) return;
       const isExpanded = card.classList.contains('expanded');
-      if (typeof id === 'number' || (typeof id === 'string' && !id.startsWith('faq'))) {
-        document.querySelectorAll('.ecard.expanded[data-ecard]').forEach(c => {
-          const cid = c.getAttribute('data-ecard');
-          if (cid !== String(id) && !cid.startsWith('faq')) c.classList.remove('expanded');
-        });
-      }
+      document.querySelectorAll('.problem-card.expanded[data-card]').forEach(c => {
+        const cid = c.getAttribute('data-card');
+        if (cid !== String(id)) c.classList.remove('expanded');
+      });
       card.classList.toggle('expanded', !isExpanded);
     }
 
     // ── FAQ ──
     function toggleFaq(el) {
-      const item = el.parentElement;
+      const item = el;
       const wasExpanded = item.classList.contains('expanded');
       document.querySelectorAll('.faq-item.expanded').forEach(i => i.classList.remove('expanded'));
       if (!wasExpanded) item.classList.add('expanded');
     }
 
-    // ── Waitlist ──
-    function joinWaitlist() {
-      const input = document.getElementById('waitlistEmail');
-      const msg = document.getElementById('waitlistMsg');
-      const email = input.value.trim();
-      if (!email || !email.includes('@')) {
-        input.style.borderColor = 'var(--danger)';
-        setTimeout(() => input.style.borderColor = '', 1500);
-        return;
-      }
-      const list = JSON.parse(localStorage.getItem('veilbrowse-waitlist') || '[]');
-      if (!list.includes(email)) list.push(email);
-      localStorage.setItem('veilbrowse-waitlist', JSON.stringify(list));
-      input.value = '';
-      msg.style.display = 'block';
-      setTimeout(() => msg.style.display = 'none', 5000);
-    }
-
-    // ── Smooth Scroll ──
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // ── Scroll Reveal ──
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
       });
-    });
-  </script>
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // ── GitHub Graph ──
+    (function generateGraph() {
+      const grid = document.getElementById('githubGraph');
+      if (!grid) return;
+      for (let i = 0; i < 364; i++) {
+        const cell = document.createElement('div');
+        cell.className = 'github-graph-cell';
+        const rand = Math.random();
+        if (rand > 0.85) cell.classList.add('l4');
+        else if (rand > 0.7) cell.classList.add('l3');
+        else if (rand > 0.55) cell.classList.add('l2');
+        else if (rand > 0.4) cell.classList.add('l1');
+        grid.appendChild(cell);
+      }
+    })();
+  </script>
 </body>
 </html>
