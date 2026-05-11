@@ -1677,7 +1677,7 @@
 
   <!-- Platform Banner -->
   <div class="platform-banner" id="platformBanner">
-    <strong>Linux only.</strong> Windows and macOS are not planned.
+    <strong>Linux first.</strong> Windows and macOS support is planned.
     <button class="platform-banner__close" onclick="document.getElementById('platformBanner').style.display='none'">&times;</button>
   </div>
 
@@ -2294,7 +2294,7 @@
           <span class="faq-item__icon">&#9660;</span>
         </div>
         <div class="faq-item__answer">
-          <p>No. Linux only. The anti-detection stack relies on Linux-specific process isolation and Playwright's Chrome auto-detection paths. Windows and macOS ports would require significant platform-specific fingerprint research, Apple notarization (for Mac), and different native module compilation. It's not planned — I don't have the resources to maintain three platforms with the level of quality this needs.</p>
+          <p>Not yet — Linux only for now. The anti-detection stack currently relies on Linux-specific process isolation and Playwright's Chrome auto-detection paths. Windows and macOS ports would require significant platform-specific fingerprint research, Apple notarization (for Mac), and different native module compilation. It's on the roadmap — I'd rather do one platform well than three poorly.</p>
         </div>
       </div>
       <div class="faq-item reveal" onclick="toggleFaq(this)">
