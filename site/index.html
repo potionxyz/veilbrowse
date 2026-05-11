@@ -511,17 +511,15 @@
     }
     .mock-brand-mark {
       width: 32px; height: 32px;
-      border-radius: var(--radius-sm);
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
     }
-    .mock-brand-mark svg {
-      width: 18px; height: 18px;
-      opacity: 0.9;
+    .mock-brand-mark img {
+      width: 32px; height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
     }
     .mock-nav { display: flex; flex-direction: column; padding: 0 10px; gap: 2px; }
     .mock-nav-item {
@@ -1710,7 +1708,7 @@
       .mock-sidebar { width: 160px; }
       .mock-sidebar-brand { font-size: 13px; padding: 4px 12px 12px; }
       .mock-brand-mark { width: 26px; height: 26px; }
-      .mock-brand-mark svg { width: 14px; height: 14px; }
+      .mock-brand-mark img { width: 26px; height: 26px; }
       .mock-nav-item { font-size: 12px; padding: 6px 10px; }
       .mock-main { padding: 14px; }
       .mock-title { font-size: 16px; }
@@ -1916,14 +1914,14 @@
     <div class="browser-mockup">
       <div class="browser-bar">
         <div class="browser-dots"><span></span><span></span><span></span></div>
-        <div class="browser-address">localhost:8888</div>
+        <div class="browser-address">veilbrowse</div>
       </div>
       <div class="app-mock">
         <!-- Sidebar -->
         <aside class="mock-sidebar">
           <div class="mock-sidebar-brand">
             <div class="mock-brand-mark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              <img src="/logo.png" alt="VeilBrowse" width="32" height="32">
             </div>
             <span>VeilBrowse</span>
           </div>
