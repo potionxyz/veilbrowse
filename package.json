@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "Open-source anti-detect browser manager for Linux. Isolated profiles, proxy pools, fingerprint spoofing.",
   "main": "electron-main.js",
+  "author": "potionxyz",
   "scripts": {
     "start": "ELECTRON_DISABLE_SANDBOX=1 electron .",
     "server": "node server/index.js",
     "postinstall": "node scripts/postinstall.js",
-    "dist:linux": "electron-builder --linux"
+    "dist:linux": "electron-builder --linux",
+    "test:fingerprint": "node test-fingerprint-deep.js"
   },
   "dependencies": {
     "express": "^4.18.2",

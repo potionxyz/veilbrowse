@@ -1,6 +1,6 @@
-appId: com.phantomgrid.desktop
-copyright: Copyright © 2024
-productName: PhantomGrid
+appId: dev.veilbrowse.desktop
+copyright: Copyright © 2026
+productName: VeilBrowse
 
 # Only build Linux target
 directories:
@@ -30,11 +30,11 @@ linux:
   target:
     - AppImage
   category: Network
-  maintainer: phantomgrid
-  vendor: phantomgrid
+  maintainer: veilbrowse
+  vendor: veilbrowse
   synopsis: Anti-detect browser manager for Linux
   description: Manage isolated Chrome profiles with fingerprint randomization, proxy pools, and anti-detection scripting.
-  executableName: phantomgrid
+  executableName: veilbrowse
 
 appImage:
-  artifactName: "PhantomGrid-${version}.AppImage"
+  artifactName: "VeilBrowse-${version}.AppImage"
